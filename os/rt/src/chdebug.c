@@ -85,6 +85,8 @@
 /* Module local definitions.                                                 */
 /*===========================================================================*/
 
+extern int maxNesting;
+
 /*===========================================================================*/
 /* Module exported variables.                                                */
 /*===========================================================================*/
@@ -150,7 +152,7 @@ void _dbg_check_enable(void) {
 void _dbg_check_lock(void) {
 
   if ((ch.dbg.isr_cnt != (cnt_t)0) || (ch.dbg.lock_cnt != (cnt_t)0)) {
-    chSysHalt("SV#4");
+    chSysHalt("SV#4 misplaced chSysLock()");
   }
   _dbg_enter_lock();
 }
@@ -176,7 +178,7 @@ void _dbg_check_unlock(void) {
 void _dbg_check_lock_from_isr(void) {
 
   if ((ch.dbg.isr_cnt <= (cnt_t)0) || (ch.dbg.lock_cnt != (cnt_t)0)) {
-    chSysHalt("SV#6");
+    chSysHalt("SV#6 misplaced chSysLockFromISR()");
   }
   _dbg_enter_lock();
 }
@@ -206,6 +208,8 @@ void _dbg_check_enter_isr(void) {
     chSysHalt("SV#8");
   }
   ch.dbg.isr_cnt++;
+  if (ch.dbg.isr_cnt > maxNesting)
+          maxNesting = ch.dbg.isr_cnt;
   port_unlock_from_isr();
 }
 
@@ -235,7 +239,7 @@ void _dbg_check_leave_isr(void) {
 void chDbgCheckClassI(void) {
 
   if ((ch.dbg.isr_cnt < (cnt_t)0) || (ch.dbg.lock_cnt <= (cnt_t)0)) {
-    chSysHalt("SV#10");
+    chSysHalt("SV#10 misplaced I-class function");
   }
 }
 
