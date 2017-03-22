@@ -66,6 +66,9 @@ ADCDriver ADCD3;
 /* Driver local functions.                                                   */
 /*===========================================================================*/
 
+#include "error_handling.h"
+#include "global.h"
+
 /**
  * @brief   ADC DMA ISR service routine.
  *
@@ -73,6 +76,8 @@ ADCDriver ADCD3;
  * @param[in] flags     pre-shifted content of the ISR register
  */
 static void adc_lld_serve_rx_interrupt(ADCDriver *adcp, uint32_t flags) {
+
+  efiAssertVoid(getRemainingStack(chThdGetSelfX()) > 64, "sys_adc");
 
   /* DMA errors handling.*/
   if ((flags & (STM32_DMA_ISR_TEIF | STM32_DMA_ISR_DMEIF)) != 0) {

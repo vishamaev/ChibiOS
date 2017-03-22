@@ -28,6 +28,8 @@
 #ifndef _CHCORE_H_
 #define _CHCORE_H_
 
+#include "chdebug.h"
+
 /*===========================================================================*/
 /* Module constants.                                                         */
 /*===========================================================================*/
@@ -288,6 +290,8 @@ struct context {
 #define PORT_FAST_IRQ_HANDLER(id)                                           \
   __attribute__((interrupt("FIQ"))) void id(void)
 
+void chDbgStackOverflowPanic(thread_t *otp);
+
 /**
  * @brief   Performs a context switch between two threads.
  * @details This is the most critical code in any port, this function
@@ -305,7 +309,7 @@ struct context {
 #define port_switch(ntp, otp) {                                             \
   register struct port_intctx *r13 asm ("r13");                             \
   if ((stkalign_t *)(r13 - 1) < otp->p_stklimit)                            \
-    chSysHalt("stack overflow");                                            \
+    chDbgStackOverflowPanic(otp);                                           \
   _port_switch_thumb(ntp, otp);                                             \
 }
 #else
@@ -318,7 +322,7 @@ struct context {
 #define port_switch(ntp, otp) {                                             \
   register struct port_intctx *r13 asm ("r13");                             \
   if ((stkalign_t *)(r13 - 1) < otp->p_stklimit)                            \
-  chSysHalt("stack overflow");                                              \
+    chDbgStackOverflowPanic(otp);                                           \
   _port_switch_arm(ntp, otp);                                               \
 }
 #else

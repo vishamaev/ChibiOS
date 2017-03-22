@@ -30,9 +30,12 @@
 #include "hal.h"
 #include "chprintf.h"
 #include "memstreams.h"
+#include "error_handling.h"
 
 #define MAX_FILLER 11
 #define FLOAT_PRECISION 9
+
+int getRemainingStack(thread_t *otp);
 
 static char *long_to_string_with_divisor(char *p,
                                          long num,
@@ -130,6 +133,8 @@ int chvprintf(BaseSequentialStream *chp, const char *fmt, va_list ap) {
 #else
   char tmpbuf[MAX_FILLER + 1];
 #endif
+
+  efiAssert(getRemainingStack(chThdGetSelfX()) > 128, "lowstck#1c", 0);
 
   while (true) {
     c = *fmt++;
