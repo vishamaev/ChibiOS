@@ -250,3 +250,7 @@ int main(void) {
   chEvtUnregister(chnGetEventSource(&SD2), &sd2fel);
   return 0;
 }
+
+int getRemainingStack(thread_t *otp) {
+ return 0;
+}

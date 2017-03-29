@@ -28,6 +28,8 @@
 #ifndef _HALCONF_H_
 #define _HALCONF_H_
 
+  #define efiAssert(condition, message, result) { }
+
 /*#include "mcuconf.h"*/
 
 /**
