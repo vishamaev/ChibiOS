@@ -16,7 +16,8 @@
 # Start of default section
 #
 
-TRGT = mingw32-
+#TRGT = mingw32-
+TRGT = i686-w64-mingw32-
 CC   = $(TRGT)gcc
 AS   = $(TRGT)gcc -x assembler-with-cpp
 
