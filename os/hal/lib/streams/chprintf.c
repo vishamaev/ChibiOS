@@ -30,7 +30,7 @@
 #include "hal.h"
 #include "chprintf.h"
 #include "memstreams.h"
-#include "error_handling.h"
+//#include "error_handling.h"
 
 #define MAX_FILLER 11
 #define FLOAT_PRECISION 9
@@ -134,7 +134,7 @@ int chvprintf(BaseSequentialStream *chp, const char *fmt, va_list ap) {
   char tmpbuf[MAX_FILLER + 1];
 #endif
 
-  efiAssert(getRemainingStack(chThdGetSelfX()) > 128, "lowstck#1c", 0);
+//  efiAssert(getRemainingStack(chThdGetSelfX()) > 128, "lowstck#1c", 0);
 
   while (true) {
     c = *fmt++;

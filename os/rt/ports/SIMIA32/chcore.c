@@ -25,7 +25,12 @@
  * @{
  */
 
-#include <windows.h>
+#if defined(WIN32) 
+  #include <windows.h>
+#else
+  #include <stdlib.h>
+  #include <sys/time.h>
+#endif
 
 #include "ch.h"
 
@@ -109,11 +114,18 @@ void _port_thread_start(msg_t (*pf)(void *), void *p) {
  * @return              The realtime counter value.
  */
 rtcnt_t port_rt_get_counter_value(void) {
+#if defined(WIN32)
   LARGE_INTEGER n;
 
   QueryPerformanceCounter(&n);
 
   return (rtcnt_t)(n.QuadPart / 1000LL);
+#else // POSIX
+  struct timeval tv;
+
+  gettimeofday(&tv, NULL);
+  return (rtcnt_t)(tv.tv_usec);
+#endif
 }
 
 /** @} */
