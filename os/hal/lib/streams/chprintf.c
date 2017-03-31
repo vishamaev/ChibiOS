@@ -69,7 +69,8 @@ static char *long_to_string_with_divisor(char *p,
   return p;
 }
 
-static char *ltoa(char *p, long num, unsigned radix) {
+// custom_ name in order to avoid method signature conflict with standard libraries
+static char *custom_ltoa(char *p, long num, unsigned radix) {
 
   return long_to_string_with_divisor(p, num, radix, 0);
 }
@@ -223,7 +224,7 @@ void chvprintf(BaseSequentialStream *chp, const char *fmt, va_list ap) {
         *p++ = '-';
         l = -l;
       }
-      p = ltoa(p, l, 10);
+      p = custom_ltoa(p, l, 10);
       break;
 #if CHPRINTF_USE_FLOAT
     case 'f':
@@ -251,7 +252,7 @@ unsigned_common:
         l = va_arg(ap, unsigned long);
       else
         l = va_arg(ap, unsigned int);
-      p = ltoa(p, l, c);
+      p = custom_ltoa(p, l, c);
       break;
     default:
       *p++ = c;
