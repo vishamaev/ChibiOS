@@ -28,6 +28,9 @@
 #ifndef _CHCONF_H_
 #define _CHCONF_H_
 
+  #define efiAssert(condition, message, result) { }
+  #define efiAssertVoid(condition, message) { }
+
 /*===========================================================================*/
 /**
  * @name System timers settings
