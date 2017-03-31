@@ -18,6 +18,7 @@
 #include "hal.h"
 #include "test.h"
 #include "shell.h"
+#include "memstreams.h"
 #include "chprintf.h"
 
 #define SHELL_WA_SIZE       THD_WORKING_AREA_SIZE(4096)
@@ -194,6 +195,26 @@ static evhandler_t fhandlers[] = {
   sd2_handler
 };
 
+
+static void runChprintfTest() {
+	static MemoryStream testStream;
+	static char testBuffer[200];
+	msObjectInit(&testStream, (uint8_t *) testBuffer, sizeof(testBuffer), 0);
+
+
+// it's a very, very long and mostly forgotten story how this became our %f precision format
+	testStream.eos = 0; // reset
+	chprintf((BaseSequentialStream*)&testStream, "%f/%..10000f/%..10000f", 0.239f, 239.932, 0.1234);
+	testStream.buffer[testStream.eos] = 0;
+
+#define FLOAT_STRING_EXPECTED "0.23/239.9320/0.1234"
+	if (strcmp(FLOAT_STRING_EXPECTED, testBuffer) != 0) {
+		printf("chprintf test: got %s while %s", testBuffer, FLOAT_STRING_EXPECTED);
+		exit(-1);
+	}
+}
+
+
 /*------------------------------------------------------------------------*
  * Simulator main.                                                        *
  *------------------------------------------------------------------------*/
@@ -215,6 +236,9 @@ int main(void) {
    */
   sdStart(&SD1, NULL);
   sdStart(&SD2, NULL);
+
+  runChprintfTest();
+  
 
   /*
    * Shell manager initialization.
