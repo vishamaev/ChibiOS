@@ -100,7 +100,7 @@ char *ftoa(char *p, double num, unsigned long precision) {
 #endif
 
 #include "error_handling.h"
-int getRemainingStack(Thread *otp);
+int getRemainingStack(thread_t *otp);
 
 /**
  * @brief   System formatted output function.
@@ -129,7 +129,7 @@ int getRemainingStack(Thread *otp);
 void chvprintf(BaseSequentialStream *chp, const char *fmt, va_list ap) {
   char *p, *s, c, filler;
   int i, precision, width;
-  bool_t is_long, left_align;
+  bool is_long, left_align;
   long l;
 #if CHPRINTF_USE_FLOAT
   float f;
@@ -138,7 +138,7 @@ void chvprintf(BaseSequentialStream *chp, const char *fmt, va_list ap) {
   char tmpbuf[MAX_FILLER + 1];
 #endif
 
-  efiAssertVoid(getRemainingStack(chThdSelf()) > 64, "lowstck#1c");
+  efiAssertVoid(getRemainingStack(chThdGetSelfX()) > 64, "lowstck#1c");
 
 
   while (TRUE) {
@@ -272,7 +272,7 @@ unsigned_common:
       } while (++width != 0);
     }
     if (i > 0) {
-    	chSequentialStreamWrite(chp, (uint8_t*)s, i);
+        chSequentialStreamWrite(chp, (uint8_t*)s, i);
     }
     s += i;
 
