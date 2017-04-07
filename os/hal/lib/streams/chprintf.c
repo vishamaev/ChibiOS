@@ -30,7 +30,6 @@
 #include "hal.h"
 #include "chprintf.h"
 #include "memstreams.h"
-//#include "error_handling.h"
 
 #define MAX_FILLER 11
 #define MAX_FLOAT_PRECISION 9
@@ -81,7 +80,11 @@ static const long pow10[MAX_FLOAT_PRECISION] = {
     10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000
 };
 
-static char *ftoa(char *p, double num, unsigned long precision) {
+char *ftoa(char *p, double num, unsigned long precision) {
+  if (num < 0) {
+    *p++ = '-';
+    return ftoa(p, -num, precision);
+  }
   long l;
 
   if (precision == 0) {
