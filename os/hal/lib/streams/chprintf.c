@@ -33,7 +33,8 @@
 //#include "error_handling.h"
 
 #define MAX_FILLER 11
-#define FLOAT_PRECISION 9
+#define MAX_FLOAT_PRECISION 9
+#define DEFAULT_FLOAT_PRECISION 2
 
 int getRemainingStack(thread_t *otp);
 
@@ -76,15 +77,18 @@ static char *ch_ltoa(char *p, long num, unsigned radix) {
 }
 
 #if CHPRINTF_USE_FLOAT
-static const long pow10[FLOAT_PRECISION] = {
+static const long pow10[MAX_FLOAT_PRECISION] = {
     10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000
 };
 
 static char *ftoa(char *p, double num, unsigned long precision) {
   long l;
 
-  if ((precision == 0) || (precision > FLOAT_PRECISION))
-    precision = FLOAT_PRECISION;
+  if (precision == 0) {
+    precision = DEFAULT_FLOAT_PRECISION;
+  } else if (precision > MAX_FLOAT_PRECISION) {
+    precision = MAX_FLOAT_PRECISION;
+  }
   precision = pow10[precision - 1];
 
   l = (long)num;
