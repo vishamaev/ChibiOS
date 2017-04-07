@@ -1,5 +1,5 @@
 /*
-    ChibiOS/RT - Copyright (C) 2006-2013 Giovanni Di Sirio
+    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -27,15 +27,16 @@
  * @{
  */
 
-#include "ch.h"
+#include "hal.h"
 #include "chprintf.h"
+#include "memstreams.h"
+//#include "error_handling.h"
 
 #define MAX_FILLER 11
-/**
- * That's out default %f precision here. Two digits should be fine?
- * That's important on the lcd screen
- */
-#define FLOAT_PRECISION 100
+#define FLOAT_PRECISION 9
+
+int getRemainingStack(thread_t *otp);
+
 static char *long_to_string_with_divisor(char *p,
                                          long num,
                                          unsigned radix,
@@ -69,28 +70,22 @@ static char *long_to_string_with_divisor(char *p,
   return p;
 }
 
-// custom_ name in order to avoid method signature conflict with standard libraries
-static char *custom_ltoa(char *p, long num, unsigned radix) {
+static char *ch_ltoa(char *p, long num, unsigned radix) {
 
   return long_to_string_with_divisor(p, num, radix, 0);
 }
 
 #if CHPRINTF_USE_FLOAT
-char *ftoa(char *p, double num, unsigned long precision) {
-    if (num < 0) {
-      *p++ = '-';
-      return ftoa(p, -num, precision);
-    }
-  long l;
-  if (isnan(num)) {
-    *p++ = 'N';
-    *p++ = 'a';
-    *p++ = 'N';
-    return p;
-  }
+static const long pow10[FLOAT_PRECISION] = {
+    10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000
+};
 
-  if (precision == 0)
+static char *ftoa(char *p, double num, unsigned long precision) {
+  long l;
+
+  if ((precision == 0) || (precision > FLOAT_PRECISION))
     precision = FLOAT_PRECISION;
+  precision = pow10[precision - 1];
 
   l = (long)num;
   p = long_to_string_with_divisor(p, l, 10, 0);
@@ -99,9 +94,6 @@ char *ftoa(char *p, double num, unsigned long precision) {
   return long_to_string_with_divisor(p, l, 10, precision / 10);
 }
 #endif
-
-#include "error_handling.h"
-int getRemainingStack(thread_t *otp);
 
 /**
  * @brief   System formatted output function.
@@ -124,12 +116,15 @@ int getRemainingStack(thread_t *otp);
  * @param[in] chp       pointer to a @p BaseSequentialStream implementing object
  * @param[in] fmt       formatting string
  * @param[in] ap        list of parameters
+ * @return              The number of bytes that would have been
+ *                      written to @p chp if no stream error occurs
  *
  * @api
  */
-void chvprintf(BaseSequentialStream *chp, const char *fmt, va_list ap) {
+int chvprintf(BaseSequentialStream *chp, const char *fmt, va_list ap) {
   char *p, *s, c, filler;
   int i, precision, width;
+  int n = 0;
   bool is_long, left_align;
   long l;
 #if CHPRINTF_USE_FLOAT
@@ -139,18 +134,17 @@ void chvprintf(BaseSequentialStream *chp, const char *fmt, va_list ap) {
   char tmpbuf[MAX_FILLER + 1];
 #endif
 
-  efiAssertVoid(getRemainingStack(chThdGetSelfX()) > 64, "lowstck#1c");
+//  efiAssert(getRemainingStack(chThdGetSelfX()) > 128, "lowstck#1c", 0);
 
-
-  while (TRUE) {
+  while (true) {
     c = *fmt++;
     if (c == 0)
-      return;
+      return n;
     if (c != '%') {
-      chSequentialStreamPut(chp, (uint8_t)c);
+      streamPut(chp, (uint8_t)c);
+      n++;
       continue;
     }
-    // we are here if c == '%' meaning we have a control sequence
     p = tmpbuf;
     s = tmpbuf;
     left_align = FALSE;
@@ -159,7 +153,7 @@ void chvprintf(BaseSequentialStream *chp, const char *fmt, va_list ap) {
       left_align = TRUE;
     }
     filler = ' ';
-    if ((*fmt == '.') || (*fmt == '0')) {
+    if (*fmt == '0') {
       fmt++;
       filler = '0';
     }
@@ -224,7 +218,7 @@ void chvprintf(BaseSequentialStream *chp, const char *fmt, va_list ap) {
         *p++ = '-';
         l = -l;
       }
-      p = custom_ltoa(p, l, 10);
+      p = ch_ltoa(p, l, 10);
       break;
 #if CHPRINTF_USE_FLOAT
     case 'f':
@@ -252,7 +246,7 @@ unsigned_common:
         l = va_arg(ap, unsigned long);
       else
         l = va_arg(ap, unsigned int);
-      p = custom_ltoa(p, l, c);
+      p = ch_ltoa(p, l, c);
       break;
     default:
       *p++ = c;
@@ -265,23 +259,117 @@ unsigned_common:
       width = -width;
     if (width < 0) {
       if (*s == '-' && filler == '0') {
-        chSequentialStreamPut(chp, (uint8_t)*s++);
+        streamPut(chp, (uint8_t)*s++);
+        n++;
         i--;
       }
       do {
-        chSequentialStreamPut(chp, (uint8_t)filler);
+        streamPut(chp, (uint8_t)filler);
+        n++;
       } while (++width != 0);
     }
-    if (i > 0) {
-        chSequentialStreamWrite(chp, (uint8_t*)s, i);
+    while (--i >= 0) {
+      streamPut(chp, (uint8_t)*s++);
+      n++;
     }
-    s += i;
 
     while (width) {
-      chSequentialStreamPut(chp, (uint8_t)filler);
+      streamPut(chp, (uint8_t)filler);
+      n++;
       width--;
     }
   }
+}
+
+/**
+ * @brief   System formatted output function.
+ * @details This function implements a minimal @p printf() like functionality
+ *          with output on a @p BaseSequentialStream.
+ *          The general parameters format is: %[-][width|*][.precision|*][l|L]p.
+ *          The following parameter types (p) are supported:
+ *          - <b>x</b> hexadecimal integer.
+ *          - <b>X</b> hexadecimal long.
+ *          - <b>o</b> octal integer.
+ *          - <b>O</b> octal long.
+ *          - <b>d</b> decimal signed integer.
+ *          - <b>D</b> decimal signed long.
+ *          - <b>u</b> decimal unsigned integer.
+ *          - <b>U</b> decimal unsigned long.
+ *          - <b>c</b> character.
+ *          - <b>s</b> string.
+ *          .
+ *
+ * @param[in] chp       pointer to a @p BaseSequentialStream implementing object
+ * @param[in] fmt       formatting string
+ *
+ * @api
+ */
+int chprintf(BaseSequentialStream *chp, const char *fmt, ...) {
+  va_list ap;
+  int formatted_bytes;
+
+  va_start(ap, fmt);
+  formatted_bytes = chvprintf(chp, fmt, ap);
+  va_end(ap);
+
+  return formatted_bytes;
+}
+
+/**
+ * @brief   System formatted output function.
+ * @details This function implements a minimal @p snprintf()-like functionality.
+ *          The general parameters format is: %[-][width|*][.precision|*][l|L]p.
+ *          The following parameter types (p) are supported:
+ *          - <b>x</b> hexadecimal integer.
+ *          - <b>X</b> hexadecimal long.
+ *          - <b>o</b> octal integer.
+ *          - <b>O</b> octal long.
+ *          - <b>d</b> decimal signed integer.
+ *          - <b>D</b> decimal signed long.
+ *          - <b>u</b> decimal unsigned integer.
+ *          - <b>U</b> decimal unsigned long.
+ *          - <b>c</b> character.
+ *          - <b>s</b> string.
+ *          .
+ * @post    @p str is NUL-terminated, unless @p size is 0.
+ *
+ * @param[in] str       pointer to a buffer
+ * @param[in] size      maximum size of the buffer
+ * @param[in] fmt       formatting string
+ * @return              The number of characters (excluding the
+ *                      terminating NUL byte) that would have been
+ *                      stored in @p str if there was room.
+ *
+ * @api
+ */
+int chsnprintf(char *str, size_t size, const char *fmt, ...) {
+  va_list ap;
+  MemoryStream ms;
+  BaseSequentialStream *chp;
+  size_t size_wo_nul;
+  int retval;
+
+  if (size > 0)
+    size_wo_nul = size - 1;
+  else
+    size_wo_nul = 0;
+
+  /* Memory stream object to be used as a string writer, reserving one
+     byte for the final zero.*/
+  msObjectInit(&ms, (uint8_t *)str, size_wo_nul, 0);
+
+  /* Performing the print operation using the common code.*/
+  chp = (BaseSequentialStream *)(void *)&ms;
+  va_start(ap, fmt);
+  retval = chvprintf(chp, fmt, ap);
+  va_end(ap);
+
+  /* Terminate with a zero, unless size==0.*/
+  if (ms.eos < size)
+      str[ms.eos] = 0;
+
+  /* Return number of bytes that would have been written.*/
+  return retval;
 }
 
 /** @} */
