@@ -1,10 +1,10 @@
 *****************************************************************************
-** ChibiOS/RT port for x86 into a Linux process                            **
+** ChibiOS/RT port for x86 into a Posix process                            **
 *****************************************************************************
 
 ** TARGET **
 
-The demo runs under x86 Linux as an application program. The serial
+The demo runs under any Posix IA32 system as an application program. The serial
 I/O is simulated over TCP/IP sockets.
 
 ** The Demo **
@@ -19,9 +19,13 @@ See demo.c for details.
 
 ** Build Procedure **
 
-GCC required.  The Makefile defaults to building for a Linux host.
-To build on OS X, use the following command: `make HOST_OSX=yes`
+The demo was built using GCC.
 
 ** Connect to the demo **
 
-In order to connect to the demo use telnet on the listening ports.
+In order to connect to the demo a telnet client is required.
+
+Host Name: 127.0.0.1
+Port: 29001 and/or 29002
+Connection Type: Raw
+

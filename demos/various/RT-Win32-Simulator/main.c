@@ -1,5 +1,5 @@
 /*
-    ChibiOS - Copyright (C) 2006..2015 Giovanni Di Sirio
+    ChibiOS - Copyright (C) 2006..2016 Giovanni Di Sirio
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,9 +16,8 @@
 
 #include "ch.h"
 #include "hal.h"
-#include "test.h"
+#include "ch_test.h"
 #include "shell.h"
-#include "memstreams.h"
 #include "chprintf.h"
 
 #define SHELL_WA_SIZE       THD_WORKING_AREA_SIZE(4096)
@@ -31,61 +30,7 @@ static thread_t *cdtp;
 static thread_t *shelltp1;
 static thread_t *shelltp2;
 
-static void cmd_mem(BaseSequentialStream *chp, int argc, char *argv[]) {
-  size_t n, size;
-
-  (void)argv;
-  if (argc > 0) {
-    chprintf(chp, "Usage: mem\r\n");
-    return;
-  }
-  n = chHeapStatus(NULL, &size);
-  chprintf(chp, "core free memory : %u bytes\r\n", chCoreGetStatusX());
-  chprintf(chp, "heap fragments   : %u\r\n", n);
-  chprintf(chp, "heap free total  : %u bytes\r\n", size);
-}
-
-static void cmd_threads(BaseSequentialStream *chp, int argc, char *argv[]) {
-  static const char *states[] = {CH_STATE_NAMES};
-  thread_t *tp;
-
-  (void)argv;
-  if (argc > 0) {
-    chprintf(chp, "Usage: threads\r\n");
-    return;
-  }
-  chprintf(chp, "    addr    stack prio refs     state time\r\n");
-  tp = chRegFirstThread();
-  do {
-    chprintf(chp, "%.8lx %.8lx %4lu %4lu %9s %lu\r\n",
-            (uint32_t)tp, (uint32_t)tp->p_ctx.esp,
-            (uint32_t)tp->p_prio, (uint32_t)(tp->p_refs - 1),
-            states[tp->p_state], (uint32_t)tp->p_time);
-    tp = chRegNextThread(tp);
-  } while (tp != NULL);
-}
-
-static void cmd_test(BaseSequentialStream *chp, int argc, char *argv[]) {
-  thread_t *tp;
-
-  (void)argv;
-  if (argc > 0) {
-    chprintf(chp, "Usage: test\r\n");
-    return;
-  }
-  tp = chThdCreateFromHeap(NULL, TEST_WA_SIZE, chThdGetPriorityX(),
-                           TestThread, chp);
-  if (tp == NULL) {
-    chprintf(chp, "out of memory\r\n");
-    return;
-  }
-  chThdWait(tp);
-}
-
 static const ShellCommand commands[] = {
-  {"mem", cmd_mem},
-  {"threads", cmd_threads},
-  {"test", cmd_test},
   {NULL, NULL}
 };
 
@@ -129,7 +74,8 @@ static void termination_handler(eventid_t id) {
     chThdSleepMilliseconds(10);
     cputs("Init: shell on SD1 terminated");
     chSysLock();
-    chOQResetI(&SD1.oqueue);
+    oqResetI(&SD1.oqueue);
+    chSchRescheduleS();
     chSysUnlock();
   }
   if (shelltp2 && chThdTerminatedX(shelltp2)) {
@@ -138,7 +84,8 @@ static void termination_handler(eventid_t id) {
     chThdSleepMilliseconds(10);
     cputs("Init: shell on SD2 terminated");
     chSysLock();
-    chOQResetI(&SD2.oqueue);
+    oqResetI(&SD2.oqueue);
+    chSchRescheduleS();
     chSysUnlock();
   }
 }
@@ -157,12 +104,15 @@ static void sd1_handler(eventid_t id) {
   flags = chEvtGetAndClearFlags(&sd1fel);
   if ((flags & CHN_CONNECTED) && (shelltp1 == NULL)) {
     cputs("Init: connection on SD1");
-    shelltp1 = shellCreate(&shell_cfg1, SHELL_WA_SIZE, NORMALPRIO + 1);
+    shelltp1 = chThdCreateFromHeap(NULL, SHELL_WA_SIZE,
+                                   "shell1", NORMALPRIO + 10,
+                                   shellThread, (void *)&shell_cfg1);
   }
   if (flags & CHN_DISCONNECTED) {
     cputs("Init: disconnection on SD1");
     chSysLock();
-    chIQResetI(&SD1.iqueue);
+    iqResetI(&SD1.iqueue);
+    chSchRescheduleS();
     chSysUnlock();
   }
 }
@@ -179,12 +129,15 @@ static void sd2_handler(eventid_t id) {
   flags = chEvtGetAndClearFlags(&sd2fel);
   if ((flags & CHN_CONNECTED) && (shelltp2 == NULL)) {
     cputs("Init: connection on SD2");
-    shelltp2 = shellCreate(&shell_cfg2, SHELL_WA_SIZE, NORMALPRIO + 10);
+    shelltp2 = chThdCreateFromHeap(NULL, SHELL_WA_SIZE,
+                                   "shell2", NORMALPRIO + 10,
+                                   shellThread, (void *)&shell_cfg2);
   }
   if (flags & CHN_DISCONNECTED) {
     cputs("Init: disconnection on SD2");
     chSysLock();
-    chIQResetI(&SD2.iqueue);
+    iqResetI(&SD2.iqueue);
+    chSchRescheduleS();
     chSysUnlock();
   }
 }
@@ -194,26 +147,6 @@ static evhandler_t fhandlers[] = {
   sd1_handler,
   sd2_handler
 };
-
-
-static void runChprintfTest() {
-	static MemoryStream testStream;
-	static char testBuffer[200];
-	msObjectInit(&testStream, (uint8_t *) testBuffer, sizeof(testBuffer), 0);
-
-
-// it's a very, very long and mostly forgotten story how this became our %f precision format
-	testStream.eos = 0; // reset
-	chprintf((BaseSequentialStream*)&testStream, "%f/%.4f/%.4f", 0.239f, 239.932, 0.1234);
-	testStream.buffer[testStream.eos] = 0;
-
-#define FLOAT_STRING_EXPECTED "0.23/239.9320/0.1234"
-	if (strcmp(FLOAT_STRING_EXPECTED, testBuffer) != 0) {
-		printf("chprintf test: got %s while %s", testBuffer, FLOAT_STRING_EXPECTED);
-		exit(-1);
-	}
-}
-
 
 /*------------------------------------------------------------------------*
  * Simulator main.                                                        *
@@ -237,9 +170,6 @@ int main(void) {
   sdStart(&SD1, NULL);
   sdStart(&SD2, NULL);
 
-  runChprintfTest();
-  
-
   /*
    * Shell manager initialization.
    */
@@ -249,8 +179,8 @@ int main(void) {
   /*
    * Console thread started.
    */
-  cdtp = chThdCreateFromHeap(NULL, CONSOLE_WA_SIZE, NORMALPRIO + 1,
-                             console_thread, NULL);
+  cdtp = chThdCreateFromHeap(NULL, CONSOLE_WA_SIZE, "console",
+                             NORMALPRIO + 1, console_thread, NULL);
 
   /*
    * Initializing connection/disconnection events.
@@ -273,8 +203,4 @@ int main(void) {
   chEvtUnregister(chnGetEventSource(&SD1), &sd1fel);
   chEvtUnregister(chnGetEventSource(&SD2), &sd2fel);
   return 0;
-}
-
-int getRemainingStack(thread_t *otp) {
- return 0;
 }

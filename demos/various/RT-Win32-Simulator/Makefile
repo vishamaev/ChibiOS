@@ -73,7 +73,7 @@ include $(CHIBIOS)/os/hal/ports/simulator/win32/platform.mk
 include $(CHIBIOS)/os/hal/osal/rt/osal.mk
 # RTOS files (optional).
 include $(CHIBIOS)/os/rt/rt.mk
-include $(CHIBIOS)/os/rt/ports/SIMIA32/compilers/GCC/port.mk
+include $(CHIBIOS)/os/common/ports/SIMIA32/compilers/GCC/port.mk
 # Other files (optional).
 include $(CHIBIOS)/test/rt/test.mk
 include $(CHIBIOS)/os/hal/lib/streams/streams.mk
@@ -113,9 +113,7 @@ INCDIR = $(CHIBIOS)/os/license \
 #
 
 #TRGT = powerpc-eabi-
-#TRGT = mingw32-
-TRGT = i686-w64-mingw32-
-
+TRGT = mingw32-
 CC   = $(TRGT)gcc
 CPPC = $(TRGT)g++
 # Enable loading with g++ only if you need C++ runtime support.
