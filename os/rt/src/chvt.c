@@ -98,9 +98,6 @@ void chVTDoSetI(virtual_timer_t *vtp, systime_t delay,
   systime_t delta;
 
   chDbgCheckClassI();
-  chDbgAssert(vtp != NULL, "chVTSetI 1");
-  chDbgAssert(vtfunc != NULL, "chVTSetI 2");
-  chDbgAssert(delay != TIME_IMMEDIATE, "chVTSetI 3");
   chDbgCheck((vtp != NULL) && (vtfunc != NULL) && (delay != TIME_IMMEDIATE));
 
   vtp->vt_par = par;
