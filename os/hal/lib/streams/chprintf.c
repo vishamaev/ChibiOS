@@ -35,7 +35,6 @@
 #define MAX_FLOAT_PRECISION 9
 #define DEFAULT_FLOAT_PRECISION 2
 
-int getRemainingStack(thread_t *otp);
 
 static char *long_to_string_with_divisor(char *p,
                                          long num,
@@ -80,7 +79,7 @@ static const long pow10[MAX_FLOAT_PRECISION] = {
     10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000
 };
 
-char *ftoa(char *p, double num, unsigned long precision) {
+static char *ftoa(char *p, double num, unsigned long precision) {
   if (num < 0) {
     *p++ = '-';
     return ftoa(p, -num, precision);
@@ -141,7 +140,6 @@ int chvprintf(BaseSequentialStream *chp, const char *fmt, va_list ap) {
   char tmpbuf[MAX_FILLER + 1];
 #endif
 
-//  efiAssert(getRemainingStack(chThdGetSelfX()) > 128, "lowstck#1c", 0);
 
   while (true) {
     c = *fmt++;
