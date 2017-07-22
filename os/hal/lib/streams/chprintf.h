@@ -40,7 +40,6 @@ extern "C" {
   int chvprintf(BaseSequentialStream *chp, const char *fmt, va_list ap);
   int chprintf(BaseSequentialStream *chp, const char *fmt, ...);
   int chsnprintf(char *str, size_t size, const char *fmt, ...);
-  char *ftoa(char *p, double num, unsigned long precision);
 #ifdef __cplusplus
 }
 #endif
