@@ -29,6 +29,12 @@
 #ifndef _RTC_LLD_H_
 #define _RTC_LLD_H_
 
+/**
+ * this rusEfi hack is about surviving lack of LSE (32kHz osc) part of RTC
+ */
+#define LSE_TIMEOUT 1000000
+
+
 #if HAL_USE_RTC || defined(__DOXYGEN__)
 
 /*===========================================================================*/

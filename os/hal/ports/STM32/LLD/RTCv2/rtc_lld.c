@@ -355,6 +355,8 @@ void rtc_lld_set_time(RTCDriver *rtcp, const RTCDateTime *timespec) {
   osalSysRestoreStatusX(sts);
 }
 
+extern bool rtcWorks;
+
 /**
  * @brief   Get current time.
  * @note    The function can be called from any context.
@@ -375,10 +377,13 @@ void rtc_lld_get_time(RTCDriver *rtcp, RTCDateTime *timespec) {
   /* Entering a reentrant critical zone.*/
   sts = osalSysGetStatusAndLockX();
 
+  int counter = 0;                                                         \
   /* Synchronization with the RTC and reading the registers, note
      DR must be read last.*/
-  while ((rtcp->rtc->ISR & RTC_ISR_RSF) == 0)
+  while ((rtcp->rtc->ISR & RTC_ISR_RSF) == 0 && ++counter <LSE_TIMEOUT)
     ;
+  if (counter==LSE_TIMEOUT) {rtcWorks = false; }                           \
+
 #if STM32_RTC_HAS_SUBSECONDS
   ssr = rtcp->rtc->SSR;
 #endif /* STM32_RTC_HAS_SUBSECONDS */

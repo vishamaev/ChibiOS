@@ -71,7 +71,8 @@ static void hal_lld_backup_domain_init(void) {
   /* No LSE Bypass.*/
   RCC->BDCR |= RCC_BDCR_LSEON;
 #endif
-  while ((RCC->BDCR & RCC_BDCR_LSERDY) == 0)
+  int waitCounter = 0;
+  while ((RCC->BDCR & RCC_BDCR_LSERDY) == 0 && ++waitCounter <LSE_TIMEOUT)
     ;                                       /* Waits until LSE is stable.   */
 #endif
 
