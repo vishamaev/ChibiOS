@@ -75,9 +75,9 @@ RTCDriver RTCD1;
  * @notapi
  */
 static void rtc_enter_init(void) {
-
+	  int counter = 0;
   RTCD1.rtc->ISR |= RTC_ISR_INIT;
-  while ((RTCD1.rtc->ISR & RTC_ISR_INITF) == 0)
+  while ((RTCD1.rtc->ISR & RTC_ISR_INITF) == 0 && ++counter <LSE_TIMEOUT)
     ;
 }
 
