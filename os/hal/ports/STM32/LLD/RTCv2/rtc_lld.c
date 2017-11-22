@@ -27,6 +27,7 @@
  */
 
 #include "hal.h"
+#include "rusefi_lse_fix.h"
 
 #if HAL_USE_RTC || defined(__DOXYGEN__)
 
@@ -75,10 +76,11 @@ RTCDriver RTCD1;
  * @notapi
  */
 static void rtc_enter_init(void) {
-	  int counter = 0;
+         int counter = 0;
   RTCD1.rtc->ISR |= RTC_ISR_INIT;
-  while ((RTCD1.rtc->ISR & RTC_ISR_INITF) == 0 && ++counter <LSE_TIMEOUT)
+  while ((RTCD1.rtc->ISR & RTC_ISR_INITF) == 0 && ++counter < LSE_TIMEOUT)
     ;
+
 }
 
 /**
@@ -380,7 +382,7 @@ void rtc_lld_get_time(RTCDriver *rtcp, RTCDateTime *timespec) {
   int counter = 0;                                                         \
   /* Synchronization with the RTC and reading the registers, note
      DR must be read last.*/
-  while ((rtcp->rtc->ISR & RTC_ISR_RSF) == 0 && ++counter <LSE_TIMEOUT)
+  while ((rtcp->rtc->ISR & RTC_ISR_RSF) == 0 && rtcWorks && ++counter <LSE_TIMEOUT)
     ;
   if (counter==LSE_TIMEOUT) {rtcWorks = false; }                           \
 

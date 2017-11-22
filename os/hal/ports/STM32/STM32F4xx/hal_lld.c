@@ -23,6 +23,7 @@
  */
 
 #include "hal.h"
+#include "rusefi_lse_fix.h"
 
 /*===========================================================================*/
 /* Driver local definitions.                                                 */
@@ -63,6 +64,9 @@ static void hal_lld_backup_domain_init(void) {
     RCC->BDCR = 0;
   }
 
+  extern bool rtcWorks;
+
+
 #if STM32_LSE_ENABLED
 #if defined(STM32_LSE_BYPASS)
   /* LSE Bypass.*/
@@ -72,7 +76,7 @@ static void hal_lld_backup_domain_init(void) {
   RCC->BDCR |= RCC_BDCR_LSEON;
 #endif
   int waitCounter = 0;
-  while ((RCC->BDCR & RCC_BDCR_LSERDY) == 0 && ++waitCounter <LSE_TIMEOUT)
+  while ((RCC->BDCR & RCC_BDCR_LSERDY) == 0 && rtcWorks && ++waitCounter <LSE_TIMEOUT)
     ;                                       /* Waits until LSE is stable.   */
 #endif
 
