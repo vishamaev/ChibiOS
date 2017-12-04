@@ -30,25 +30,6 @@
 /* Driver local definitions.                                                 */
 /*===========================================================================*/
 
-/* For compatibility for those devices without LIN support in the USARTs.*/
-#if !defined(USART_ISR_LBDF)
-#define USART_ISR_LBDF                      0
-#endif
-
-#if !defined(USART_CR2_LBDIE)
-#define USART_CR2_LBDIE                     0
-#endif
-
-/* STM32L0xx/STM32F7xx ST headers difference.*/
-#if !defined(USART_ISR_LBDF)
-#define USART_ISR_LBDF                      USART_ISR_LBD
-#endif
-
-/* STM32L0xx/STM32F7xx ST headers difference.*/
-#if !defined(USART_ISR_LBDF)
-#define USART_ISR_LBDF USART_ISR_LBD
-#endif
-
 /* STM32L0xx/STM32F7xx ST headers difference.*/
 #if !defined(USART_ISR_LBDF)
 #define USART_ISR_LBDF USART_ISR_LBD
@@ -117,25 +98,6 @@
 #define UART8_TX_DMA_CHANNEL                                                \
   STM32_DMA_GETCHANNEL(STM32_UART_UART8_TX_DMA_STREAM,                      \
                        STM32_UART8_TX_DMA_CHN)
-
-/* Workarounds for those devices where UARTs are USARTs.*/
-#if defined(USART4)
-#define UART4 USART4
-#endif
-#if defined(USART5)
-#define UART5 USART5
-#endif
-#if defined(USART7)
-#define UART7 USART7
-#endif
-#if defined(USART8)
-#define UART8 USART8
-#endif
-
-/* Workaround for more differences in headers.*/
-#if !defined(USART_CR1_M0)
-#define USART_CR1_M0 USART_CR1_M
-#endif
 
 /*===========================================================================*/
 /* Driver exported variables.                                                */
@@ -219,7 +181,7 @@ static uartflags_t translate_errors(uint32_t isr) {
  */
 static void uart_enter_rx_idle_loop(UARTDriver *uartp) {
   uint32_t mode;
-
+  
   /* RX DMA channel preparation, if the char callback is defined then the
      TCIE interrupt is enabled too.*/
   if (uartp->config->rxchar_cb == NULL)
@@ -777,7 +739,7 @@ void uart_lld_start(UARTDriver *uartp) {
 
     /* Static DMA setup, the transfer size depends on the USART settings,
        it is 16 bits if M=1 and PCE=0 else it is 8 bits.*/
-    if ((uartp->config->cr1 & (USART_CR1_M | USART_CR1_PCE)) == USART_CR1_M0)
+    if ((uartp->config->cr1 & (USART_CR1_M | USART_CR1_PCE)) == USART_CR1_M)
       uartp->dmamode |= STM32_DMA_CR_PSIZE_HWORD | STM32_DMA_CR_MSIZE_HWORD;
     dmaStreamSetPeripheral(uartp->dmarx, &uartp->usart->RDR);
     dmaStreamSetPeripheral(uartp->dmatx, &uartp->usart->TDR);
