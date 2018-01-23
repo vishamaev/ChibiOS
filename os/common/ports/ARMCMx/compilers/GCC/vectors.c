@@ -43,7 +43,6 @@
  * @notapi
  */
 /*lint -save -e9075 [8.4] All symbols are invoked from asm context.*/
-__attribute__((weak))
 void _unhandled_exception(void) {
 /*lint -restore*/
 

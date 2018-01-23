@@ -491,7 +491,7 @@ void usb_lld_start(USBDriver *usbp) {
     }
 #endif
     /* Reset procedure enforced on driver start.*/
-    usb_lld_reset(usbp);
+    _usb_reset(usbp);
   }
 }
 
