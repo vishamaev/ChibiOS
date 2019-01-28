@@ -69,7 +69,7 @@
 #if !STM32_HAS_TIM2
 #error "TIM2 not present in the selected device"
 #endif
-#if defined(STM32_TIM2_IS_USED)
+#if defined(STM32_TIM2_IS_USED) && (CH_CFG_ST_TIMEDELTA > 0)
 #error "ST requires TIM2 but the timer is already used"
 #else
 #define STM32_TIM2_IS_USED
