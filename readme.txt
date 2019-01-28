@@ -89,6 +89,57 @@
 *****************************************************************************
 
 *** 17.6.5 ***
+- HAL: Fixed extra parenthesis in STM32F4 registry (bug #997).
+- HAL: Fixed timing problem in STM32 OTGv1 driver (bug #996).
+- HAL: Fixed restrictive check in MMC-SPI driver (bug #995).
+- HAL: Fixed misplaced check in STM32 ST driver (bug #994).
+- HAL: Fixed STM32F7xx I2SPLL not fully initialized (bug #992).
+- HAL: Fixed ethernet registry error for STM32F469/479 (bug #990).
+- RT:  Fixed bug in chEvtBroadcastFlagsI (bug #989).
+- HAL: Fixed NULL pointer dereferenced in N25Q driver (bug #988).
+- NIL: Fixed scheduler misbehaving in rare cases (bug #983).
+- NIL: Fixed function chThdSuspendTimeoutS() ignoring TIME_IMMEDIATE (bug #982).
+- HAL: Fixed STM32L071/72 entries in registry (bug #981).
+- HAL: Fixed TIM3 missing from STM32L0xx RCC macros (bug #980)
+- HAL: Fixed invalid STM32 ADCv3 clock selection for L4 and L4+ (bug #979).
+- HAL: Fixed wrong number of endpoints for STM32F412/413 (bug #978).
+- RT:  Fixed chEvtGetAndClearFlags(...) does not mask events (bug #977).
+- OTH: Fixed wrong timeout handling in CMSIS OS layer (bug #975).
+- HAL: Fixed mii_find_phy excludes PHY address 31 (bug #971).
+- HAL: Fixed invalid checks in STM32F37x HAL related to SDADC (bug #974).
+- HAL: Fixed option STM32_LSCOSEL not written in STM32L4 HAL (bug #970).
+- HAL: Fixed invalid DFSDM1SEL option in STM32L4 HAL (bug #969).
+- HAL: Fixed incorrect checks on STM32_SAI2SEL option in STM32L4 HAL
+       (bug #968).
+- HAL: Fixed documentation error in spiStop() (bug #966).
+- HAL: Fixed missing parenthesis in STM32L073 registry entry (bug #965).
+- HAL: Fixed problem with STM32 RTCv1 and GCC7 compiler (bug #964).
+- HAL: Fixed invalid timeout calculation in hal_buffers (bug #963).
+- HAL: Fixed incorrect state change in I2S driver (bug #959).
+- HAL: Fixed incorrect TCIE handling in STM32 serial drivers (bug #958).
+- HAL: Fixed invalid period calculation in STM32 GPT driver (bug #957).
+- LIB: Fixed heap allocation issue (bug #955).
+- HAL: Fixed race condition in STM32 ADCv3 driver (bug #953).
+- HAL: Fixed invalid divider settings in Serial and UART STM32 drivers
+       when USART_CR1_OVER8 is specified (bug #951).
+- NIL: Fixed missing extern declaration in IAR Cortex-M port (bug #950).
+- HAL: Fixed ASCR register invalid handling in STM32 GPIOv3 driver (bug #949).
+- OTH: Fixed wrong macro check in GCC Cortex-M startup files (bug #947).
+- HAL: Fixed binary instead of logic operator in STM32F4 HAL (bug #946).
+- HAL: Fixed Mikroe clicker 2 misaligned board file (bug #945).
+- VAR: Fixed shell broken in 17.6.4 (bug #944).
+- HAL: Fixed invalid settings in STM32F769I-Discovery board files (bug #942).
+- HAL: Fixed IOBus PAL functions missing the const qualifier (bug #940).
+- HAL: Fixed STM32 USBv1 driver does not reset data toggling bits on endpoint
+       initialization (bug #939).
+- HAL: Fixed incorrect behavior of USB driver on SET CONFIGURATION (bug #938).
+- OTH: Fixed inclusion order problem in STM32L4 cmparams.h file (bug #935).
+- HAL: Fixed problem clearing UIF timer flag in STM32 PWM driver (bug #934).
+- HAL: Fixed USB Serial driver problem with zero-size OUT transactions
+       (bug #933).
+- HAL: Fixed race condition in STM32 QSPI driver (bug #932).
+- HAL: Fixed silence GCC 7.3.0 warning (bug #930).
+- HAL: Fixed invalid SAI1 clock selection on STM32F7xx (bug #929).
 - HAL: Fixed useless writes in read-only CFGR_SWS field on all STM32Fxx
        (bug #927).
 
