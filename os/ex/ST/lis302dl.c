@@ -397,7 +397,7 @@ static msg_t acc_set_full_scale(LIS302DLDriver *devp, lis302dl_acc_fs_t fs) {
       devp->accbias[i] *= scale;
     }
   }
-  return msg;
+  return MSG_OK;
 }
 
 static const struct LIS302DLVMT vmt_device = {
