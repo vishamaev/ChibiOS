@@ -31,6 +31,8 @@
 
 #if (HAL_USE_MMC_SPI == TRUE) || defined(__DOXYGEN__)
 
+#define MMC_WAIT_RETRY 3000
+
 /*===========================================================================*/
 /* Driver local definitions.                                                 */
 /*===========================================================================*/
@@ -172,6 +174,10 @@ static void wait(MMCDriver *mmcp) {
       return;
     }
   }
+#if MMC_NICE_WAITING == TRUE
+  int waitCounter = 0;
+#endif
+
   /* Looks like it is a long wait.*/
   while (true) {
     spiReceive(mmcp->config->spip, 1, buf);
@@ -181,6 +187,10 @@ static void wait(MMCDriver *mmcp) {
 #if MMC_NICE_WAITING == TRUE
     /* Trying to be nice with the other threads.*/
     osalThreadSleepMilliseconds(1);
+    if (++waitCounter == MMC_WAIT_RETRY) {
+    	// it's time to give up, this MMC card is not working property
+    	break;
+    }
 #endif
   }
 }
@@ -356,6 +366,9 @@ static void sync(MMCDriver *mmcp) {
   uint8_t buf[1];
 
   spiSelect(mmcp->config->spip);
+#if MMC_NICE_WAITING == TRUE
+  int waitCounter = 0;
+#endif
   while (true) {
     spiReceive(mmcp->config->spip, 1, buf);
     if (buf[0] == 0xFFU) {
@@ -364,6 +377,10 @@ static void sync(MMCDriver *mmcp) {
 #if MMC_NICE_WAITING == TRUE
     /* Trying to be nice with the other threads.*/
     osalThreadSleepMilliseconds(1);
+    if (++waitCounter == MMC_WAIT_RETRY) {
+    	// it's time to give up, this MMC card is not working property
+    	break;
+    }
 #endif
   }
   spiUnselect(mmcp->config->spip);
