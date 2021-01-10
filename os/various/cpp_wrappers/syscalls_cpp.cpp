@@ -19,8 +19,8 @@ pid_t _getpid(void){
    return 1;
 }
 
-#undef errno
-extern int errno;
+//#undef errno
+//extern int errno;
 int _kill(int pid, int sig) {
   (void)pid;
   (void)sig;
