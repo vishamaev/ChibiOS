@@ -33,6 +33,40 @@
 
 #define MMC_WAIT_RETRY 3000
 
+#define MMC_USE_POLLED_EXCHANGE TRUE
+
+// MMC_USE_POLLED_EXCHANGE is an optimzation that uses the synchronous, non-DMA 
+// method of directly twiddling the peripheral's registers.  It saves us from doing
+// so many context switches, plus it makes things cache-friendly by avoiding DMA
+// transfers to/from stack allocated storage.
+// See https://forum.chibios.org/viewtopic.php?f=38&t=5767
+#if MMC_USE_POLLED_EXCHANGE
+void spiSendSmall(SPIDriver* spip, size_t n, const uint8_t* buf) {
+  for (size_t i = 0; i < n; i++) {
+    spiPolledExchange(spip, buf[i]);
+  }
+}
+
+void spiReceiveSmall(SPIDriver* spip, size_t n, uint8_t* buf) {
+  for (size_t i = 0; i < n; i++) {
+    /* MMC card expects to receive 0xFF */
+    buf[i] = spiPolledExchange(spip, 0xFF);
+  }
+}
+
+void spiIgnoreSmall(SPIDriver* spip, size_t n) {
+  for (size_t i = 0; i < n; i++) {
+    /* MMC card expects to receive 0xFF */
+    spiPolledExchange(spip, 0xFF);
+  }
+}
+#else
+// Without the optimization, use the non-small counterparts instead
+#define spiSendSmall(s, n, b) spiSend(s, n, b)
+#define spiReceiveSmall(s, n, b) spiReceive(s, n, b)
+#define spiIgnoreSmall(s, n) spiIgnore(s, n)
+#endif
+
 /*===========================================================================*/
 /* Driver local definitions.                                                 */
 /*===========================================================================*/
@@ -169,8 +203,8 @@ static void wait(MMCDriver *mmcp) {
   uint8_t buf[4];
 
   for (i = 0; i < 16; i++) {
-    spiReceive(mmcp->config->spip, 1, buf);
-    if (buf[0] == 0xFFU) {
+    spiReceiveSmall(mmcp->config->spip, 1, buf);
+	if (buf[0] == 0xFFU) {
       return;
     }
   }
@@ -180,7 +214,7 @@ static void wait(MMCDriver *mmcp) {
 
   /* Looks like it is a long wait.*/
   while (true) {
-    spiReceive(mmcp->config->spip, 1, buf);
+    spiReceiveSmall(mmcp->config->spip, 1, buf);
     if (buf[0] == 0xFFU) {
       break;
     }
@@ -218,7 +252,7 @@ static void send_hdr(MMCDriver *mmcp, uint8_t cmd, uint32_t arg) {
   /* Calculate CRC for command header, shift to right position, add stop bit.*/
   buf[5] = ((crc7(0, buf, 5U) & 0x7FU) << 1U) | 0x01U;
 
-  spiSend(mmcp->config->spip, 6, buf);
+  spiSendSmall(mmcp->config->spip, 6, buf);
 }
 
 /**
@@ -235,7 +269,7 @@ static uint8_t recvr1(MMCDriver *mmcp) {
   uint8_t r1[1];
 
   for (i = 0; i < 9; i++) {
-    spiReceive(mmcp->config->spip, 1, r1);
+    spiReceiveSmall(mmcp->config->spip, 1, r1);
     if (r1[0] != 0xFFU) {
       return r1[0];
     }
@@ -257,7 +291,7 @@ static uint8_t recvr3(MMCDriver *mmcp, uint8_t* buffer) {
   uint8_t r1;
 
   r1 = recvr1(mmcp);
-  spiReceive(mmcp->config->spip, 4, buffer);
+  spiReceiveSmall(mmcp->config->spip, 4, buffer);
 
   return r1;
 }
@@ -333,11 +367,11 @@ static bool read_CxD(MMCDriver *mmcp, uint8_t cmd, uint32_t cxd[4]) {
 
   /* Wait for data availability.*/
   for (i = 0U; i < MMC_WAIT_DATA; i++) {
-    spiReceive(mmcp->config->spip, 1, buf);
+    spiReceiveSmall(mmcp->config->spip, 1, buf);
     if (buf[0] == 0xFEU) {
       uint32_t *wp;
 
-      spiReceive(mmcp->config->spip, 16, buf);
+      spiReceiveSmall(mmcp->config->spip, 16, buf);
       bp = buf;
       for (wp = &cxd[3]; wp >= cxd; wp--) {
         *wp = ((uint32_t)bp[0] << 24U) | ((uint32_t)bp[1] << 16U) |
@@ -346,7 +380,7 @@ static bool read_CxD(MMCDriver *mmcp, uint8_t cmd, uint32_t cxd[4]) {
       }
 
       /* CRC ignored then end of transaction. */
-      spiIgnore(mmcp->config->spip, 2);
+      spiIgnoreSmall(mmcp->config->spip, 2);
       spiUnselect(mmcp->config->spip);
 
       return HAL_SUCCESS;
@@ -370,7 +404,7 @@ static void sync(MMCDriver *mmcp) {
   int waitCounter = 0;
 #endif
   while (true) {
-    spiReceive(mmcp->config->spip, 1, buf);
+    spiReceiveSmall(mmcp->config->spip, 1, buf);
     if (buf[0] == 0xFFU) {
       break;
     }
@@ -484,7 +518,7 @@ bool mmcConnect(MMCDriver *mmcp) {
 
   /* Slow clock mode and 128 clock pulses.*/
   spiStart(mmcp->config->spip, mmcp->config->lscfg);
-  spiIgnore(mmcp->config->spip, 16);
+  spiIgnoreSmall(mmcp->config->spip, 16);
 
   /* SPI mode selection.*/
   i = 0;
@@ -676,11 +710,11 @@ bool mmcSequentialRead(MMCDriver *mmcp, uint8_t *buffer) {
   }
 
   for (i = 0; i < MMC_WAIT_DATA; i++) {
-    spiReceive(mmcp->config->spip, 1, buffer);
+    spiReceiveSmall(mmcp->config->spip, 1, buffer);
     if (buffer[0] == 0xFEU) {
       spiReceive(mmcp->config->spip, MMCSD_BLOCK_SIZE, buffer);
       /* CRC ignored. */
-      spiIgnore(mmcp->config->spip, 2);
+      spiIgnoreSmall(mmcp->config->spip, 2);
       return HAL_SUCCESS;
     }
   }
@@ -713,7 +747,7 @@ bool mmcStopSequentialRead(MMCDriver *mmcp) {
     return HAL_FAILED;
   }
 
-  spiSend(mmcp->config->spip, sizeof(stopcmd), stopcmd);
+  spiSendSmall(mmcp->config->spip, sizeof(stopcmd), stopcmd);
 /*  result = recvr1(mmcp) != 0x00U;*/
   /* Note, ignored r1 response, it can be not zero, unknown issue.*/
   (void) recvr1(mmcp);
@@ -784,10 +818,10 @@ bool mmcSequentialWrite(MMCDriver *mmcp, const uint8_t *buffer) {
     return HAL_FAILED;
   }
 
-  spiSend(mmcp->config->spip, sizeof(start), start);    /* Data prologue.   */
-  spiSend(mmcp->config->spip, MMCSD_BLOCK_SIZE, buffer);/* Data.            */
-  spiIgnore(mmcp->config->spip, 2);                     /* CRC ignored.     */
-  spiReceive(mmcp->config->spip, 1, b);
+  spiSendSmall(mmcp->config->spip, sizeof(start), start);/* Data prologue.   */
+  spiSend(mmcp->config->spip, MMCSD_BLOCK_SIZE, buffer); /* Data.            */
+  spiIgnoreSmall(mmcp->config->spip, 2);                 /* CRC ignored.     */
+  spiReceiveSmall(mmcp->config->spip, 1, b);
   if ((b[0] & 0x1FU) == 0x05U) {
     wait(mmcp);
     return HAL_SUCCESS;
@@ -820,7 +854,7 @@ bool mmcStopSequentialWrite(MMCDriver *mmcp) {
     return HAL_FAILED;
   }
 
-  spiSend(mmcp->config->spip, sizeof(stop), stop);
+  spiSendSmall(mmcp->config->spip, sizeof(stop), stop);
   spiUnselect(mmcp->config->spip);
 
   /* Write operation finished.*/
