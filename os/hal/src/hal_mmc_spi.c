@@ -35,6 +35,11 @@
 
 #define MMC_USE_POLLED_EXCHANGE TRUE
 
+// MMC_USE_POLLED_EXCHANGE is an optimzation that uses the synchronous, non-DMA 
+// method of directly twiddling the peripheral's registers.  It saves us from doing
+// so many context switches, plus it makes things cache-friendly by avoiding DMA
+// transfers to/from stack allocated storage.
+// See https://forum.chibios.org/viewtopic.php?f=38&t=5767
 #if MMC_USE_POLLED_EXCHANGE
 void spiSendSmall(SPIDriver* spip, size_t n, const uint8_t* buf) {
   for (size_t i = 0; i < n; i++) {
@@ -56,6 +61,7 @@ void spiIgnoreSmall(SPIDriver* spip, size_t n) {
   }
 }
 #else
+// Without the optimization, use the non-small counterparts instead
 #define spiSendSmall(s, n, b) spiSend(s, n, b)
 #define spiReceiveSmall(s, n, b) spiReceive(s, n, b)
 #define spiIgnoreSmall(s, n) spiIgnore(s, n)
