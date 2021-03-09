@@ -134,7 +134,7 @@ static bool fdcan_clock_stop(CANDriver *canp) {
   canp->fdcan->CCCR |= FDCAN_CCCR_CSR;
   start = osalOsGetSystemTimeX();
   end = osalTimeAddX(start, TIME_MS2I(TIMEOUT_INIT_MS));
-  while ((canp->fdcan->CCCR & FDCAN_CCCR_CSA) != 0U) {
+  while ((canp->fdcan->CCCR & FDCAN_CCCR_CSA) == 0U) {
     if (!osalTimeIsInRangeX(osalOsGetSystemTimeX(), start, end)) {
       return true;
     }
@@ -202,21 +202,21 @@ void can_lld_init(void) {
   /* Driver initialization.*/
   canObjectInit(&CAND1);
   CAND1.fdcan = FDCAN1;
-  CAND1.ram_base = (uint32_t *) (SRAMCAN_BASE + 0U * SRAMCAN_SIZE);
+  CAND1.ram_base = (uint32_t *)(SRAMCAN_BASE + 0U * SRAMCAN_SIZE);
 #endif
 
 #if STM32_CAN_USE_FDCAN2
   /* Driver initialization.*/
   canObjectInit(&CAND2);
   CAND2.fdcan = FDCAN2;
-  CAND2.ram_base = (uint32_t *) (SRAMCAN_BASE + 1U * SRAMCAN_SIZE);
+  CAND2.ram_base = (uint32_t *)(SRAMCAN_BASE + 1U * SRAMCAN_SIZE);
 #endif
 
 #if STM32_CAN_USE_FDCAN3
   /* Driver initialization.*/
   canObjectInit(&CAND3);
   CAND3.fdcan = FDCAN3;
-  CAND3.ram_base = (uint32_t *) (SRAMCAN_BASE + 2U * SRAMCAN_SIZE);
+  CAND3.ram_base = (uint32_t *)(SRAMCAN_BASE + 2U * SRAMCAN_SIZE);
 #endif
 }
 
@@ -276,20 +276,46 @@ bool can_lld_start(CANDriver *canp) {
   }
 
   /* Configuration can be performed now.*/
-  canp->fdcan->CCCR |= FDCAN_CCCR_CCE;
+  canp->fdcan->CCCR  |= FDCAN_CCCR_CCE;
+  canp->fdcan->CCCR &= ~(FDCAN_CCCR_CSR | FDCAN_CCCR_CSA);
 
   /* Setting up operation mode except driver-controlled bits.*/
-  canp->fdcan->DBTP = canp->config->DBTP;
-  canp->fdcan->CCCR = canp->config->CCCR & ~(FDCAN_CCCR_CSR | FDCAN_CCCR_CSA |
-                                             FDCAN_CCCR_CCE | FDCAN_CCCR_INIT);
-  canp->fdcan->TEST = canp->config->TEST;
+  canp->fdcan->NBTP   = canp->config->NBTP;
+  canp->fdcan->DBTP   = canp->config->DBTP;
+  canp->fdcan->CCCR  |= canp->config->CCCR & ~(FDCAN_CCCR_CSR | FDCAN_CCCR_CSA |
+                                               FDCAN_CCCR_CCE | FDCAN_CCCR_INIT);
+  canp->fdcan->TEST   = canp->config->TEST;
+#ifdef STM32G4XX
+  canp->fdcan->RXGFC  = canp->config->RXGFC;
+#elif defined(STM32H7XX)
+  canp->fdcan->GFC    = canp->config->RXGFC;
+#else
+#error "Unsupported STM32 for FDCAN LLD driver"
+#endif
 
   /* Enabling interrupts, only using interrupt zero.*/
-  canp->fdcan->IR  = (uint32_t)-1;
-  canp->fdcan->IE  = FDCAN_IE_RF1NE | FDCAN_IE_RF1LE |
-                     FDCAN_IE_RF0NE | FDCAN_IE_RF0LE |
-                     FDCAN_IE_TCE;
-  canp->fdcan->ILE = FDCAN_ILE_EINT0;
+  canp->fdcan->IR     = (uint32_t)-1;
+  canp->fdcan->IE     = FDCAN_IE_RF1NE | FDCAN_IE_RF1LE |
+                        FDCAN_IE_RF0NE | FDCAN_IE_RF0LE |
+                        FDCAN_IE_TCE;
+  canp->fdcan->TXBTIE = FDCAN_TXBTIE_TIE;
+  canp->fdcan->ILE    = FDCAN_ILE_EINT0;
+
+#ifdef STM32H7XX
+  /* H7 version of FDCAN has configurable memory layout, so configure it */
+  canp->fdcan->SIDFC = STM32_FDCAN_FLS_NBR << 16 | SRAMCAN_FLSSA;
+  canp->fdcan->XIDFC = STM32_FDCAN_FLE_NBR << 16 | SRAMCAN_FLESA;
+  canp->fdcan->RXF0C = STM32_FDCAN_RF0_NBR << 16 | SRAMCAN_RF0SA;
+  canp->fdcan->RXF1C = STM32_FDCAN_RF1_NBR << 16 | SRAMCAN_RF1SA;
+  canp->fdcan->RXBC  = SRAMCAN_RBSA;
+  canp->fdcan->TXEFC = STM32_FDCAN_TEF_NBR << 16 | SRAMCAN_TEFSA;
+  /* NB: this doesn't set NDTB, but sets TFQS to run in queue mode with no dedicated buffers */
+  canp->fdcan->TXBC  = STM32_FDCAN_TB_NBR  << 24 | SRAMCAN_TBSA;
+
+  /* set to use the full 18-byte size buffer elements */
+  canp->fdcan->TXESC = 0x007;
+  canp->fdcan->RXESC = 0x777;
+#endif /* STM32H7XX */
 
   /* Going in active mode.*/
   if (fdcan_active_mode(canp)) {
@@ -315,6 +341,7 @@ void can_lld_stop(CANDriver *canp) {
     canp->fdcan->IE  = 0U;
     canp->fdcan->IR  = (uint32_t)-1;
     canp->fdcan->ILE = 0U;
+    canp->fdcan->TXBTIE = 0U;
 
     /* Disables the peripheral.*/
     (void) fdcan_clock_stop(canp);
@@ -371,22 +398,29 @@ bool can_lld_is_tx_empty(CANDriver *canp, canmbx_t mailbox) {
  *
  * @notapi
  */
-void can_lld_transmit(CANDriver *canp,
-                      canmbx_t mailbox,
-                      const CANTxFrame *ctfp) {
+void can_lld_transmit(CANDriver *canp, canmbx_t mailbox, const CANTxFrame *ctfp) {
+  uint32_t put_index;
   uint32_t *tx_address;
 
   (void)mailbox;
 
   osalDbgCheck(dlc_to_bytes[ctfp->DLC] <= CAN_MAX_DLC_BYTES);
 
+  /* Retrieve the TX FIFO put index.*/
+  put_index = ((canp->fdcan->TXFQS & FDCAN_TXFQS_TFQPI) >> FDCAN_TXFQS_TFQPI_Pos);
+
   /* Writing frame.*/
-  tx_address = canp->ram_base + (SRAMCAN_TBSA / sizeof (uint32_t));
+  tx_address = canp->ram_base +
+               ((SRAMCAN_TBSA + (put_index * SRAMCAN_TB_SIZE)) / sizeof (uint32_t));
+  
   *tx_address++ = ctfp->header32[0];
   *tx_address++ = ctfp->header32[1];
   for (unsigned i = 0U; i < dlc_to_bytes[ctfp->DLC]; i += 4U) {
     *tx_address++ = ctfp->data32[i / 4U];
   }
+
+  /* Starting transmission.*/
+  canp->fdcan->TXBAR = ((uint32_t)1 << put_index);
 }
 
 /**
@@ -440,11 +474,19 @@ void can_lld_receive(CANDriver *canp, canmbx_t mailbox, CANRxFrame *crfp) {
       return;
     }
   }
-
-  /* GET index, add it and the length to the rx_address.*/
-  get_index = (canp->fdcan->RXF0S & FDCAN_RXF0S_F0GI_Msk) >> FDCAN_RXF0S_F0GI_Pos;
-  rx_address = canp->ram_base + (SRAMCAN_RF0SA +
-                                 (get_index * SRAMCAN_RF0_SIZE)) / sizeof (uint32_t);
+  
+  if (mailbox == 1U) {
+     /* GET index RXF0, add it and the length to the rx_address.*/
+     get_index = (canp->fdcan->RXF0S & FDCAN_RXF0S_F0GI_Msk) >> FDCAN_RXF0S_F0GI_Pos;
+     rx_address = canp->ram_base + (SRAMCAN_RF0SA +
+                                    (get_index * SRAMCAN_RF0_SIZE)) / sizeof (uint32_t);
+  }
+  else {
+     /* GET index RXF1, add it and the length to the rx_address.*/
+     get_index = (canp->fdcan->RXF1S & FDCAN_RXF1S_F1GI_Msk) >> FDCAN_RXF1S_F1GI_Pos;
+     rx_address = canp->ram_base + (SRAMCAN_RF1SA +
+                                    (get_index * SRAMCAN_RF1_SIZE)) / sizeof (uint32_t);
+  }
   crfp->header32[0] = *rx_address++;
   crfp->header32[1] = *rx_address++;
 
@@ -548,7 +590,7 @@ void can_lld_serve_interrupt(CANDriver *canp) {
   }
 
   /* Overflow events.*/
-  if ((ir & FDCAN_IR_RF0N) != 0U) {
+  if (((ir & FDCAN_IR_RF0L) != 0U) || ((ir & FDCAN_IR_RF1L) != 0U) ) {
     _can_error_isr(canp, CAN_OVERFLOW_ERROR);
   }
 
