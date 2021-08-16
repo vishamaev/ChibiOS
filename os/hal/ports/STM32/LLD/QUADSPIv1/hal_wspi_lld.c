@@ -95,6 +95,12 @@ static void wspi_lld_serve_interrupt(WSPIDriver *wspip) {
   while (dmaStreamGetTransactionSize(wspip->dma) > 0U)
     ;
 
+  /* Clearing DMA interrupts here because the DMA ISR is not called on
+     transfer complete.*/
+  dmaStreamClearInterrupt(wspip->dma);
+
+#if defined(STM32L471xx) || defined(STM32L475xx) ||                         \
+    defined(STM32L476xx) || defined(STM32L486xx)
   /* Handling of errata: Extra data written in the FIFO at the end of a
      read transfer.*/
   if (wspip->state == WSPI_RECEIVE) {
@@ -102,6 +108,7 @@ static void wspi_lld_serve_interrupt(WSPIDriver *wspip) {
       (void) wspip->qspi->DR;
     }
   }
+#endif
 }
 
 /*===========================================================================*/
