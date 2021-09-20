@@ -750,7 +750,7 @@ bool mmcSequentialRead(MMCDriver *mmcp, uint8_t *buffer) {
   for (i = 0; i < MMC_WAIT_DATA; i++) {
     spiReceiveSmall(mmcp->config->spip, 1, buffer);
     if (buffer[0] == 0xFEU) {
-      #if STM32H7XX
+      #ifdef STM32H7XX
       /* workaround for silicon errata */
       /* see https://github.com/rusefi/rusefi/issues/2395 */
       resetSpiDevice(mmcp->config->spip);
@@ -865,7 +865,7 @@ bool mmcSequentialWrite(MMCDriver *mmcp, const uint8_t *buffer) {
 
   spiSendSmall(mmcp->config->spip, sizeof(start), start);/* Data prologue.   */
 
-  #if STM32H7XX
+  #ifdef STM32H7XX
   /* workaround for silicon errata */
   /* see https://github.com/rusefi/rusefi/issues/2395 */
   resetSpiDevice(mmcp->config->spip);
