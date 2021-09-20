@@ -688,6 +688,44 @@ bool mmcStartSequentialRead(MMCDriver *mmcp, uint32_t startblk) {
   return HAL_SUCCESS;
 }
 
+static void resetSpiDevice(SPIDriver* spi) {
+#if STM32_SPI_USE_SPI1
+	if (spi == &SPID1) {
+		rccResetSPI1();
+	}
+#endif // STM32_SPI_USE_SPI1
+
+#if STM32_SPI_USE_SPI2
+	if (spi == &SPID2) {
+		rccResetSPI2();
+	}
+#endif // STM32_SPI_USE_SPI2
+
+#if STM32_SPI_USE_SPI3
+	if (spi == &SPID3) {
+		rccResetSPI3();
+	}
+#endif // STM32_SPI_USE_SPI3
+
+#if STM32_SPI_USE_SPI4
+	if (spi == &SPID4) {
+		rccResetSPI4();
+	}
+#endif // STM32_SPI_USE_SPI4
+
+#if STM32_SPI_USE_SPI5
+	if (spi == &SPID5) {
+		rccResetSPI5();
+	}
+#endif // STM32_SPI_USE_SPI5
+
+#if STM32_SPI_USE_SPI6
+	if (spi == &SPID6) {
+		rccResetSPI6();
+	}
+#endif // STM32_SPI_USE_SPI6
+}
+
 /**
  * @brief   Reads a block within a sequential read operation.
  *
@@ -712,6 +750,13 @@ bool mmcSequentialRead(MMCDriver *mmcp, uint8_t *buffer) {
   for (i = 0; i < MMC_WAIT_DATA; i++) {
     spiReceiveSmall(mmcp->config->spip, 1, buffer);
     if (buffer[0] == 0xFEU) {
+      #if STM32H7XX
+      /* workaround for silicon errata */
+      /* see https://github.com/rusefi/rusefi/issues/2395 */
+      resetSpiDevice(mmcp->config->spip);
+      spiStart(mmcp->config->spip, mmcp->config->hscfg);
+      #endif
+
       spiReceive(mmcp->config->spip, MMCSD_BLOCK_SIZE, buffer);
       /* CRC ignored. */
       spiIgnoreSmall(mmcp->config->spip, 2);
@@ -819,6 +864,14 @@ bool mmcSequentialWrite(MMCDriver *mmcp, const uint8_t *buffer) {
   }
 
   spiSendSmall(mmcp->config->spip, sizeof(start), start);/* Data prologue.   */
+
+  #if STM32H7XX
+  /* workaround for silicon errata */
+  /* see https://github.com/rusefi/rusefi/issues/2395 */
+  resetSpiDevice(mmcp->config->spip);
+  spiStart(mmcp->config->spip, mmcp->config->hscfg);
+  #endif
+
   spiSend(mmcp->config->spip, MMCSD_BLOCK_SIZE, buffer); /* Data.            */
   spiIgnoreSmall(mmcp->config->spip, 2);                 /* CRC ignored.     */
   spiReceiveSmall(mmcp->config->spip, 1, b);
