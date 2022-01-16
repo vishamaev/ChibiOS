@@ -141,7 +141,7 @@ void stm32_clock_init(void) {
   rccResetAPB2(~0);
 
   /* PWR clock enable.*/
-#if defined(HAL_USE_RTC) && defined(RCC_APBENR1_RTCAPBEN)
+#if (HAL_USE_RTC == TRUE) && defined(RCC_APBENR1_RTCAPBEN)
   rccEnableAPB1R1(RCC_APB1ENR1_PWREN | RCC_APB1ENR1_RTCAPBEN, false)
 #else
   rccEnableAPB1R1(RCC_APB1ENR1_PWREN, false)
@@ -153,10 +153,24 @@ void stm32_clock_init(void) {
     ;                                       /* stable.                      */
 
   /* Additional PWR configurations.*/
-  PWR->CR2 = STM32_PWR_CR2;
-  PWR->CR3 = STM32_PWR_CR3;
-  PWR->CR4 = STM32_PWR_CR4;
-  PWR->CR5 = STM32_CR5BITS;
+  PWR->CR2  = STM32_PWR_CR2;
+  PWR->CR3  = STM32_PWR_CR3;
+  PWR->CR4  = STM32_PWR_CR4;
+  PWR->CR5  = STM32_CR5BITS;
+  PWR->PUCRA = STM32_PWR_PUCRA;
+  PWR->PDCRA = STM32_PWR_PDCRA;
+  PWR->PUCRB = STM32_PWR_PUCRB;
+  PWR->PDCRB = STM32_PWR_PDCRB;
+  PWR->PUCRC = STM32_PWR_PUCRC;
+  PWR->PDCRC = STM32_PWR_PDCRC;
+  PWR->PUCRD = STM32_PWR_PUCRD;
+  PWR->PDCRD = STM32_PWR_PDCRD;
+  PWR->PUCRE = STM32_PWR_PUCRE;
+  PWR->PDCRE = STM32_PWR_PDCRE;
+  PWR->PUCRF = STM32_PWR_PUCRF;
+  PWR->PDCRF = STM32_PWR_PDCRF;
+  PWR->PUCRG = STM32_PWR_PUCRG;
+  PWR->PDCRG = STM32_PWR_PDCRG;
 
 #if STM32_HSI16_ENABLED
   /* HSI activation.*/

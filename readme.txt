@@ -73,9 +73,73 @@
 *** Releases and Change Log                                               ***
 *****************************************************************************
 
+*** 20.3.5 ***
+- FIX: Some MISRA-related fixes.
+- FIX: Fixed missing check in chobjcaches.h (bug #1210).
+- FIX: Fixed RT testbuild application broken (bug #1208).
+- FIX: Fixed USB not enabled on STM32F103x6 (bug #1206).
+- FIX: Fixed wrong number of CAN filters for STM32L496/9A6 (bug #1204).
+- FIX: Fixed DMA stream not disabled in STM32 QUADSPIv1 driver (bug #1203).
+- FIX: Fixed I2C4 DMA streams for STM32L496 (bug #1202).
+- FIX: Fixed STM32_SDMMC2_NUMBER on STM32H7 (bug #1201).
+
+*** 20.3.4 ***
+- NEW: Made STM32H7 non-cacheable memory option also shareable.
+- NEW: STM32 improved ADCv4 driver (H7) back-ported from trunk.
+- NEW: New "VT Storm" test application for RT.
+- NEW: More efficient virtual timers implementation for RT, it has been
+       back-ported from RT7.
+- NEW: Improved PWR settings for STM32G4.
+- NEW: Improved boost settings for STM32G4.
+- NEW: Files mcuconf.h for STM32F746, F767, L432, L452, L476, L496 received
+       the missing setting STM32_WSPI_QUADSPI1_PRESCALER_VALUE.
+- FIX: Fixed function nvicSetSystemHandlerPriority() failing with CM0+ cores
+       (bug #1199).
+- FIX: Fixed several problems in STM32L4xx PLL and GPIO settings (bug #1198).
+- FIX: Fixed ARMCMx port, MPU not enabled when PORT_ENABLE_GUARD_PAGES is set
+       (bug #1195).
+- FIX: Fixed removed incorrect ADCv4 checks for MONEN (bug #1194)
+- FIX: Fixed hang in spi_lld_ignore() in SPIv3 on H7 (bug #1193)
+- FIX: Fixed invalid RCC LPUART1 clock enable on STM32G0xx (bug #1189).
+- FIX: Fixed wrong configuration in testex LSM6DSL demos (bug #1184).
+- FIX: Fixed STM32 ADCv3 differences in headers (bug #1182).
+- FIX: Fixed DMAv1 compile fail on STM32L011 (bug #1181).
+- FIX: Fixed error in STM32_ADCCLK_MIN for STM32F37x/hal_lld.h (bug #1180).
+- FIX: Fixed direct calls to RT in STM32 RTCv2 and RTCv3 (bug #1179).
+- FIX: Fixed invalid DMAMUX settings in DMAv1 for some devices (bug #1176).
+- FIX: Fixed problem with RC initialization mask of the GPIO for the 
+       STM32L4x3 (bug #1174).
+- FIX: Fixed problem with N25Q driver (bug #1173).       
+- FIX: Fixed missing constant in ADuCM36x hal_lld.c (bug #1166).
+- FIX: Fixed invalid STM32 TIM21/TIM22 debug freeze setting (bug #1164).
+- FIX: Fixed I2S-related definitions missing in STM32F3xx registry (bug #1162).
+- FIX: Fixed STM32 SDMMCv2 driver invalid initial clock settings (bug #1160).
+- FIX: Fixed wrong wait states calculation in STM32G4xx, insufficient
+       boost settings (bug #1159).
+- FIX: Fixed warning in STM32 ADCv4 (bug #1158).
+- FIX: Fixed wrong check on HAL_USE_RTC in STM32G4 clock initialization
+       (bug #1157).
+- FIX: Fixed wrong checks related to PLLSAI2 on L4 and L4+ (bug #1156).
+- FIX: Fixed STM32G431 DMA defines error (bug #1155).
+- FIX: Fixed errors in STM32L4xx registry (bug #1154).
+- FIX: Fixed QUADSPI errata fix applied to all platforms (bug #1153).
+- FIX: Fixed (again) LPUART1 support for STM32H7xx (bug #1113).
+- FIX: Fixed wrong behavior in Serial-USB driver (bug #1151).
+- FIX: Fixed L0x2 series DAC not allocated in registry (bug #1150).
+- FIX: Fixed inconsistent naming of SAI DMAMUX defines for STM32H7 (bug #1149).
+- FIX: Fixed TIM register layout difference for STM32G4 series (bug #1148).
+- FIX: Fixed STM32 QUADSPI driver problem when used with DMAv2 (bug #1147).
+- FIX: Fixed incorrect IRQ vector for PVM (bug #1146).
+
 *** 20.3.3 ***
 - NEW: RT, NIL: Renamed _THREADS_QUEUE_DECL to THREADS_QUEUE_DECL for
        consistency.
+- FIX: Fixed missing STM32F765 from registry (bug #1145).
+- FIX: Fixed wrong macro check on STM32 SPIv3 (bug #1144).
+- FIX: Fixed wrong check on STM32 TIM9 timer (bug #1143).
+- FIX: Fixed FAT time problem in RTC driver (bug #1142).
+- FIX: Fixed Heap allocation of aligned FIFO objects in chFactory (bug #1141).
+- FIX: Fixed chsnprintf() sign mode/filler mode conflict (bug #1140).
 - FIX: Fixed GCC 10 causes warning in factory module (bug #1139).
 - FIX: Fixed C strict aliasing rules violation causes test cases to fail
        (bug #1138).
@@ -91,7 +155,7 @@
 - FIX: Fixed wrong check in STM32 ST driver (bug #1129).
 - FIX: Fixed OSAL does not allow 64 bits resolution values (bug #1128).
 - FIX: Fixed wrong SDMMC RCC macros for STM32H7xx (bug #1127).
-- FIX: Fixed STM32 ADCv3 hangin on initialization (bug #1126).
+- FIX: Fixed STM32 ADCv3 hanging on initialization (bug #1126).
 - FIX: Fixed I2S-related problems in STM32F4xx registry (bug #1124).
 - FIX: Fixed STM32 EXTIv1 driver unable to enable/disable fixed lines
        (bug #1123).

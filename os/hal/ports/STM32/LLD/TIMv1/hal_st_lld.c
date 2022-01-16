@@ -296,7 +296,7 @@
 #define ST_NUMBER                           STM32_TIM21_NUMBER
 #define ST_CLOCK_SRC                        STM32_TIMCLK2
 #define ST_ENABLE_CLOCK()                   rccEnableTIM21(true)
-#define ST_ENABLE_STOP()                    DBGMCU->APB1FZ |= DBGMCU_APB2_FZ_DBG_TIM21_STOP
+#define ST_ENABLE_STOP()                    DBGMCU->APB2FZ |= DBGMCU_APB2_FZ_DBG_TIM21_STOP
 
 #elif STM32_ST_USE_TIMER == 22
 
@@ -312,7 +312,7 @@
 #define ST_NUMBER                           STM32_TIM22_NUMBER
 #define ST_CLOCK_SRC                        STM32_TIMCLK2
 #define ST_ENABLE_CLOCK()                   rccEnableTIM22(true)
-#define ST_ENABLE_STOP()                    DBGMCU->APB1FZ |= DBGMCU_APB2_FZ_DBG_TIM21_STOP
+#define ST_ENABLE_STOP()                    DBGMCU->APB2FZ |= DBGMCU_APB2_FZ_DBG_TIM21_STOP
 
 #else
 #error "STM32_ST_USE_TIMER specifies an unsupported timer"
@@ -465,14 +465,14 @@ void st_lld_serve_interrupt(void) {
 #if OSAL_ST_MODE == OSAL_ST_MODE_FREERUNNING
 #if ST_LLD_NUM_ALARMS > 1
   if ((sr & TIM_SR_CC2IF) != 0U) {
-    if (st_callbacks[2] != NULL) {
+    if (st_callbacks[0] != NULL) {
       st_callbacks[0](1U);
     }
   }
 #endif
 #if ST_LLD_NUM_ALARMS > 2
   if ((sr & TIM_SR_CC3IF) != 0U) {
-    if (st_callbacks[2] != NULL) {
+    if (st_callbacks[1] != NULL) {
       st_callbacks[1](2U);
     }
   }

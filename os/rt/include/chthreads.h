@@ -1,12 +1,12 @@
 /*
-    ChibiOS - Copyright (C) 2006..2018 Giovanni Di Sirio.
+    ChibiOS - Copyright (C) 2006,2007,2008,2009,2010,2011,2012,2013,2014,
+              2015,2016,2017,2018,2019,2020,2021 Giovanni Di Sirio.
 
     This file is part of ChibiOS.
 
     ChibiOS is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 3 of the License, or
-    (at your option) any later version.
+    the Free Software Foundation version 3 of the License.
 
     ChibiOS is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -87,6 +87,7 @@ typedef struct {
 
 /**
  * @name    Threads queues
+ * @{
  */
 /**
  * @brief   Data part of a static threads queue object initializer.
@@ -110,6 +111,7 @@ typedef struct {
 
 /**
  * @name    Working Areas
+ * @{
  */
 /**
  * @brief   Calculates the total Working Area size.
@@ -152,6 +154,7 @@ typedef struct {
 
 /**
  * @name    Threads abstraction macros
+ * @{
  */
 /**
  * @brief   Thread declaration macro.
@@ -262,13 +265,13 @@ extern "C" {
 /* Module inline functions.                                                  */
 /*===========================================================================*/
 
- /**
-  * @brief   Returns a pointer to the current @p thread_t.
-  *
-  * @return             A pointer to the current thread.
-  *
-  * @xclass
-  */
+/**
+ * @brief   Returns a pointer to the current @p thread_t.
+ *
+ * @return              A pointer to the current thread.
+ *
+ * @xclass
+ */
 static inline thread_t *chThdGetSelfX(void) {
 
   return ch.rlist.current;
