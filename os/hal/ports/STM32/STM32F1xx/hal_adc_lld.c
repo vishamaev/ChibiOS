@@ -225,7 +225,7 @@ void adc_lld_start_conversion(ADCDriver *adcp) {
   cr2 = grpp->cr2 | ADC_CR2_DMA | ADC_CR2_ADON;
   if ((cr2 & (ADC_CR2_EXTTRIG | ADC_CR2_JEXTTRIG)) == 0)
     cr2 |= ADC_CR2_CONT;
-  adcp->adc->CR2   = grpp->cr2 | cr2;
+  adcp->adc->CR2   = cr2;
   adcp->adc->SMPR1 = grpp->smpr1;
   adcp->adc->SMPR2 = grpp->smpr2;
   adcp->adc->SQR1  = grpp->sqr1;
