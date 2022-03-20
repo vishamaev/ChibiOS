@@ -201,6 +201,25 @@ void adc_lld_start_conversion(ADCDriver *adcp) {
   dmaStreamSetMode(adcp->dmastp, mode);
   dmaStreamEnable(adcp->dmastp);
 
+#if 1
+  /* THEORY:
+   * When ADC is running with low sample time and DMA is used.
+   * When DMA finishes last transfer and while IRQ is handling
+   * ADC continue conversion and rises one more transfer request
+   * until gets disabled from IRQ. This transfer request is pending
+   * until next ADC/DMA start and causes one transfer right now,
+   * when ADC is not enabled yet. Some data is transfered by DMA and
+   * counter decreased by one. So. Stop DMA and reinit it again.
+   * All thanks goes to wallwall at
+   * https://forum.cxem.net/index.php?/topic/213374-stm32f103-adcdma/page/2
+   */
+  dmaStreamDisable(adcp->dmastp);
+  dmaStreamSetTransactionSize(adcp->dmastp, (uint32_t)grpp->num_channels *
+                                            (uint32_t)adcp->depth);
+  dmaStreamSetMode(adcp->dmastp, mode);
+  dmaStreamEnable(adcp->dmastp);
+#endif
+
   /* ADC setup.*/
   adcp->adc->CR1   = grpp->cr1 | ADC_CR1_SCAN;
   cr2 = grpp->cr2 | ADC_CR2_DMA | ADC_CR2_ADON;
