@@ -115,7 +115,8 @@ void adc_lld_init(void) {
 
   /* Return the ADC in low power mode.*/
   ADC1->CR2 = 0;
-  rccDisableADC1();
+  /* GD32F103 does not like when ADC clocking is switched off */
+  /* rccDisableADC1(); */
 #endif
 }
 
