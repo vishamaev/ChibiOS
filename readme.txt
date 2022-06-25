@@ -75,6 +75,23 @@
 
 *** 20.3.5 ***
 - FIX: Some MISRA-related fixes.
+- FIX: Re-opened and fixed bug #1100.
+- FIX: Fixed wrong buffers toggling in STM32 USBv1 isochronous mode (bug #1232).
+- FIX: Fixed STM32 RTCv2 registers synchronization errata (bug #1231).
+- FIX: Fixed STM32 ADCv1 and ADCv5 do not allow prescaler divide value of 1
+       (bug #1230).
+- FIX: Fixed missing check on STM32 SPIv2 DMA settings for SPI1 (bug #1229).
+- FIX: Fixed invalid handling of lwIP NETIF_FLAG_LINK_UP flag (bug #1227).
+- FIX: Fixed missing TIM16/17 errata handling for STM32G0xx (bug #1226).
+- FIX: Fixed missing ADC errata handling for STM32G0xx (bug #1225).
+- FIX: Fixed problem in the HAL I2C fallback driver (bug #1224).
+- FIX: Fixed GPIOH clock not enabled on STM32L432 (bug #1223).
+- FIX: Fixed incorrect type cast in TIME_I2US() (bug #1221).
+- FIX: Fixed missing clock disable for STM32 OCTOSPI2 (bug #1220).
+- FIX: Fixed STM32 Ethernet driver causes system hang after 2^31 packets
+       sent/received (bug #1218).
+- FIX: Fixed Virtual Timers failure in a specific condition (bug #1215).
+- FIX: Fixed invalid state transition in SNOR flash driver (bug #1212).
 - FIX: Fixed missing check in chobjcaches.h (bug #1210).
 - FIX: Fixed RT testbuild application broken (bug #1208).
 - FIX: Fixed USB not enabled on STM32F103x6 (bug #1206).
