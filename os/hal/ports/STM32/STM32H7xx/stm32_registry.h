@@ -125,8 +125,8 @@
 #define STM32_HAS_FDCAN3                    FALSE
 #define STM32_FDCAN_FLS_NBR                 64U
 #define STM32_FDCAN_FLE_NBR                 64U
-#define STM32_FDCAN_RF0_NBR                 56U
-#define STM32_FDCAN_RF1_NBR                 56U
+#define STM32_FDCAN_RF0_NBR                 48U
+#define STM32_FDCAN_RF1_NBR                 48U
 #define STM32_FDCAN_RB_NBR                  0U
 #define STM32_FDCAN_TEF_NBR                 0U
 #define STM32_FDCAN_TB_NBR                  32U
