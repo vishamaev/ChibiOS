@@ -28,6 +28,11 @@
 
 #include "hal.h"
 
+// If you enable subseconds, there is a chance that this code will hang while locked (!)
+// See https://github.com/rusefi/rusefi/issues/4557
+#undef STM32_RTC_HAS_SUBSECONDS
+#define STM32_RTC_HAS_SUBSECONDS FALSE
+
 #if HAL_USE_RTC || defined(__DOXYGEN__)
 
 /*===========================================================================*/
