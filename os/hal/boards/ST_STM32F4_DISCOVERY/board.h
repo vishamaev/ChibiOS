@@ -313,9 +313,9 @@
                                      PIN_MODE_INPUT(GPIOA_PIN2) |           \
                                      PIN_MODE_INPUT(GPIOA_PIN3) |           \
                                      PIN_MODE_ALTERNATE(GPIOA_LRCK) |       \
-                                     PIN_MODE_ALTERNATE(GPIOA_PIN5) |        \
-                                     PIN_MODE_ALTERNATE(GPIOA_PIN6) |        \
-                                     PIN_MODE_ALTERNATE(GPIOA_PIN7) |        \
+                                     PIN_MODE_INPUT(GPIOA_PIN5) |        \
+                                     PIN_MODE_INPUT(GPIOA_PIN6) |        \
+                                     PIN_MODE_INPUT(GPIOA_PIN7) |        \
                                      PIN_MODE_INPUT(GPIOA_PIN8) |           \
                                      PIN_MODE_INPUT(GPIOA_VBUS_FS) |        \
                                      PIN_MODE_ALTERNATE(GPIOA_OTG_FS_ID) |  \
@@ -345,9 +345,9 @@
                                      PIN_OSPEED_HIGH(GPIOA_PIN2) |          \
                                      PIN_OSPEED_HIGH(GPIOA_PIN3) |          \
                                      PIN_OSPEED_HIGH(GPIOA_LRCK) |          \
-                                     PIN_OSPEED_MEDIUM(GPIOA_PIN5) |         \
-                                     PIN_OSPEED_MEDIUM(GPIOA_PIN6) |         \
-                                     PIN_OSPEED_MEDIUM(GPIOA_PIN7) |         \
+                                     PIN_OSPEED_HIGH(GPIOA_PIN5) |         \
+                                     PIN_OSPEED_HIGH(GPIOA_PIN6) |         \
+                                     PIN_OSPEED_HIGH(GPIOA_PIN7) |         \
                                      PIN_OSPEED_HIGH(GPIOA_PIN8) |          \
                                      PIN_OSPEED_HIGH(GPIOA_VBUS_FS) |       \
                                      PIN_OSPEED_HIGH(GPIOA_OTG_FS_ID) |     \
