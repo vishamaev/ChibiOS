@@ -29,7 +29,10 @@
 #define CHCONF_H
 
 #define _CHIBIOS_RT_CONF_
-#define _CHIBIOS_RT_CONF_VER_7_0_
+#define _CHIBIOS_RT_CONF_VER_6_1_
+
+#define ON_LOCK_HOOK {}
+#define ON_UNLOCK_HOOK {}
 
 /*===========================================================================*/
 /**
