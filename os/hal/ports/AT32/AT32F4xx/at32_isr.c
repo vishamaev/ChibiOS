@@ -74,8 +74,6 @@
 #include "stm32_usart6.inc"
 #include "stm32_uart7.inc"
 #include "stm32_uart8.inc"
-#include "stm32_uart9.inc"
-#include "stm32_uart10.inc"
 
 #include "stm32_tim1_9_10_11.inc"
 #include "stm32_tim2.inc"
