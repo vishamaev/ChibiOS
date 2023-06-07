@@ -20,7 +20,7 @@ jobs:
           tools/provide_gcc.sh
           echo "::add-path::`pwd`/gcc-arm-none-eabi/bin"
 
-      - name: 1. Compile AT32 testhal
+      - name: 1. Compile AT32 USB testhal
         run: |
           cd testhal/AT32/AT32F4xx/USB_CDC_IAD
           make -j
@@ -43,3 +43,16 @@ jobs:
         with:
           name: RT-AT32F435-ARTERY144 binaries
           path: demos/STM32/RT-AT32F435-ARTERY144/build/ch*.*
+
+      - name: 3. Compile AT32 ADC testhal
+        run: |
+          cd testhal/AT32/AT32F4xx/ADC
+          make -j
+
+      - name: Attach ADC
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ADC binaries
+          path: testhal/AT32/AT32F4xx/ADC/build/ch*.*
+
