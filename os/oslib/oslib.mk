@@ -38,8 +38,7 @@ ifneq ($(findstring CH_CFG_USE_FACTORY TRUE,$(CHLIBCONF)),)
 OSLIBSRC += $(CHIBIOS)/os/oslib/src/chfactory.c
 endif
 else
-OSLIBSRC := $(CHIBIOS)/os/oslib/src/chmemchecks.c \
-            $(CHIBIOS)/os/oslib/src/chmboxes.c \
+OSLIBSRC := $(CHIBIOS)/os/oslib/src/chmboxes.c \
             $(CHIBIOS)/os/oslib/src/chmemcore.c \
             $(CHIBIOS)/os/oslib/src/chmemheaps.c \
             $(CHIBIOS)/os/oslib/src/chmempools.c \
