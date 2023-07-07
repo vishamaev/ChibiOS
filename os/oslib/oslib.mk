@@ -12,7 +12,7 @@ endif
 
 CHLIBCONF := $(strip $(shell cat $(CHCONFDIR)/chconf.h | egrep -e "\#define"))
 
-OSLIBSRC := $(CHIBIOS)/os/oslib/src/chmemchecks.c
+LIBSRC :=
 ifneq ($(findstring CH_CFG_USE_MAILBOXES TRUE,$(CHLIBCONF)),)
 OSLIBSRC += $(CHIBIOS)/os/oslib/src/chmboxes.c
 endif
