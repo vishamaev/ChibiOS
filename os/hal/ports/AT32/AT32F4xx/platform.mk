@@ -26,7 +26,7 @@ else
 endif
 
 # Drivers compatible with the platform.
-include $(CHIBIOS)/os/hal/ports/STM32/LLD/ADCv2/driver.mk
+include $(CHIBIOS)/os/hal/ports/AT32/LLD/ADC/driver.mk
 include $(CHIBIOS)/os/hal/ports/STM32/LLD/CANv1/driver.mk
 include $(CHIBIOS)/os/hal/ports/STM32/LLD/CRYPv1/driver.mk
 include $(CHIBIOS)/os/hal/ports/STM32/LLD/DACv1/driver.mk
