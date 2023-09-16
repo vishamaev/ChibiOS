@@ -27,7 +27,8 @@
 #define __AT32F435_437_EDMA_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 
@@ -143,8 +144,7 @@ extern "C" {
 /**
   * @brief edma memory targets define
   */
-typedef enum
-{
+typedef enum {
   EDMA_MEMORY_0                          = 0x00, /*!< current target is memory 0 */
   EDMA_MEMORY_1                          = 0x01  /*!< current target is memory 1 */
 } edma_memory_type;
@@ -152,8 +152,7 @@ typedef enum
 /**
   * @brief edma direction type
   */
-typedef enum
-{
+typedef enum {
   EDMA_DIR_PERIPHERAL_TO_MEMORY          = 0x00, /*!< data transfer direction: peripheral to memory */
   EDMA_DIR_MEMORY_TO_PERIPHERAL          = 0x01, /*!< data transfer direction: memory to peripheral */
   EDMA_DIR_MEMORY_TO_MEMORY              = 0x02  /*!< data transfer direction: memory to memory */
@@ -162,8 +161,7 @@ typedef enum
 /**
   * @brief edma peripheral data size type
   */
-typedef enum
-{
+typedef enum {
   EDMA_PERIPHERAL_DATA_WIDTH_BYTE        = 0x00, /*!< peripheral data bus width is 8bit */
   EDMA_PERIPHERAL_DATA_WIDTH_HALFWORD    = 0x01, /*!< peripheral data bus width is 16bit */
   EDMA_PERIPHERAL_DATA_WIDTH_WORD        = 0x02  /*!< peripheral data bus width is 32bit */
@@ -172,8 +170,7 @@ typedef enum
 /**
   * @brief edma memory data size type
   */
-typedef enum
-{
+typedef enum {
   EDMA_MEMORY_DATA_WIDTH_BYTE            = 0x00, /*!< memory data bus width is 8bit */
   EDMA_MEMORY_DATA_WIDTH_HALFWORD        = 0x01, /*!< memory data bus width is 16bit */
   EDMA_MEMORY_DATA_WIDTH_WORD            = 0x02  /*!< memory data bus width is 32bit */
@@ -182,8 +179,7 @@ typedef enum
 /**
   * @brief edma priority level type
   */
-typedef enum
-{
+typedef enum {
   EDMA_PRIORITY_LOW                      = 0x00, /*!< stream priority: low */
   EDMA_PRIORITY_MEDIUM                   = 0x01, /*!< stream priority: medium */
   EDMA_PRIORITY_HIGH                     = 0x02, /*!< stream priority: high */
@@ -193,8 +189,7 @@ typedef enum
 /**
   * @brief edma fifo threshold level type
   */
-typedef enum
-{
+typedef enum {
   EDMA_FIFO_THRESHOLD_1QUARTER           = 0x00, /*!< fifo threshold level: 1quarter full */
   EDMA_FIFO_THRESHOLD_HALF               = 0x01, /*!< fifo threshold level: half full */
   EDMA_FIFO_THRESHOLD_3QUARTER           = 0x02, /*!< fifo threshold level: 13quarter full */
@@ -204,8 +199,7 @@ typedef enum
 /**
   * @brief edma fifo stutas level type
   */
-typedef enum
-{
+typedef enum {
   EDMA_FIFO_STATUS_LESS_1QUARTER         = 0x00, /*!< fifo stutas level: less 1quarter full */
   EDMA_FIFO_STATUS_1QUARTER              = 0x01, /*!< fifo stutas level: 1quarter full */
   EDMA_FIFO_STATUS_HALF                  = 0x02, /*!< fifo stutas level: half full */
@@ -217,8 +211,7 @@ typedef enum
 /**
   * @brief edma memory continuous mode type
   */
-typedef enum
-{
+typedef enum {
   EDMA_MEMORY_SINGLE                     = 0x00, /*!< memory single transfer */
   EDMA_MEMORY_BURST_4                    = 0x01, /*!< memory burst transfer 4 beats */
   EDMA_MEMORY_BURST_8                    = 0x02, /*!< memory burst transfer 8 beats */
@@ -228,8 +221,7 @@ typedef enum
 /**
   * @brief edma peripheral continuous mode type
   */
-typedef enum
-{
+typedef enum {
   EDMA_PERIPHERAL_SINGLE                 = 0x00, /*!< peripheral single transfer */
   EDMA_PERIPHERAL_BURST_4                = 0x01, /*!< peripheral burst transfer 4 beats */
   EDMA_PERIPHERAL_BURST_8                = 0x02, /*!< peripheral burst transfer 8 beats */
@@ -239,8 +231,7 @@ typedef enum
 /**
   * @brief edma peripheral increment offset size type
   */
-typedef enum
-{
+typedef enum {
   EDMA_PERIPHERAL_INC_PSIZE              = 0x00, /*!< peripheral offset is related to psize*/
   EDMA_PERIPHERAL_INC_4_BYTE             = 0x01  /*!< peripheral offset is 4 byte*/
 } edma_peripheral_inc_offset_type;
@@ -248,8 +239,7 @@ typedef enum
 /**
   * @brief edmamux request id select type
   */
-typedef enum
-{
+typedef enum {
   EDMAMUX_DMAREQ_ID_REQ_G1               = 0x01, /*!< edmamux channel request inputs resources: generator channel1 */
   EDMAMUX_DMAREQ_ID_REQ_G2               = 0x02, /*!< edmamux channel request inputs resources: generator channel2 */
   EDMAMUX_DMAREQ_ID_REQ_G3               = 0x03, /*!< edmamux channel request inputs resources: generator channel3 */
@@ -350,8 +340,7 @@ typedef enum
 /**
   * @brief dmamux sync id select type
   */
-typedef enum
-{
+typedef enum {
   EDMAMUX_SYNC_ID_EXINT0                 = 0x00, /*!< edmamux channel synchronization inputs resources: exint line0 */
   EDMAMUX_SYNC_ID_EXINT1                 = 0x01, /*!< edmamux channel synchronization inputs resources: exint line1 */
   EDMAMUX_SYNC_ID_EXINT2                 = 0x02, /*!< edmamux channel synchronization inputs resources: exint line2 */
@@ -381,8 +370,7 @@ typedef enum
 /**
   * @brief dmamux sync polarity type
   */
-typedef enum
-{
+typedef enum {
   EDMAMUX_SYNC_POLARITY_DISABLE          = 0x00, /*!< edmamux channel synchronization inputs resources polarity default value */
   EDMAMUX_SYNC_POLARITY_RISING           = 0x01, /*!< edmamux channel synchronization inputs resources polarity: rising */
   EDMAMUX_SYNC_POLARITY_FALLING          = 0x02, /*!< edmamux channel synchronization inputs resources polarity: falling */
@@ -392,8 +380,7 @@ typedef enum
 /**
   * @brief dmamux generator id select type
   */
-typedef enum
-{
+typedef enum {
   EDMAMUX_GEN_ID_EXINT0                  = 0x00, /*!< edmamux generator channel inputs resources: exint line0 */
   EDMAMUX_GEN_ID_EXINT1                  = 0x01, /*!< edmamux generator channel inputs resources: exint line1 */
   EDMAMUX_GEN_ID_EXINT2                  = 0x02, /*!< edmamux generator channel inputs resources: exint line2 */
@@ -423,8 +410,7 @@ typedef enum
 /**
   * @brief dmamux generator polarity type
   */
-typedef enum
-{
+typedef enum {
   EDMAMUX_GEN_POLARITY_DISABLE           = 0x00, /*!< edmamux generator channel inputs resources polarity default value */
   EDMAMUX_GEN_POLARITY_RISING            = 0x01, /*!< edmamux generator channel inputs resources polarity: rising */
   EDMAMUX_GEN_POLARITY_FALLING           = 0x02, /*!< edmamux generator channel inputs resources polarity: falling */
@@ -434,8 +420,7 @@ typedef enum
 /**
   * @brief edma init type
   */
-typedef struct
-{
+typedef struct {
   uint32_t                               peripheral_base_addr;       /*!< base addrress for peripheral */
   uint32_t                               memory0_base_addr;          /*!< base addrress for memory 0 */
   edma_dir_type                          direction;                  /*!< edma transmit direction, peripheral as source or as destnation  */
@@ -455,8 +440,7 @@ typedef struct
 /**
   * @brief edmamux sync init type
   */
-typedef struct
-{
+typedef struct {
   edmamux_sync_id_sel_type               sync_signal_sel;     /*!< edma dmamux synchronization input select */
   edmamux_sync_pol_type                  sync_polarity;       /*!< edma dmamux synchronization polarity */
   uint32_t                               sync_request_number; /*!< edma dmamux number of dma requests before an output event is generated */
@@ -467,8 +451,7 @@ typedef struct
 /**
   * @brief edmamux generator init type
   */
-typedef struct
-{
+typedef struct {
   edmamux_gen_id_sel_type                gen_signal_sel;     /*!< edma dmamux generator dma request trigger input select */
   edmamux_gen_pol_type                   gen_polarity;       /*!< edma dmamux generator trigger polarity */
   uint32_t                               gen_request_number; /*!< edma dmamux the number of dma requests to be generated after a trigger event */
@@ -478,149 +461,143 @@ typedef struct
 /**
   * @brief type define edma register all
   */
-typedef struct
-{
+typedef struct {
   /**
     * @brief edma sts1 register, offset:0x00
     */
-  union
-  {
+  /* STM32  DMA low interrupt status register (DMA_LISR) */
+  union {
     __IO uint32_t sts1;
-    struct
-    {
-      __IO uint32_t ferrf1               : 1; /* [0] */
-      __IO uint32_t reserved1            : 1; /* [1] */
-      __IO uint32_t dmerrf1              : 1; /* [2] */
-      __IO uint32_t dterrf1              : 1; /* [3] */
-      __IO uint32_t hdtf1                : 1; /* [4] */
-      __IO uint32_t fdtf1                : 1; /* [5] */
-      __IO uint32_t ferrf2               : 1; /* [6] */
-      __IO uint32_t reserved2            : 1; /* [7] */
-      __IO uint32_t dmerrf2              : 1; /* [8] */
-      __IO uint32_t dterrf2              : 1; /* [9] */
-      __IO uint32_t hdtf2                : 1; /* [10] */
-      __IO uint32_t fdtf2                : 1; /* [11] */
+    struct {                                                                                                    /* STM32   */
+      __IO uint32_t ferrf1               : 1; /* [0]    Stream1 fifo error interrupt flag                   */  /* FEIF0: Stream 0 FIFO error interrupt flag (x=3..0)  */                                                 /*   */
+      __IO uint32_t reserved1            : 1; /* [1]      */
+      __IO uint32_t dmerrf1              : 1; /* [2]    Stream1 direct mode error interrupt flag            */  /* DMEIF0: Stream 0 direct mode error interrupt flag  */
+      __IO uint32_t dterrf1              : 1; /* [3]    Stream1 transfer error interrupt flag               */  /* TEIF0: Stream 0 transfer error interrupt flag  */
+      __IO uint32_t hdtf1                : 1; /* [4]    Stream1 half data transfer complete interrupt flag  */  /* HTIF0: Stream 0 half transfer interrupt flag  */
+      __IO uint32_t fdtf1                : 1; /* [5]    Stream1 full data transfer complete interrupt flag  */  /* TCIF0: Stream 0 transfer complete interrupt flag  */
+      __IO uint32_t ferrf2               : 1; /* [6]    Stream2 fifo error interrupt flag                   */  /* FEIF0: Stream 0 FIFO error interrupt flag (x=3..0)  */
+      __IO uint32_t reserved2            : 1; /* [7]      */
+      __IO uint32_t dmerrf2              : 1; /* [8]    Stream2 direct mode error interrupt flag            */  /* DMEIF1: Stream 1 direct mode error interrupt flag  */
+      __IO uint32_t dterrf2              : 1; /* [9]    Stream2 transfer error interrupt flag               */  /* TEIF1: Stream 1 transfer error interrupt flag  */
+      __IO uint32_t hdtf2                : 1; /* [10]   Stream2 half data transfer complete interrupt flag  */  /* HTIF1: Stream 1 half transfer interrupt flag  */
+      __IO uint32_t fdtf2                : 1; /* [11]   Stream2 full data transfer complete interrupt flag  */  /* TCIF1: Stream 1 transfer complete interrupt flag  */
       __IO uint32_t reserved3            : 4; /* [15:13] */
-      __IO uint32_t ferrf3               : 1; /* [16] */
-      __IO uint32_t reserved4            : 1; /* [17] */
-      __IO uint32_t dmerrf3              : 1; /* [18] */
-      __IO uint32_t dterrf3              : 1; /* [19] */
-      __IO uint32_t hdtf3                : 1; /* [20] */
-      __IO uint32_t fdtf3                : 1; /* [21] */
-      __IO uint32_t ferrf4               : 1; /* [22] */
-      __IO uint32_t reserved5            : 1; /* [23] */
-      __IO uint32_t dmerrf4              : 1; /* [24] */
-      __IO uint32_t dterrf4              : 1; /* [25] */
-      __IO uint32_t hdtf4                : 1; /* [26] */
-      __IO uint32_t fdtf4                : 1; /* [27] */
+      __IO uint32_t ferrf3               : 1; /* [16] Stream3 fifo error interrupt flag                     */  /* FEIF2: Stream 3 FIFO error interrupt flag (x=3..0)  */
+      __IO uint32_t reserved4            : 1; /* [17]   */
+      __IO uint32_t dmerrf3              : 1; /* [18] Stream3 direct mode error interrupt flag              */  /* DMEIF2: Stream 3 direct mode error interrupt flag  */
+      __IO uint32_t dterrf3              : 1; /* [19] Stream3 transfer error interrupt flag                 */  /* TEIF2: Stream 3 transfer error interrupt flag  */
+      __IO uint32_t hdtf3                : 1; /* [20] Stream3 half data transfer complete interrupt flag    */  /* HTIF2: Stream 3 half transfer interrupt flag  */
+      __IO uint32_t fdtf3                : 1; /* [21] Stream3 full data transfer complete interrupt flag    */  /* TCIF2: Stream 3 transfer complete interrupt flag  */
+      __IO uint32_t ferrf4               : 1; /* [22] Stream4 fifo error interrupt flag                     */  /* FEIF4: Stream 3 FIFO error interrupt flag (x=3..0)  */
+      __IO uint32_t reserved5            : 1; /* [23]   */
+      __IO uint32_t dmerrf4              : 1; /* [24] Stream4 direct mode error interrupt flag              */  /* DMEIF3: Stream 3 direct mode error interrupt flag  */
+      __IO uint32_t dterrf4              : 1; /* [25] Stream4 transfer error interrupt flag                 */  /* TEIF3: Stream 3 transfer error interrupt flag  */
+      __IO uint32_t hdtf4                : 1; /* [26] Stream4 half data transfer complete interrupt flag    */  /* HTIF3: Stream 3 half transfer interrupt flag  */
+      __IO uint32_t fdtf4                : 1; /* [27] Stream4 full data transfer complete interrupt flag    */  /* TCIF3: Stream 3 transfer complete interrupt flag  */
       __IO uint32_t reserved6            : 4; /* [31:28] */
     } sts1_bit;
   };
   /**
     * @brief edma sts2 register, offset:0x04
     */
-  union
-  {
+  union {
     __IO uint32_t sts2;
-    struct
-    {
-      __IO uint32_t ferrf5               : 1; /* [0] */
-      __IO uint32_t reserved1            : 1; /* [1] */
-      __IO uint32_t dmerrf5              : 1; /* [2] */
-      __IO uint32_t dterrf5              : 1; /* [3] */
-      __IO uint32_t hdtf5                : 1; /* [4] */
-      __IO uint32_t fdtf5                : 1; /* [5] */
-      __IO uint32_t ferrf6               : 1; /* [6] */
-      __IO uint32_t reserved2            : 1; /* [7] */
-      __IO uint32_t dmerrf6              : 1; /* [8] */
-      __IO uint32_t dterrf6              : 1; /* [9] */
-      __IO uint32_t hdtf6                : 1; /* [10] */
-      __IO uint32_t fdtf6                : 1; /* [11] */
+    struct {                                                                                                  /* STM32   */
+      __IO uint32_t ferrf5               : 1; /* [0]  Stream5 fifo error interrupt flag                   */  /* FEIF4: Stream 4 FIFO error interrupt flag (x=3..0)  */
+      __IO uint32_t reserved1            : 1; /* [1]   */
+      __IO uint32_t dmerrf5              : 1; /* [2]  Stream5 direct mode error interrupt flag            */  /* DMEIF4: Stream 4 direct mode error interrupt flag  */
+      __IO uint32_t dterrf5              : 1; /* [3]  Stream5 transfer error interrupt flag               */  /* TEIF4: Stream 4 transfer error interrupt flag  */
+      __IO uint32_t hdtf5                : 1; /* [4]  Stream5 half data transfer complete interrupt flag  */  /* HTIF4: Stream 4 half transfer interrupt flag  */
+      __IO uint32_t fdtf5                : 1; /* [5]  Stream5 full data transfer complete interrupt flag  */  /* TCIF4: Stream 4 transfer complete interrupt flag  */
+      __IO uint32_t ferrf6               : 1; /* [6]  Stream6 fifo error interrupt flag                   */  /* FEIF5: Stream 5 FIFO error interrupt flag (x=3..0)  */
+      __IO uint32_t reserved2            : 1; /* [7]    */
+      __IO uint32_t dmerrf6              : 1; /* [8]  Stream6 direct mode error interrupt flag            */  /* DMEIF5: Stream 5 direct mode error interrupt flag  */
+      __IO uint32_t dterrf6              : 1; /* [9]  Stream6 transfer error interrupt flag               */  /* TEIF5: Stream 5 transfer error interrupt flag  */
+      __IO uint32_t hdtf6                : 1; /* [10] Stream6 half data transfer complete interrupt flag  */  /* HTIF5: Stream 5 half transfer interrupt flag  */       /
+      __IO uint32_t fdtf6                : 1; /* [11] Stream6 full data transfer complete interrupt flag  */  /* TCIF5: Stream 5 transfer complete interrupt flag  */    * /
       __IO uint32_t reserved3            : 4; /* [15:13] */
-      __IO uint32_t ferrf7               : 1; /* [16] */
-      __IO uint32_t reserved4            : 1; /* [17] */
-      __IO uint32_t dmerrf7              : 1; /* [18] */
-      __IO uint32_t dterrf7              : 1; /* [19] */
-      __IO uint32_t hdtf7                : 1; /* [20] */
-      __IO uint32_t fdtf7                : 1; /* [21] */
-      __IO uint32_t ferrf8               : 1; /* [22] */
-      __IO uint32_t reserved5            : 1; /* [23] */
-      __IO uint32_t dmerrf8              : 1; /* [24] */
-      __IO uint32_t dterrf8              : 1; /* [25] */
-      __IO uint32_t hdtf8                : 1; /* [26] */
-      __IO uint32_t fdtf8                : 1; /* [27] */
+      __IO uint32_t ferrf7               : 1; /* [16] Stream7 fifo error interrupt flag                   */  /* FEIF6: Stream 6 FIFO error interrupt flag (x=3..0)  */ * /
+      __IO uint32_t reserved4            : 1; /* [17]   */                                                                                                              * /
+      __IO uint32_t dmerrf7              : 1; /* [18] Stream7 direct mode error interrupt flag            */  /* DMEIF6: Stream 6 direct mode error interrupt flag  */  * /
+      __IO uint32_t dterrf7              : 1; /* [19] Stream7 transfer error interrupt flag               */  /* TEIF6: Stream 6 transfer error interrupt flag  */      * /
+      __IO uint32_t hdtf7                : 1; /* [20] Stream7 half data transfer complete interrupt flag  */  /* HTIF6: Stream 6 half transfer interrupt flag  */       * /
+      __IO uint32_t fdtf7                : 1; /* [21] Stream7 full data transfer complete interrupt flag  */  /* TCIF6: Stream 6 transfer complete interrupt flag  */   * /
+      __IO uint32_t ferrf8               : 1; /* [22] Stream8 fifo error interrupt flag                   */  /* FEIF7: Stream 7 FIFO error interrupt flag (x=3..0)  */
+      __IO uint32_t reserved5            : 1; /* [23]   */
+      __IO uint32_t dmerrf8              : 1; /* [24] Stream8 direct mode error interrupt flag            */  /* DMEIF7: Stream 7 direct mode error interrupt flag  */
+      __IO uint32_t dterrf8              : 1; /* [25] Stream8 transfer error interrupt flag               */  /* TEIF7: Stream 7 transfer error interrupt flag  */
+      __IO uint32_t hdtf8                : 1; /* [26] Stream8 half data transfer complete interrupt flag  */  /* HTIF7: Stream 7 half transfer interrupt flag  */
+      __IO uint32_t fdtf8                : 1; /* [27] Stream8 full data transfer complete interrupt flag  */  /* TCIF7: Stream 7 transfer complete interrupt flag  */
       __IO uint32_t reserved6            : 4; /* [31:28] */
     } sts2_bit;
   };
   /**
-    * @brief edma clr1 register, offset:0x08
+    * @brief edma clr1 register, offset:0x08 
+    * DMA flag clear register 1 
     */
-  union
-  {
+  /* STM32  DMA low interrupt flag clear register (DMA_LIFCR) */
+  union {
     __IO uint32_t clr1;
-    struct
-    {
-      __IO uint32_t ferrfc1              : 1; /* [0] */
-      __IO uint32_t reserved1            : 1; /* [1] */
-      __IO uint32_t dmerrfc1             : 1; /* [2] */
-      __IO uint32_t dterrfc1             : 1; /* [3] */
-      __IO uint32_t hdtfc1               : 1; /* [4] */
-      __IO uint32_t fdtfc1               : 1; /* [5] */
-      __IO uint32_t ferrfc2              : 1; /* [6] */
-      __IO uint32_t reserved2            : 1; /* [7] */
-      __IO uint32_t dmerrfc2             : 1; /* [8] */
-      __IO uint32_t dterrfc2             : 1; /* [9] */
-      __IO uint32_t hdtfc2               : 1; /* [10] */
-      __IO uint32_t fdtfc2               : 1; /* [11] */
+    struct {                                                                                                  /* STM32   */
+      __IO uint32_t ferrfc1              : 1; /* [0]  Stream1 clear fifo error interrupt flag             */  /* CFEIF0: Stream 0 clear FIFO error interrupt flag         */
+      __IO uint32_t reserved1            : 1; /* [1]    */
+      __IO uint32_t dmerrfc1             : 1; /* [2]  Stream1 clear direct mode error interrupt flag      */  /* CDMEIF0: Stream 0 clear direct mode error interrupt flag */
+      __IO uint32_t dterrfc1             : 1; /* [3]  Stream1 clear error interrupt flag                  */  /* CTEIF0: Stream 0 clear transfer error interrupt flag     */
+      __IO uint32_t hdtfc1               : 1; /* [4]  Stream1 clear half transfer complete interrupt flag */  /* CHTIF0: Stream 0 clear half transfer interrupt flag      */
+      __IO uint32_t fdtfc1               : 1; /* [5]  Stream1 clear transfer complete interrupt flag      */  /* CTCIF0: Stream 0 clear transfer complete interrupt flag  */
+      __IO uint32_t ferrfc2              : 1; /* [6]  Stream2 clear fifo error interrupt flag             */  /* CFEIF1: Stream 1 clear FIFO error interrupt flag         */
+      __IO uint32_t reserved2            : 1; /* [7]    */
+      __IO uint32_t dmerrfc2             : 1; /* [8]  Steam2 clear direct mode error interrupt flag       */  /* CDMEIF1: Stream 1 clear direct mode error interrupt flag */
+      __IO uint32_t dterrfc2             : 1; /* [9]  Stream2 clear error interrupt flag                  */  /* CTEIF1: Stream 1 clear transfer error interrupt flag     */
+      __IO uint32_t hdtfc2               : 1; /* [10] Stream2 clear half transfer complete interrupt flag */  /* CHTIF1: Stream 1 clear half transfer interrupt flag      */
+      __IO uint32_t fdtfc2               : 1; /* [11] Stream2 clear transfer complete interrupt flag      */  /* CTCIF1: Stream 1 clear transfer complete interrupt flag  */
       __IO uint32_t reserved3            : 4; /* [15:13] */
-      __IO uint32_t ferrfc3              : 1; /* [16] */
-      __IO uint32_t reserved4            : 1; /* [17] */
-      __IO uint32_t dmerrfc3             : 1; /* [18] */
-      __IO uint32_t dterrfc3             : 1; /* [19] */
-      __IO uint32_t hdtfc3               : 1; /* [20] */
-      __IO uint32_t fdtfc3               : 1; /* [21] */
-      __IO uint32_t ferrfc4              : 1; /* [22] */
-      __IO uint32_t reserved5            : 1; /* [23] */
-      __IO uint32_t dmerrfc4             : 1; /* [24] */
-      __IO uint32_t dterrfc4             : 1; /* [25] */
-      __IO uint32_t hdtfc4               : 1; /* [26] */
-      __IO uint32_t fdtfc4               : 1; /* [27] */
+      __IO uint32_t ferrfc3              : 1; /* [16] Stream3 clear fifo error interrupt flag             */  /* CFEIF2: Stream 2 clear FIFO error interrupt flag         */
+      __IO uint32_t reserved4            : 1; /* [17]   */
+      __IO uint32_t dmerrfc3             : 1; /* [18] Stream3 clear direct mode error interrupt flag      */  /* CDMEIF2: Stream 2 clear direct mode error interrupt flag */
+      __IO uint32_t dterrfc3             : 1; /* [19] Stream3 clear error interrupt flag                  */  /* CTEIF2: Stream 2 clear transfer error interrupt flag     */
+      __IO uint32_t hdtfc3               : 1; /* [20] Stream3 clear half transfer complete interrupt flag */  /* CHTIF2: Stream 2 clear half transfer interrupt flag      */
+      __IO uint32_t fdtfc3               : 1; /* [21] Stream3 clear transfer complete interrupt flag      */  /* CTCIF2: Stream 2 clear transfer complete interrupt flag  */
+      __IO uint32_t ferrfc4              : 1; /* [22] Stream4 clear fifo error interrupt flag             */  /* CFEIF3: Stream 3 clear FIFO error interrupt flag         */
+      __IO uint32_t reserved5            : 1; /* [23]   */
+      __IO uint32_t dmerrfc4             : 1; /* [24] Stream4 clear direct mode error interrupt flag      */  /* CDMEIF3: Stream 3 clear direct mode error interrupt flag */
+      __IO uint32_t dterrfc4             : 1; /* [25] Stream4 clear error interrupt flag                  */  /* CTEIF3: Stream 3 clear transfer error interrupt flag     */
+      __IO uint32_t hdtfc4               : 1; /* [26] Stream4 clear half transfer complete interrupt flag */  /* CHTIF3: Stream 3 clear half transfer interrupt flag      */
+      __IO uint32_t fdtfc4               : 1; /* [27] Stream4 clear transfer complete interrupt flag      */  /* CTCIF3: Stream 3 clear transfer complete interrupt flag  */
       __IO uint32_t reserved6            : 4; /* [31:28] */
     } clr1_bit;
   };
   /**
     * @brief edma clr2 register, offset:0x0C
     */
-  union
-  {
+  union {
     __IO uint32_t clr2;
-    struct
-    {
-      __IO uint32_t ferrfc5              : 1; /* [0] */
-      __IO uint32_t reserved1            : 1; /* [1] */
-      __IO uint32_t dmerrfc5             : 1; /* [2] */
-      __IO uint32_t dterrfc5             : 1; /* [3] */
-      __IO uint32_t hdtfc5               : 1; /* [4] */
-      __IO uint32_t fdtfc5               : 1; /* [5] */
-      __IO uint32_t ferrfc6              : 1; /* [6] */
-      __IO uint32_t reserved2            : 1; /* [7] */
-      __IO uint32_t dmerrfc6             : 1; /* [8] */
-      __IO uint32_t dterrfc6             : 1; /* [9] */
-      __IO uint32_t hdtfc6               : 1; /* [10] */
-      __IO uint32_t fdtfc6               : 1; /* [11] */
+    struct {                                                                                                   /* STM32   */
+      __IO uint32_t ferrfc5              : 1; /* [0]   Stream5 clear fifo error interrupt flag             */  /* CFEIF4: Stream 4 clear FIFO error interrupt flag         */
+      __IO uint32_t reserved1            : 1; /* [1]     */
+      __IO uint32_t dmerrfc5             : 1; /* [2]   Stream5 clear direct mode error interrupt flag      */  /* CDMEIF4: Stream 4 clear direct mode error interrupt flag */
+      __IO uint32_t dterrfc5             : 1; /* [3]   Stream5 clear error interrupt flag                  */  /* CTEIF4: Stream 4 clear transfer error interrupt flag     */
+      __IO uint32_t hdtfc5               : 1; /* [4]   Stream5 clear half transfer complete interrupt flag */  /* CHTIF4: Stream 4 clear half transfer interrupt flag      */
+      __IO uint32_t fdtfc5               : 1; /* [5]   Stream5 clear transfer complete interrupt flag      */  /* CTCIF4: Stream 4 clear transfer complete interrupt flag  */
+      __IO uint32_t ferrfc6              : 1; /* [6]   Stream6 clear fifo error interrupt flag             */  /* CFEIF5: Stream 5 clear FIFO error interrupt flag         */
+      __IO uint32_t reserved2            : 1; /* [7]     */
+      __IO uint32_t dmerrfc6             : 1; /* [8]   Stream6 clear direct mode error interrupt flag      */  /* CDMEIF5: Stream 5 clear direct mode error interrupt flag */
+      __IO uint32_t dterrfc6             : 1; /* [9]   Stream6 clear error interrupt flag                  */  /* CTEIF5: Stream 5 clear transfer error interrupt flag     */
+      __IO uint32_t hdtfc6               : 1; /* [10]  Stream6 clear half transfer complete interrupt flag */  /* CHTIF5: Stream 5 clear half transfer interrupt flag      */
+      __IO uint32_t fdtfc6               : 1; /* [11]  Stream6 clear transfer complete interrupt flag      */  /* CTCIF5: Stream 5 clear transfer complete interrupt flag  */
       __IO uint32_t reserved3            : 4; /* [15:13] */
-      __IO uint32_t ferrfc7              : 1; /* [16] */
-      __IO uint32_t reserved4            : 1; /* [17] */
-      __IO uint32_t dmerrfc7             : 1; /* [18] */
-      __IO uint32_t dterrfc7             : 1; /* [19] */
-      __IO uint32_t hdtfc7               : 1; /* [20] */
-      __IO uint32_t fdtfc7               : 1; /* [21] */
-      __IO uint32_t ferrfc8              : 1; /* [22] */
-      __IO uint32_t reserved5            : 1; /* [23] */
-      __IO uint32_t dmerrfc8             : 1; /* [24] */
-      __IO uint32_t dterrfc8             : 1; /* [25] */
-      __IO uint32_t hdtfc8               : 1; /* [26] */
-      __IO uint32_t fdtfc8               : 1; /* [27] */
+      __IO uint32_t ferrfc7              : 1; /* [16]  Stream7 clear fifo error interrupt flag             */  /* CFEIF6: Stream 6 clear FIFO error interrupt flag         */
+      __IO uint32_t reserved4            : 1; /* [17]    */
+      __IO uint32_t dmerrfc7             : 1; /* [18]  Steam7 clear direct mode error interrupt flag       */  /* CDMEIF6: Stream 6 clear direct mode error interrupt flag */
+      __IO uint32_t dterrfc7             : 1; /* [19]  Stream7 clear error interrupt flag                  */  /* CTEIF6: Stream 6 clear transfer error interrupt flag     */
+      __IO uint32_t hdtfc7               : 1; /* [20]  Stream7 clear half transfer complete interrupt flag */  /* CHTIF6: Stream 6 clear half transfer interrupt flag      */
+      __IO uint32_t fdtfc7               : 1; /* [21]  Stream7 clear transfer complete interrupt flag      */  /* CTCIF6: Stream 6 clear transfer complete interrupt flag  */
+      __IO uint32_t ferrfc8              : 1; /* [22]  Stream8 clear fifo error interrupt flag             */  /* CFEIF7: Stream 7 clear FIFO error interrupt flag         */
+      __IO uint32_t reserved5            : 1; /* [23]    */
+      __IO uint32_t dmerrfc8             : 1; /* [24]  Stream8 clear direct mode error interrupt flag      */  /* CDMEIF7: Stream 7 clear direct mode error interrupt flag */
+      __IO uint32_t dterrfc8             : 1; /* [25]  Stream8 clear error interrupt flag                  */  /* CTEIF7: Stream 7 clear transfer error interrupt flag     */
+      __IO uint32_t hdtfc8               : 1; /* [26]  Stream8 clear half transfer complete interrupt flag */  /* CHTIF7: Stream 7 clear half transfer interrupt flag      */
+      __IO uint32_t fdtfc8               : 1; /* [27]  Stream8 clear transfer complete interrupt flag      */  /* CTCIF7: Stream 7 clear transfer complete interrupt flag  */
       __IO uint32_t reserved6            : 4; /* [31:28] */
     } clr2_bit;
   };
@@ -633,20 +610,18 @@ typedef struct
   /**
     * @brief edma link list ctrl register, offset:0xD0
     */
-  union
-  {
+  union {
     __IO uint32_t llctrl;
-    struct
-    {
-      __IO uint32_t s1llen               : 1; /* [0] */
-      __IO uint32_t s2llen               : 1; /* [1] */
-      __IO uint32_t s3llen               : 1; /* [2] */
-      __IO uint32_t s4llen               : 1; /* [3] */
-      __IO uint32_t s5llen               : 1; /* [4] */
-      __IO uint32_t s6llen               : 1; /* [5] */
-      __IO uint32_t s7llen               : 1; /* [6] */
-      __IO uint32_t s8llen               : 1; /* [7] */
-      __IO uint32_t reserved1            : 24;/* [31:8] */
+    struct {
+      __IO uint32_t s1llen               : 1; /* [0] Stream1 link list enable  */
+      __IO uint32_t s2llen               : 1; /* [1] Stream2 link list enable  */
+      __IO uint32_t s3llen               : 1; /* [2] Stream3 link list enable  */
+      __IO uint32_t s4llen               : 1; /* [3] Stream4 link list enable  */
+      __IO uint32_t s5llen               : 1; /* [4] Stream5 link list enable  */
+      __IO uint32_t s6llen               : 1; /* [5] Stream6 link list enable  */
+      __IO uint32_t s7llen               : 1; /* [6] Stream7 link list enable  */
+      __IO uint32_t s8llen               : 1; /* [7] Stream8 link list enable  */
+      __IO uint32_t reserved1            : 24; /* [31:8] */
     } llctrl_bit;
   };
 
@@ -658,20 +633,18 @@ typedef struct
   /**
     * @brief edma 2d ctrl register, offset:0xF4
     */
-  union
-  {
+  union {
     __IO uint32_t s2dctrl;
-    struct
-    {
-      __IO uint32_t s12den               : 1; /* [0] */
-      __IO uint32_t s22den               : 1; /* [1] */
-      __IO uint32_t s32den               : 1; /* [2] */
-      __IO uint32_t s42den               : 1; /* [3] */
-      __IO uint32_t s52den               : 1; /* [4] */
-      __IO uint32_t s62den               : 1; /* [5] */
-      __IO uint32_t s72den               : 1; /* [6] */
-      __IO uint32_t s82den               : 1; /* [7] */
-      __IO uint32_t reserved1            : 24;/* [31:8] */
+    struct {
+      __IO uint32_t s12den               : 1; /* [0] Stream1 2D enable */
+      __IO uint32_t s22den               : 1; /* [1] Stream2 2D enable */
+      __IO uint32_t s32den               : 1; /* [2] Stream3 2D enable */
+      __IO uint32_t s42den               : 1; /* [3] Stream4 2D enable */
+      __IO uint32_t s52den               : 1; /* [4] Stream5 2D enable */
+      __IO uint32_t s62den               : 1; /* [5] Stream6 2D enable */
+      __IO uint32_t s72den               : 1; /* [6] Stream7 2D enable */
+      __IO uint32_t s82den               : 1; /* [7] Stream8 2D enable */
+      __IO uint32_t reserved1            : 24; /* [31:8] */
     } s2dctrl_bit;
   };
 
@@ -683,13 +656,11 @@ typedef struct
   /**
     * @brief edmamux sel register, offset:0x13C
     */
-  union
-  {
+  union {
     __IO uint32_t muxsel;
-    struct
-    {
-      __IO uint32_t tblsel               : 1; /* [0] */
-      __IO uint32_t reserved1            : 31;/* [31:1] */
+    struct {
+      __IO uint32_t tblsel               : 1;  /* [0]   Multiplexer table select */
+      __IO uint32_t reserved1            : 31; /* [31:1] */
     }muxsel_bit;
   };
 
@@ -701,52 +672,44 @@ typedef struct
   /**
     * @brief edmamux syncsts register, offset:0x170
     */
-  union
-  {
+  union {
     __IO uint32_t muxsyncsts;
-    struct
-    {
-      __IO uint32_t syncovf              : 8; /* [7:0] */
-      __IO uint32_t reserved1            : 24;/* [31:8] */
+    struct {
+      __IO uint32_t syncovf              : 8;   /* [7:0] Synchronization overrun interrupt flag */
+      __IO uint32_t reserved1            : 24;  /* [31:8] */
     }muxsyncsts_bit;
   };
 
   /**
     * @brief edmamux syncclr register, offset:0x174
     */
-  union
-  {
+  union {
     __IO uint32_t muxsyncclr;
-    struct
-    {
-      __IO uint32_t syncovfc             : 8; /* [7:0] */
-      __IO uint32_t reserved1            : 24;/* [31:8] */
+    struct {
+      __IO uint32_t syncovfc             : 8;   /* [7:0] Synchronization overrun interrupt flag clear */
+      __IO uint32_t reserved1            : 24;  /* [31:8] */
     }muxsyncclr_bit;
   };
 
   /**
     * @brief edmamux request generator status register, offset:0x178
     */
-  union
-  {
+  union {
     __IO uint32_t muxgsts;
-    struct
-    {
-      __IO uint32_t trgovf               : 4; /* [3:0] */
-      __IO uint32_t reserved1            : 28;/* [31:4] */
+    struct {
+      __IO uint32_t trgovf               : 4;   /* [3:0] Trigger overrun interrupt flag */
+      __IO uint32_t reserved1            : 28;  /* [31:4] */
     }muxgsts_bit;
   };
 
   /**
     * @brief edmamux request generator status clear register, offset:0x17C
     */
-  union
-  {
+  union {
     __IO uint32_t muxgclr;
-    struct
-    {
-      __IO uint32_t trgovfc              : 4; /* [3:0] */
-      __IO uint32_t reserved1            : 28;/* [31:4] */
+    struct {
+      __IO uint32_t trgovfc              : 4;   /* [3:0] Trigger overrun interrupt flag clear */
+      __IO uint32_t reserved1            : 28;  /* [31:4] */
     }muxgclr_bit;
   };
 
@@ -755,98 +718,96 @@ typedef struct
 /**
   * @brief type define edma stream register all
   */
-typedef struct
-{
+typedef struct {
   /**
-    * @brief edma sxctrl register, offset:0x10+0x18*n n=1...8
+    * @brief edma sxctrl register, offset:0x10+0x18*(n-1) n=1...8
     */
-  union
-  {
+  /* DMA stream-x control register (DMA_SxCTRL) (x= 1...8) */
+  union {
     __IO uint32_t ctrl;
-    struct
-    {
-      __IO uint32_t sen                  : 1; /* [0] */
-      __IO uint32_t dmerrien             : 1; /* [1] */
-      __IO uint32_t dterrien             : 1; /* [2] */
-      __IO uint32_t hdtien               : 1; /* [3] */
-      __IO uint32_t fdtien               : 1; /* [4] */
-      __IO uint32_t pfctrl               : 1; /* [5] */
-      __IO uint32_t dtd                  : 2; /* [7:6] */
-      __IO uint32_t lm                   : 1; /* [8] */
-      __IO uint32_t pincm                : 1; /* [9] */
-      __IO uint32_t mincm                : 1; /* [10] */
-      __IO uint32_t pwidth               : 2; /* [12:11] */
-      __IO uint32_t mwidth               : 2; /* [14:13] */
-      __IO uint32_t pincos               : 1; /* [15] */
-      __IO uint32_t spl                  : 2; /* [17:16] */
-      __IO uint32_t dmm                  : 1; /* [18] */
-      __IO uint32_t cm                   : 1; /* [19] */
-      __IO uint32_t reserved1            : 1; /* [20] */
-      __IO uint32_t pct                  : 2; /* [22:21] */
-      __IO uint32_t mct                  : 2; /* [24:23] */
-      __IO uint32_t reserved2            : 3; /* [27:25] */
-      __IO uint32_t reserved3            : 4; /* [31:28] */
+    struct {                                                                                          /* STM32   */
+      __IO uint32_t sen                  : 1; /* [0]     Stream enable                            */  /* EN: Stream enable / flag stream ready when read low  */
+      __IO uint32_t dmerrien             : 1; /* [1]     Direct mode error interrupt enable       */  /* DMEIE: Direct mode error interrupt enable  */
+      __IO uint32_t dterrien             : 1; /* [2]     Data transfer error interrupt enable     */  /* TEIE: Transfer error interrupt enable  */
+      __IO uint32_t hdtien               : 1; /* [3]     Half data transfer interrupt enable      */  /* HTIE: Half transfer interrupt enable  */
+      __IO uint32_t fdtien               : 1; /* [4]     Full data transfer interrupt enable      */  /* TCIE: Transfer complete interrupt enable  */
+      __IO uint32_t pfctrl               : 1; /* [5]     Peripheral flow controller               */  /* PFCTRL: Peripheral flow controller  */
+      __IO uint32_t dtd                  : 2; /* [7:6]   data transfer direction                  */  /* DIR[1:0]: Data transfer direction  */
+      __IO uint32_t lm                   : 1; /* [8]     Loop mode                                */  /* CIRC: Circular mode  */
+      __IO uint32_t pincm                : 1; /* [9]     peripheral increment mode                */  /* PINC: Peripheral increment mode  */
+      __IO uint32_t mincm                : 1; /* [10]    Memory increment mode                    */  /* MINC: Memory increment mode  */
+      __IO uint32_t pwidth               : 2; /* [12:11] peripheral data width                    */  /* PSIZE[1:0]: Peripheral data size  */
+      __IO uint32_t mwidth               : 2; /* [14:13] Memory data width                        */  /* MSIZE[1:0]: Memory data size  */
+      __IO uint32_t pincos               : 1; /* [15]    Peripheral increase offset               */  /* PINCOS: Peripheral increment offset size  */
+      __IO uint32_t spl                  : 2; /* [17:16] Stream polarity                          */  /* PL[1:0]: Priority level  */
+      __IO uint32_t dmm                  : 1; /* [18]    Double memory mode                       */  /* DBM: Double buffer mode  */
+      __IO uint32_t cm                   : 1; /* [19]    Current memory                           */  /* CT: Current target (only in double buffer mode)  */
+      __IO uint32_t reserved1            : 1; /* [20]     */
+      __IO uint32_t pct                  : 2; /* [22:21] Peripheral burst transfer configuration  */  /* PBURST[1:0]: Peripheral burst transfer configuration  */
+      __IO uint32_t mct                  : 2; /* [24:23] Memory burst transfer configuration      */  /* MBURST: Memory burst transfer configuration  */
+      __IO uint32_t chsel /*reserved2*/  : 3; /* [27:25] channel select */  /* FixMe - разобраться */ /* CHSEL[2:0]: Channel selection  */
+      __IO uint32_t reserved3            : 4; /* [31:28]  */
     } ctrl_bit;
   };
   /**
-    * @brief edma dtcnt register, offset:0x14+0x18*n n=1...8
+    * @brief edma dtcnt register, offset:0x14+0x18*(n-1) 
+    * n=1...8 EDMA stream-x data register (DMA_SxDTCNT) (x= 
+    * 1...8) 
     */
-  union
-  {
+  union {
     __IO uint32_t dtcnt;
-    struct
-    {
-      __IO uint32_t cnt                  : 16;/* [15:0] */
+    struct {                                                                                          /* STM32 DMA stream x number of data register (DMA_SxNDTR) (x = 0..7)  */
+      __IO uint32_t cnt                  : 16; /* [15:0] Number of data to be transferred 0~65535 */  /* NDT[15:0]: Number of data items to transfer */
       __IO uint32_t reserved1            : 16; /*[31:16] */
     } dtcnt_bit;
   };
   /**
-    * @brief edma paddr register, offset:0x18+0x18*n n=1...8
+    * @brief edma paddr register, offset:0x18+0x18*(n-1) n=1...8 
+    *  
+    * EDMA stream-x peripheral address register 
     */
-  union
-  {
+  union {
     __IO uint32_t paddr;
-    struct
-    {
-      __IO uint32_t paddr                : 32;/* [31:0] */
+    struct {                                                                                          /* STM32 DMA stream x peripheral address register (DMA_SxPAR) (x = 0..7) */ 
+      __IO uint32_t paddr                : 32; /* [31:0] Peripheral address */                        /* Peripheral address */       
     } paddr_bit;
   };
   /**
-    * @brief edma m0adr register, offset:0x1C+0x18*n n=1...8
+    * @brief edma m0adr register, offset:0x1C+0x18*(n-1) n=1...8 
+    *  
+    * EDMA stream-x memory 0 address register 
     */
-  union
-  {
+  union {
     __IO uint32_t m0addr;
-    struct
-    {
-      __IO uint32_t m0addr               : 32;/* [31:0] */
+    struct {                                                                                          /* STM32 DMA stream x memory 0 address register (DMA_SxM0AR) (x = 0..7) */ 
+      __IO uint32_t m0addr               : 32; /* [31:0] Memory 0 address */                          /* M0A[31:0]: Memory 0 address */       
     } m0addr_bit;
   };
   /**
-    * @brief edma m1adr register, offset:0x20+0x18*n n=1...8
+    * @brief edma m1adr register, offset:0x20+0x18*(n-1) n=1...8 
+    *  
+    * EDMA stream-x memory 1 address register 
     */
-  union
-  {
+  union {
     __IO uint32_t m1addr;
-    struct
-    {
-      __IO uint32_t m1addr               : 32;/* [31:0] */
+    struct {                                                                                          /* STM32 DMA stream x memory 1 address register (DMA_SxM1AR) (x = 0..7) */
+      __IO uint32_t m1addr               : 32; /* [31:0] Memory 1 address */                          /* M1A[31:0]: Memory 1 address (used in case of Double buffer mode) */      
     } m1addr_bit;
   };
   /**
-    * @brief edma fctrl register, offset:0x24+0x18*n n=1...8
+    * @brief edma fctrl register, offset:0x24+0x18*(n-1) n=1...8 
+    *  
+   *  DMA stream-x FIFO control register (DMA_SxFCTRL) (x= 1...8)
     */
-  union
-  {
+  union {
     __IO uint32_t fctrl;
-    struct
-    {
-      __IO uint32_t fthsel               : 2; /* [1:0] */
-      __IO uint32_t fen                  : 1; /* [2] */
-      __IO uint32_t fsts                 : 3; /* [5:3] */
-      __IO uint32_t reserved1            : 1; /* [6] */
-      __IO uint32_t ferrien              : 1; /* [7] */
-      __IO uint32_t reserved2            : 24;/* [31:8] */
+    struct {                                                                                          /* STM32 DMA stream x FIFO control register (DMA_SxFCR) (x = 0..7) */
+      __IO uint32_t fthsel               : 2; /* [1:0] FIFO threshold select        */                /* FTH[1:0]:  FIFO threshold selection  */      
+      __IO uint32_t fen                  : 1; /* [2]   FIFO mode enable             */                /* DMDIS:     Direct mode disable  */
+      __IO uint32_t fsts                 : 3; /* [5:3] FIFO status                  */                /* FS[2:0]: FIFO status  */
+      __IO uint32_t reserved1            : 1; /* [6]  */
+      __IO uint32_t ferrien              : 1; /* [7]   FIFO error interrupt enable  */                /* FEIE: FIFO error interrupt enable  */
+      __IO uint32_t reserved2            : 24; /* [31:8] */
     } fctrl_bit;
   };
 } edma_stream_type;
@@ -854,99 +815,101 @@ typedef struct
 /**
   * @brief type define edma stream link list pointer register
   */
-typedef struct
-{
+typedef struct {
   /**
-    * @brief edma stream link list pointer register
+    * @brief edma stream link list pointer register, offset:0xd4+0x4*(n-1) n=1...8 
+    *  
+    * EDMA linked table pointer register (EDMA_SxLLP) (x = 1...8) 
     */
-  union
-  {
+  union {
     __IO uint32_t llp;
-    struct
-    {
-      __IO uint32_t llp                  : 32;/* [31:0] */
+    struct {
+      __IO uint32_t llp                  : 32; /* [31:0] link list pointer */
     } llp_bit;
   };
 } edma_stream_link_list_type;
 
 /**
-  * @brief type define edma 2d register all
+  * @brief type define edma 2d register all 
+  *  
+  *  
   */
-typedef struct
-{
+typedef struct {
   /**
-    * @brief edma s2dcnt register, offset:0x00
+    * @brief edma s2dcnt register, offset:0x00 
+    *  
+    * EDMA 2D transfer count register (EDMA_S2DCNT) 
     */
-  union
-  {
+  union {
     __IO uint32_t s2dcnt;
-    struct
-    {
-      __IO uint32_t xcnt                 : 16;/* [15:0] */
-      __IO uint32_t ycnt                 : 16;/* [31:16] */
+    struct {
+      __IO uint32_t xcnt                 : 16; /* [15:0]  X-axis count */
+      __IO uint32_t ycnt                 : 16; /* [31:16] Y-axis count */
     } s2dcnt_bit;
   };
   /**
-    * @brief edma stride register, offset:0x04
+    * @brief edma stride register, offset:0x04 
+    *  
+    * DMA 2D transfer stride register (DMA_STRIDE)( x = 1...8) 
     */
-  union
-  {
+  union {
     __IO uint32_t stride;
-    struct
-    {
-      __IO uint32_t srcstd               : 16;/* [15:0] */
-      __IO uint32_t dststd               : 16;/* [31:16] */
+    struct {
+      __IO uint32_t srcstd               : 16; /* [15:0]  Source stride */
+      __IO uint32_t dststd               : 16; /* [31:16] Destination stride */
     } stride_bit;
   };
 } edma_stream_2d_type;
 
 /**
-  * @brief type define edmamux muxsctrl register
+  * @brief type define edmamux muxsctrl register 
+  *  
+  *  
   */
-typedef struct
-{
+typedef struct {
   /**
-    * @brief edma muxsctrl register
+    * @brief edma muxsctrl register, offset:0x140+0x4*(n-1) n=1...8 
+    *  
+   *  EDMAMUX channel-x control register (DMA_MUXSxCTRL) (x = 1... 8)
     */
-  union
-  {
+  union {
     __IO uint32_t muxctrl;
-    struct
-    {
-      __IO uint32_t reqsel               : 7; /* [6:0] */
+    struct {
+      __IO uint32_t reqsel               : 7; /* [6:0]   EDMA request select */
       __IO uint32_t reserved1            : 1; /* [7] */
-      __IO uint32_t syncovien            : 1; /* [8] */
-      __IO uint32_t evtgen               : 1; /* [9] */
+      __IO uint32_t syncovien            : 1; /* [8]     Synchronization overrun interrupt enable */
+      __IO uint32_t evtgen               : 1; /* [9]     Event generation enable */
       __IO uint32_t reserved2            : 6; /* [15:10] */
-      __IO uint32_t syncen               : 1; /* [16] */
-      __IO uint32_t syncpol              : 2; /* [18:17] */
-      __IO uint32_t reqcnt               : 5; /* [23:19] */
-      __IO uint32_t syncsel              : 5; /* [28:24] */
+      __IO uint32_t syncen               : 1; /* [16]    Synchronization enable */
+      __IO uint32_t syncpol              : 2; /* [18:17] Synchronization polarity */
+      __IO uint32_t reqcnt               : 5; /* [23:19] DMA request count */
+      __IO uint32_t syncsel              : 5; /* [28:24] Synchronization select */
       __IO uint32_t reserved3            : 3; /* [31:29] */
     }muxctrl_bit;
   };
 } edmamux_channel_type;
 
 /**
-  * @brief type define edmamux request generator register all
+  * @brief type define edmamux request generator register all 
+  *  
+  *  
   */
-typedef struct
-{
+typedef struct {
   /**
-    * @brief edmamux request generator register, offset:0x160+n*4 n=1...8
+    * @brief edmamux request generator register, offset:0x160+(n-1)*4 n=1...8 
+    *  
+   *  DMAMUX generator-x control register (DMA_MUXGxCTRL) (x = 1...8)
     */
-  union
-  {
+  union {
     __IO uint32_t gctrl;
-    struct
-    {
-      __IO uint32_t sigsel               : 5; /* [4:0] */
-      __IO uint32_t reserved1            : 3; /* [7:5] */
-      __IO uint32_t trgovien             : 1; /* [8] */
+    struct {
+      __IO uint32_t sigsel               : 5; /* [4:0]   Signal selec */
+      __IO uint32_t reserved1            : 3; /* [7:5]  */
+      __IO uint32_t trgovien             : 1; /* [8]     Trigger overrun interrupt enable */
       __IO uint32_t reserved2            : 7; /* [15:9] */
-      __IO uint32_t gen                  : 1; /* [16] */
-      __IO uint32_t gpol                 : 2; /* [18:17] */
-      __IO uint32_t greqcnt              : 5; /* [23:19] */
+      __IO uint32_t gen                  : 1; /* [16]    DMA request generation enable */
+      __IO uint32_t gpol                 : 2; /* [18:17] DMA request generation polarity */
+      __IO uint32_t greqcnt              : 5; /* [23:19] DMA request generation count */
       __IO uint32_t reserved3            : 8; /* [31:24] */
     }gctrl_bit;
   };

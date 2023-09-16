@@ -178,6 +178,32 @@
 #define STM32_DMA2_CH6_NUMBER               69
 #define STM32_DMA2_CH7_NUMBER               70
 
+/* EDMA attributes.*/
+#define RT_AT32_ADVANCED_EDMA               TRUE
+#define RT_AT32_EDMA_CACHE_HANDLING         FALSE
+#define RT_AT32_EDMA_SUPPORTS_DMAMUX        FALSE
+
+#define RT_AT32_HAS_EDMA                    TRUE
+#define RT_AT32_EDMA_CH1_HANDLER            Vector6C
+#define RT_AT32_EDMA_CH2_HANDLER            Vector70
+#define RT_AT32_EDMA_CH3_HANDLER            Vector74
+#define RT_AT32_EDMA_CH4_HANDLER            Vector78
+#define RT_AT32_EDMA_CH5_HANDLER            Vector7C
+#define RT_AT32_EDMA_CH6_HANDLER            Vector80
+#define RT_AT32_EDMA_CH7_HANDLER            Vector84
+#define RT_AT32_EDMA_CH8_HANDLER            VectorFC
+
+#define RT_AT32_EDMA_CH1_NUMBER             11
+#define RT_AT32_EDMA_CH2_NUMBER             12
+#define RT_AT32_EDMA_CH3_NUMBER             13
+#define RT_AT32_EDMA_CH4_NUMBER             14
+#define RT_AT32_EDMA_CH5_NUMBER             15
+#define RT_AT32_EDMA_CH6_NUMBER             16
+#define RT_AT32_EDMA_CH7_NUMBER             17
+#define RT_AT32_EDMA_CH8_NUMBER             47
+
+
+
 /* ETH attributes.*/
 #define STM32_HAS_ETH                       TRUE
 #define STM32_ETH_HANDLER                   Vector134
