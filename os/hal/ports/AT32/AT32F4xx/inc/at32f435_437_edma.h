@@ -903,7 +903,7 @@ typedef struct {
   union {
     __IO uint32_t gctrl;
     struct {
-      __IO uint32_t sigsel               : 5; /* [4:0]   Signal selec */
+      __IO uint32_t sigsel               : 5; /* [4:0]   Signal select */
       __IO uint32_t reserved1            : 3; /* [7:5]  */
       __IO uint32_t trgovien             : 1; /* [8]     Trigger overrun interrupt enable */
       __IO uint32_t reserved2            : 7; /* [15:9] */

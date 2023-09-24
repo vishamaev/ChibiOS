@@ -33,7 +33,9 @@
   * @{
   */
 
-#ifdef EDMA_MODULE_ENABLED
+//#ifdef EDMA_MODULE_ENABLED
+#if defined(AT32_EDMA_REQUIRED) || defined(__DOXYGEN__)
+
 
 /** @defgroup EDMA_private_functions
   * @{

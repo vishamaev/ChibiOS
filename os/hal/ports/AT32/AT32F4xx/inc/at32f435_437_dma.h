@@ -27,7 +27,8 @@
 #define __AT32F435_437_DMA_H
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 
@@ -145,8 +146,7 @@ extern "C" {
 /**
   * @brief dma direction type
   */
-typedef enum
-{
+typedef enum {
   DMA_DIR_PERIPHERAL_TO_MEMORY           = 0x0000, /*!< dma data transfer direction: peripheral to memory */
   DMA_DIR_MEMORY_TO_PERIPHERAL           = 0x0010, /*!< dma data transfer direction: memory to peripheral */
   DMA_DIR_MEMORY_TO_MEMORY               = 0x4000  /*!< dma data transfer direction: memory to memory */
@@ -155,8 +155,7 @@ typedef enum
 /**
   * @brief dma peripheral data size type
   */
-typedef enum
-{
+typedef enum {
   DMA_PERIPHERAL_DATA_WIDTH_BYTE         = 0x00, /*!< dma peripheral databus width 8bit */
   DMA_PERIPHERAL_DATA_WIDTH_HALFWORD     = 0x01, /*!< dma peripheral databus width 16bit */
   DMA_PERIPHERAL_DATA_WIDTH_WORD         = 0x02  /*!< dma peripheral databus width 32bit */
@@ -165,8 +164,7 @@ typedef enum
 /**
   * @brief dma memory data size type
   */
-typedef enum
-{
+typedef enum {
   DMA_MEMORY_DATA_WIDTH_BYTE             = 0x00, /*!< dma memory databus width 8bit */
   DMA_MEMORY_DATA_WIDTH_HALFWORD         = 0x01, /*!< dma memory databus width 16bit */
   DMA_MEMORY_DATA_WIDTH_WORD             = 0x02  /*!< dma memory databus width 32bit */
@@ -175,8 +173,7 @@ typedef enum
 /**
   * @brief dma priority level type
   */
-typedef enum
-{
+typedef enum {
   DMA_PRIORITY_LOW                       = 0x00, /*!< dma channel priority: low */
   DMA_PRIORITY_MEDIUM                    = 0x01, /*!< dma channel priority: medium */
   DMA_PRIORITY_HIGH                      = 0x02, /*!< dma channel priority: high */
@@ -186,8 +183,7 @@ typedef enum
 /**
   * @brief dmamux request type
   */
-typedef enum
-{
+typedef enum {
   DMAMUX_DMAREQ_ID_REQ_G1                = 0x01, /*!< dmamux channel dma request inputs resources: generator channel1 */
   DMAMUX_DMAREQ_ID_REQ_G2                = 0x02, /*!< dmamux channel dma request inputs resources: generator channel2 */
   DMAMUX_DMAREQ_ID_REQ_G3                = 0x03, /*!< dmamux channel dma request inputs resources: generator channel3 */
@@ -288,8 +284,7 @@ typedef enum
 /**
   * @brief dmamux sync id type
   */
-typedef enum
-{
+typedef enum {
   DMAMUX_SYNC_ID_EXINT0                  = 0x00, /*!< dmamux channel synchronization inputs resources: exint line0 */
   DMAMUX_SYNC_ID_EXINT1                  = 0x01, /*!< dmamux channel synchronization inputs resources: exint line1 */
   DMAMUX_SYNC_ID_EXINT2                  = 0x02, /*!< dmamux channel synchronization inputs resources: exint line2 */
@@ -318,8 +313,7 @@ typedef enum
 /**
   * @brief dmamux sync polarity type
   */
-typedef enum
-{
+typedef enum {
   DMAMUX_SYNC_POLARITY_DISABLE           = 0x00, /*!< dmamux channel synchronization inputs resources polarity default value */
   DMAMUX_SYNC_POLARITY_RISING            = 0x01, /*!< dmamux channel synchronization inputs resources polarity: rising */
   DMAMUX_SYNC_POLARITY_FALLING           = 0x02, /*!< dmamux channel synchronization inputs resources polarity: falling */
@@ -329,8 +323,7 @@ typedef enum
 /**
   * @brief dmamux generator id type
   */
-typedef enum
-{
+typedef enum {
   DMAMUX_GEN_ID_EXINT0                   = 0x00, /*!< dmamux generator channel inputs resources: exint line0 */
   DMAMUX_GEN_ID_EXINT1                   = 0x01, /*!< dmamux generator channel inputs resources: exint line1 */
   DMAMUX_GEN_ID_EXINT2                   = 0x02, /*!< dmamux generator channel inputs resources: exint line2 */
@@ -359,8 +352,7 @@ typedef enum
 /**
   * @brief dmamux generator polarity type
   */
-typedef enum
-{
+typedef enum {
   DMAMUX_GEN_POLARITY_DISABLE            = 0x00, /*!< dmamux generator channel inputs resources polarity default value */
   DMAMUX_GEN_POLARITY_RISING             = 0x01, /*!< dmamux generator channel inputs resources polarity: rising */
   DMAMUX_GEN_POLARITY_FALLING            = 0x02, /*!< dmamux generator channel inputs resources polarity: falling */
@@ -370,8 +362,7 @@ typedef enum
 /**
   * @brief dma init type
   */
-typedef struct
-{
+typedef struct {
   uint32_t                               peripheral_base_addr;    /*!< base addrress for peripheral */
   uint32_t                               memory_base_addr;        /*!< base addrress for memory */
   dma_dir_type                           direction;               /*!< dma transmit direction, peripheral as source or as destnation  */
@@ -387,8 +378,7 @@ typedef struct
 /**
   * @brief dmamux sync init type
   */
-typedef struct
-{
+typedef struct {
   dmamux_sync_id_sel_type                sync_signal_sel;     /*!< dma dmamux synchronization input select */
   uint32_t                               sync_polarity;       /*!< dma dmamux synchronization polarity */
   uint32_t                               sync_request_number; /*!< dma dmamux number of dma requests before an output event is generated  */
@@ -399,8 +389,7 @@ typedef struct
 /**
   * @brief dmamux generator init type
   */
-typedef struct
-{
+typedef struct {
   dmamux_gen_id_sel_type                 gen_signal_sel;     /*!< dma dmamux generator dma request trigger input select */
   dmamux_gen_pol_type                    gen_polarity;       /*!< dma dmamux generator trigger polarity */
   uint32_t                               gen_request_number; /*!< dma dmamux the number of dma requests to be generated after a trigger event  */
@@ -410,103 +399,97 @@ typedef struct
 /**
   * @brief type define dma1 register
   */
-typedef struct
-{
+typedef struct {
   /**
     * @brief dma sts register, offset:0x00
     */
-  union
-  {
+  union {
     __IO uint32_t sts;
-    struct
-    {
-      __IO uint32_t gf1                  : 1; /* [0] */
-      __IO uint32_t fdtf1                : 1; /* [1] */
-      __IO uint32_t hdtf1                : 1; /* [2] */
-      __IO uint32_t dterrf1              : 1; /* [3] */
-      __IO uint32_t gf2                  : 1; /* [4] */
-      __IO uint32_t fdtf2                : 1; /* [5] */
-      __IO uint32_t hdtf2                : 1; /* [6] */
-      __IO uint32_t dterrf2              : 1; /* [7] */
-      __IO uint32_t gf3                  : 1; /* [8] */
-      __IO uint32_t fdtf3                : 1; /* [9] */
-      __IO uint32_t hdtf3                : 1; /* [10] */
-      __IO uint32_t dterrf3              : 1; /* [11] */
-      __IO uint32_t gf4                  : 1; /* [12] */
-      __IO uint32_t fdtf4                : 1; /* [13] */
-      __IO uint32_t hdtf4                : 1; /* [14] */
-      __IO uint32_t dterrf4              : 1; /* [15] */
-      __IO uint32_t gf5                  : 1; /* [16] */
-      __IO uint32_t fdtf5                : 1; /* [17] */
-      __IO uint32_t hdtf5                : 1; /* [18] */
-      __IO uint32_t dterrf5              : 1; /* [19] */
-      __IO uint32_t gf6                  : 1; /* [20] */
-      __IO uint32_t fdtf6                : 1; /* [21] */
-      __IO uint32_t hdtf6                : 1; /* [22] */
-      __IO uint32_t dterrf6              : 1; /* [23] */
-      __IO uint32_t gf7                  : 1; /* [24] */
-      __IO uint32_t fdtf7                : 1; /* [25] */
-      __IO uint32_t hdtf7                : 1; /* [26] */
-      __IO uint32_t dterrf7              : 1; /* [27] */
-      __IO uint32_t reserved1            : 4; /* [31:28] */
+    struct {                                                                            
+      __IO uint32_t gf1       : 1; /* [0]  Channel 1 global event flag               */ 
+      __IO uint32_t fdtf1     : 1; /* [1]  Channel 1 transfer complete event flag    */ 
+      __IO uint32_t hdtf1     : 1; /* [2]  Channel 1 half transfer event flag        */ 
+      __IO uint32_t dterrf1   : 1; /* [3]  Channel 1 data transfer error event flag  */ 
+      __IO uint32_t gf2       : 1; /* [4]  Channel 2 global event flag               */ 
+      __IO uint32_t fdtf2     : 1; /* [5]  Channel 2 transfer complete event flag    */ 
+      __IO uint32_t hdtf2     : 1; /* [6]  Channel 2 half transfer event flag        */ 
+      __IO uint32_t dterrf2   : 1; /* [7]  Channel 2 data transfer error event flag  */ 
+      __IO uint32_t gf3       : 1; /* [8]  Channel 3 global event flag               */ 
+      __IO uint32_t fdtf3     : 1; /* [9]  Channel 3 transfer complete event flag    */ 
+      __IO uint32_t hdtf3     : 1; /* [10] Channel 3 half transfer event flag        */ 
+      __IO uint32_t dterrf3   : 1; /* [11] Channel 3 data transfer error event flag  */ 
+      __IO uint32_t gf4       : 1; /* [12] Channel 4 global event flag               */ 
+      __IO uint32_t fdtf4     : 1; /* [13] Channel 4 transfer complete event flag    */ 
+      __IO uint32_t hdtf4     : 1; /* [14] Channel 4 half transfer event flag        */ 
+      __IO uint32_t dterrf4   : 1; /* [15] Channel 4 data transfer error event flag  */ 
+      __IO uint32_t gf5       : 1; /* [16] Channel 5 global event flag               */ 
+      __IO uint32_t fdtf5     : 1; /* [17] Channel 5 transfer complete event flag    */ 
+      __IO uint32_t hdtf5     : 1; /* [18] Channel 5 half transfer event flag        */ 
+      __IO uint32_t dterrf5   : 1; /* [19] Channel 5 data transfer error event flag  */ 
+      __IO uint32_t gf6       : 1; /* [20] Channel 6 global event flag               */ 
+      __IO uint32_t fdtf6     : 1; /* [21] Channel 6 transfer complete event flag    */ 
+      __IO uint32_t hdtf6     : 1; /* [22] Channel 6 half transfer event flag        */ 
+      __IO uint32_t dterrf6   : 1; /* [23] Channel 6 data transfer error event flag  */ 
+      __IO uint32_t gf7       : 1; /* [24] Channel 7 global event flag               */ 
+      __IO uint32_t fdtf7     : 1; /* [25] Channel 7 transfer complete event flag    */ 
+      __IO uint32_t hdtf7     : 1; /* [26] Channel 7 half transfer event flag        */ 
+      __IO uint32_t dterrf7   : 1; /* [27] Channel 7 data transfer error event flag  */ 
+      __IO uint32_t reserved1 : 4; /* [31:28] */
     } sts_bit;
   };
 
   /**
     * @brief dma clr register, offset:0x04
     */
-  union
-  {
+  union {
     __IO uint32_t clr;
-    struct
-    {
-      __IO uint32_t gfc1                 : 1; /* [0] */
-      __IO uint32_t fdtfc1               : 1; /* [1] */
-      __IO uint32_t hdtfc1               : 1; /* [2] */
-      __IO uint32_t dterrfc1             : 1; /* [3] */
-      __IO uint32_t gfc2                 : 1; /* [4] */
-      __IO uint32_t fdtfc2               : 1; /* [5] */
-      __IO uint32_t hdtfc2               : 1; /* [6] */
-      __IO uint32_t dterrfc2             : 1; /* [7] */
-      __IO uint32_t gfc3                 : 1; /* [8] */
-      __IO uint32_t fdtfc3               : 1; /* [9] */
-      __IO uint32_t hdtfc3               : 1; /* [10] */
-      __IO uint32_t dterrfc3             : 1; /* [11] */
-      __IO uint32_t gfc4                 : 1; /* [12] */
-      __IO uint32_t fdtfc4               : 1; /* [13] */
-      __IO uint32_t hdtfc4               : 1; /* [14] */
-      __IO uint32_t dterrfc4             : 1; /* [15] */
-      __IO uint32_t gfc5                 : 1; /* [16] */
-      __IO uint32_t fdtfc5               : 1; /* [17] */
-      __IO uint32_t hdtfc5               : 1; /* [18] */
-      __IO uint32_t dterrfc5             : 1; /* [19] */
-      __IO uint32_t gfc6                 : 1; /* [20] */
-      __IO uint32_t fdtfc6               : 1; /* [21] */
-      __IO uint32_t hdtfc6               : 1; /* [22] */
-      __IO uint32_t dterrfc6             : 1; /* [23] */
-      __IO uint32_t gfc7                 : 1; /* [24] */
-      __IO uint32_t fdtfc7               : 1; /* [25] */
-      __IO uint32_t hdtfc7               : 1; /* [26] */
-      __IO uint32_t dterrfc7             : 1; /* [27] */
-      __IO uint32_t reserved1            : 4; /* [31:28] */
+    struct {                                                                            / 
+      __IO uint32_t gfc1      : 1; /* [0]  Channel 1 global interrupt flag clear    */   
+      __IO uint32_t fdtfc1    : 1; /* [1]  Channel 1 transfer complete flag clear   */   
+      __IO uint32_t hdtfc1    : 1; /* [2]  Channel 1 half transfer flag clear       */   
+      __IO uint32_t dterrfc1  : 1; /* [3]  Channel 1 data transfer error flag clear */   
+      __IO uint32_t gfc2      : 1; /* [4]  Channel 2 global interrupt flag clear    */   
+      __IO uint32_t fdtfc2    : 1; /* [5]  Channel 2 transfer complete flag clear   */   
+      __IO uint32_t hdtfc2    : 1; /* [6]  Channel 2 half transfer flag clear       */   
+      __IO uint32_t dterrfc2  : 1; /* [7]  Channel 2 data transfer error flag clear */   
+      __IO uint32_t gfc3      : 1; /* [8]  Channel 3 global interrupt flag clear    */   
+      __IO uint32_t fdtfc3    : 1; /* [9]  Channel 3 transfer complete flag clear   */   
+      __IO uint32_t hdtfc3    : 1; /* [10] Channel 3 half transfer flag clear       */   
+      __IO uint32_t dterrfc3  : 1; /* [11] Channel 3 data transfer error flag clear */   
+      __IO uint32_t gfc4      : 1; /* [12] Channel 4 global interrupt flag clear    */   
+      __IO uint32_t fdtfc4    : 1; /* [13] Channel 4 transfer complete flag clear   */   
+      __IO uint32_t hdtfc4    : 1; /* [14] Channel 4 half transfer flag clear       */   
+      __IO uint32_t dterrfc4  : 1; /* [15] Channel 4 data transfer error flag clear */   
+      __IO uint32_t gfc5      : 1; /* [16] Channel 5 global interrupt flag clear    */   
+      __IO uint32_t fdtfc5    : 1; /* [17] Channel 5 transfer complete flag clear   */   
+      __IO uint32_t hdtfc5    : 1; /* [18] Channel 5 half transfer flag clear       */   
+      __IO uint32_t dterrfc5  : 1; /* [19] Channel 5 data transfer error flag clear */   
+      __IO uint32_t gfc6      : 1; /* [20] Channel 6 global interrupt flag clear    */   
+      __IO uint32_t fdtfc6    : 1; /* [21] Channel 6 transfer complete flag clear   */   
+      __IO uint32_t hdtfc6    : 1; /* [22] Channel 6 half transfer flag clear       */   
+      __IO uint32_t dterrfc6  : 1; /* [23] Channel 6 data transfer error flag clear */   
+      __IO uint32_t gfc7      : 1; /* [24] Channel 7 global interrupt flag clear    */   
+      __IO uint32_t fdtfc7    : 1; /* [25] Channel 7 transfer complete flag clear   */   
+      __IO uint32_t hdtfc7    : 1; /* [26] Channel 7 half transfer flag clear       */   
+      __IO uint32_t dterrfc7  : 1; /* [27] Channel 7 data transfer error flag clear */   
+      __IO uint32_t reserved1 : 4; /* [31:28] */
     } clr_bit;
   };
 
   /**
-    * @brief reserved, offset:0x08~0xFC
+    * @brief reserved, offset:0x08~0xFC 
+    *  
     */
   __IO uint32_t reserved1[62];
 
   /**
     * @brief dmamux sel register, offset:0x100
     */
-  union
-  {
+  union {
     __IO uint32_t muxsel;
-    struct
-    {
-      __IO uint32_t tblsel               : 1; /* [0] */
-      __IO uint32_t reserved1            : 31;/* [31:1] */
+    struct {                                                               /* STM32   */
+      __IO uint32_t tblsel    : 1;  /* [0]    Multiplexer table select */  /*  */
+      __IO uint32_t reserved1 : 31; /* [31:1] */
     }muxsel_bit;
   };
 
@@ -518,51 +501,43 @@ typedef struct
   /**
     * @brief dmamux syncsts register, offset:0x130
     */
-  union
-  {
+  union {
     __IO uint32_t muxsyncsts;
-    struct
-    {
-      __IO uint32_t syncovf              : 7; /* [6:0] */
-      __IO uint32_t reserved1            : 25;/* [31:7] */
+    struct {                                                                            /* STM32   */
+      __IO uint32_t syncovf   : 7;  /* [6:0]  Synchronization overrun interrupt flag */ /*   */
+      __IO uint32_t reserved1 : 25; /* [31:7] */
     }muxsyncsts_bit;
   };
 
   /**
     * @brief dmamux syncclr register, offset:0x134
     */
-  union
-  {
+  union {
     __IO uint32_t muxsyncclr;
-    struct
-    {
-      __IO uint32_t syncovfc             : 7; /* [6:0] */
-      __IO uint32_t reserved1            : 25;/* [31:7] */
+    struct {                                                                                  /* STM32   */
+      __IO uint32_t syncovfc  : 7;  /* [6:0]  Synchronization overrun interrupt flag clear */ /*   */
+      __IO uint32_t reserved1 : 25; /* [31:7] */
     }muxsyncclr_bit;
   };
 
   /**
     * @brief dmamux request generator status register, offset:0x138
     */
-  union
-  {
+  union {
     __IO uint32_t muxgsts;
-    struct
-    {
-      __IO uint32_t trgovf               : 4; /* [3:0] */
-      __IO uint32_t reserved1            : 28;/* [31:4] */
+    struct {                                                                    /* STM32   */
+      __IO uint32_t trgovf    : 4;  /* [3:0] Trigger overrun interrupt flag */  /*   */
+      __IO uint32_t reserved1 : 28; /* [31:4] */
     }muxgsts_bit;
   };
   /**
     * @brief dmamux request generator status clear register, offset:0x13C
     */
-  union
-  {
+  union {
     __IO uint32_t muxgclr;
-    struct
-    {
-      __IO uint32_t trgovfc              : 4; /* [3:0] */
-      __IO uint32_t reserved1            : 28;/* [31:4] */
+    struct {                                                                          /* STM32   */
+      __IO uint32_t trgovfc   : 4;  /* [3:0] Trigger overrun interrupt flag clear */  /*   */
+      __IO uint32_t reserved1 : 28; /* [31:4] */
     }muxgclr_bit;
   };
 } dma_type;
@@ -570,66 +545,57 @@ typedef struct
 /**
   * @brief type define dma channel register all
   */
-typedef struct
-{
+typedef struct {
   /**
     * @brief dma ch ctrl0 register, offset:0x08+20*(x-1) x=1...7
     */
-  union
-  {
+  union {
     __IO uint32_t ctrl;
-    struct
-    {
-      __IO uint32_t chen                 : 1; /* [0] */
-      __IO uint32_t fdtien               : 1; /* [1] */
-      __IO uint32_t hdtien               : 1; /* [2] */
-      __IO uint32_t dterrien             : 1; /* [3] */
-      __IO uint32_t dtd                  : 1; /* [4] */
-      __IO uint32_t lm                   : 1; /* [5] */
-      __IO uint32_t pincm                : 1; /* [6] */
-      __IO uint32_t mincm                : 1; /* [7] */
-      __IO uint32_t pwidth               : 2; /* [9:8] */
-      __IO uint32_t mwidth               : 2; /* [11:10] */
-      __IO uint32_t chpl                 : 2; /* [13:12] */
-      __IO uint32_t m2m                  : 1; /* [14] */
-      __IO uint32_t reserved1            : 17;/* [31:15] */
+    struct {                                                                            
+      __IO uint32_t chen      : 1;  /* [0]     Channel enable                       */  
+      __IO uint32_t fdtien    : 1;  /* [1]     Transfer complete interrupt enable   */  
+      __IO uint32_t hdtien    : 1;  /* [2]     Half-transfer interrupt enable       */  
+      __IO uint32_t dterrien  : 1;  /* [3]     Data transfer error interrupt enable */  
+      __IO uint32_t dtd       : 1;  /* [4]     Data transfer direction              */  
+      __IO uint32_t lm        : 1;  /* [5]     Circular mode                        */  
+      __IO uint32_t pincm     : 1;  /* [6]     Peripheral address increment mode    */  
+      __IO uint32_t mincm     : 1;  /* [7]     Memory address increment mode        */  
+      __IO uint32_t pwidth    : 2;  /* [9:8]   Peripheral data bit width            */  
+      __IO uint32_t mwidth    : 2;  /* [11:10] Memory data bit width                */  
+      __IO uint32_t chpl      : 2;  /* [13:12] Channel priority level               */  
+      __IO uint32_t m2m       : 1;  /* [14]    Memory to memory mode                */  
+      __IO uint32_t reserved1 : 17; /* [31:15]  */
     } ctrl_bit;
   };
 
   /**
     * @brief dma tcnt register, offset:0x0C+20*(x-1) x=1...7
     */
-  union
-  {
+  union {
     __IO uint32_t dtcnt;
-    struct
-    {
-      __IO uint32_t cnt                  : 16;/* [15:0] */
-      __IO uint32_t reserved1            : 16;/* [31:16] */
+    struct {                                                                  /* STM32   */
+      __IO uint32_t cnt       : 16; /* [15:0]  Number of data to transfer */  /*   */
+      __IO uint32_t reserved1 : 16; /* [31:16]  */
     } dtcnt_bit;
   };
 
   /**
     * @brief dma cpba register, offset:0x10+20*(x-1) x=1...7
     */
-  union
-  {
+  union {
     __IO uint32_t paddr;
-    struct
-    {
-      __IO uint32_t paddr                : 32;/* [31:0] */
+    struct {                                                                /* STM32   */
+      __IO uint32_t paddr     : 32; /* [31:0]  Peripheral base address */   /*   */
     } paddr_bit;
   };
 
   /**
     * @brief dma cmba register, offset:0x14+20*(x-1) x=1...7
     */
-  union
-  {
+  union {
     __IO uint32_t maddr;
-    struct
-    {
-      __IO uint32_t maddr                : 32;/* [31:0] */
+    struct {                                                            /* STM32   */
+      __IO uint32_t maddr     : 32; /* [31:0]  Memory base address */   /*   */
     } maddr_bit;
   };
 } dma_channel_type;
@@ -637,26 +603,23 @@ typedef struct
 /**
   * @brief type define dmamux muxsctrl register
   */
-typedef struct
-{
+typedef struct {
   /**
     * @brief dma muxsctrl register
     */
-  union
-  {
-    __IO uint32_t muxctrl;
-    struct
-    {
-      __IO uint32_t reqsel               : 7; /* [6:0] */
-      __IO uint32_t reserved1            : 1; /* [7] */
-      __IO uint32_t syncovien            : 1; /* [8] */
-      __IO uint32_t evtgen               : 1; /* [9] */
-      __IO uint32_t reserved2            : 6; /* [15:10] */
-      __IO uint32_t syncen               : 1; /* [16] */
-      __IO uint32_t syncpol              : 2; /* [18:17] */
-      __IO uint32_t reqcnt               : 5; /* [23:19] */
-      __IO uint32_t syncsel              : 5; /* [28:24] */
-      __IO uint32_t reserved3            : 3; /* [31:29] */
+  union {
+    __IO uint32_t muxctrl;                                                                 /* STM32   */
+    struct {                                                                               /*  */
+      __IO uint32_t reqsel    : 7; /* [6:0]    DMA request select */                       /*  */
+      __IO uint32_t reserved1 : 1; /* [7]     */                                           /*  */
+      __IO uint32_t syncovien : 1; /* [8]      Synchronization overrun interrupt enable */ /*  */
+      __IO uint32_t evtgen    : 1; /* [9]      Event generation enable */                  /*  */
+      __IO uint32_t reserved2 : 6; /* [15:10] */                                           /*  */
+      __IO uint32_t syncen    : 1; /* [16]     Synchronization enable */                   /*  */
+      __IO uint32_t syncpol   : 2; /* [18:17]  Synchronization polarity */                 /*  */
+      __IO uint32_t reqcnt    : 5; /* [23:19]  DMA request count */                        /*  */
+      __IO uint32_t syncsel   : 5; /* [28:24]  Synchronization select */                   /*  */
+      __IO uint32_t reserved3 : 3; /* [31:29] */                                           /*  */
     }muxctrl_bit;
   };
 } dmamux_channel_type;
@@ -664,24 +627,21 @@ typedef struct
 /**
   * @brief type define dmamux request generator register all
   */
-typedef struct
-{
+typedef struct {
   /**
     * @brief dmamux request generator register, offset:0x120+4*(x-1) x=1...4
     */
-  union
-  {
+  union {
     __IO uint32_t gctrl;
-    struct
-    {
-      __IO uint32_t sigsel               : 5; /* [4:0] */
-      __IO uint32_t reserved1            : 3; /* [7:5] */
-      __IO uint32_t trgovien             : 1; /* [8] */
-      __IO uint32_t reserved2            : 7; /* [15:9] */
-      __IO uint32_t gen                  : 1; /* [16] */
-      __IO uint32_t gpol                 : 2; /* [18:17] */
-      __IO uint32_t greqcnt              : 5; /* [23:19] */
-      __IO uint32_t reserved3            : 8; /* [31:24] */
+    struct {                                                                        /* STM32   */
+      __IO uint32_t sigsel    : 5; /* [4:0]    Signal select */                     /*   */
+      __IO uint32_t reserved1 : 3; /* [7:5]     */                                  /*   */
+      __IO uint32_t trgovien  : 1; /* [8]      Trigger overrun interrupt enable */  /*   */
+      __IO uint32_t reserved2 : 7; /* [15:9]    */                                  /*   */
+      __IO uint32_t gen       : 1; /* [16]     DMA request generation enable */     /*   */
+      __IO uint32_t gpol      : 2; /* [18:17]  DMA request generation polarity */   /*   */
+      __IO uint32_t greqcnt   : 5; /* [23:19]  DMA request generation count */      /*   */
+      __IO uint32_t reserved3 : 8; /* [31:24]   */                                  /*   */
     }gctrl_bit;
   };
 } dmamux_generator_type;
@@ -690,49 +650,49 @@ typedef struct
   * @}
   */
 
-#define DMA1                             ((dma_type *) DMA1_BASE)
-#define DMA1_CHANNEL1                    ((dma_channel_type *) DMA1_CHANNEL1_BASE)
-#define DMA1_CHANNEL2                    ((dma_channel_type *) DMA1_CHANNEL2_BASE)
-#define DMA1_CHANNEL3                    ((dma_channel_type *) DMA1_CHANNEL3_BASE)
-#define DMA1_CHANNEL4                    ((dma_channel_type *) DMA1_CHANNEL4_BASE)
-#define DMA1_CHANNEL5                    ((dma_channel_type *) DMA1_CHANNEL5_BASE)
-#define DMA1_CHANNEL6                    ((dma_channel_type *) DMA1_CHANNEL6_BASE)
-#define DMA1_CHANNEL7                    ((dma_channel_type *) DMA1_CHANNEL7_BASE)
+#define DMA1                  ((dma_type *) DMA1_BASE)
+#define DMA1_CHANNEL1         ((dma_channel_type *) DMA1_CHANNEL1_BASE)
+#define DMA1_CHANNEL2         ((dma_channel_type *) DMA1_CHANNEL2_BASE)
+#define DMA1_CHANNEL3         ((dma_channel_type *) DMA1_CHANNEL3_BASE)
+#define DMA1_CHANNEL4         ((dma_channel_type *) DMA1_CHANNEL4_BASE)
+#define DMA1_CHANNEL5         ((dma_channel_type *) DMA1_CHANNEL5_BASE)
+#define DMA1_CHANNEL6         ((dma_channel_type *) DMA1_CHANNEL6_BASE)
+#define DMA1_CHANNEL7         ((dma_channel_type *) DMA1_CHANNEL7_BASE)
 
-#define DMA1MUX_CHANNEL1                 ((dmamux_channel_type *) DMA1MUX_CHANNEL1_BASE)
-#define DMA1MUX_CHANNEL2                 ((dmamux_channel_type *) DMA1MUX_CHANNEL2_BASE)
-#define DMA1MUX_CHANNEL3                 ((dmamux_channel_type *) DMA1MUX_CHANNEL3_BASE)
-#define DMA1MUX_CHANNEL4                 ((dmamux_channel_type *) DMA1MUX_CHANNEL4_BASE)
-#define DMA1MUX_CHANNEL5                 ((dmamux_channel_type *) DMA1MUX_CHANNEL5_BASE)
-#define DMA1MUX_CHANNEL6                 ((dmamux_channel_type *) DMA1MUX_CHANNEL6_BASE)
-#define DMA1MUX_CHANNEL7                 ((dmamux_channel_type *) DMA1MUX_CHANNEL7_BASE)
+#define DMA1MUX_CHANNEL1      ((dmamux_channel_type *) DMA1MUX_CHANNEL1_BASE)
+#define DMA1MUX_CHANNEL2      ((dmamux_channel_type *) DMA1MUX_CHANNEL2_BASE)
+#define DMA1MUX_CHANNEL3      ((dmamux_channel_type *) DMA1MUX_CHANNEL3_BASE)
+#define DMA1MUX_CHANNEL4      ((dmamux_channel_type *) DMA1MUX_CHANNEL4_BASE)
+#define DMA1MUX_CHANNEL5      ((dmamux_channel_type *) DMA1MUX_CHANNEL5_BASE)
+#define DMA1MUX_CHANNEL6      ((dmamux_channel_type *) DMA1MUX_CHANNEL6_BASE)
+#define DMA1MUX_CHANNEL7      ((dmamux_channel_type *) DMA1MUX_CHANNEL7_BASE)
 
-#define DMA1MUX_GENERATOR1               ((dmamux_generator_type *) DMA1MUX_GENERATOR1_BASE)
-#define DMA1MUX_GENERATOR2               ((dmamux_generator_type *) DMA1MUX_GENERATOR2_BASE)
-#define DMA1MUX_GENERATOR3               ((dmamux_generator_type *) DMA1MUX_GENERATOR3_BASE)
-#define DMA1MUX_GENERATOR4               ((dmamux_generator_type *) DMA1MUX_GENERATOR4_BASE)
+#define DMA1MUX_GENERATOR1    ((dmamux_generator_type *) DMA1MUX_GENERATOR1_BASE)
+#define DMA1MUX_GENERATOR2    ((dmamux_generator_type *) DMA1MUX_GENERATOR2_BASE)
+#define DMA1MUX_GENERATOR3    ((dmamux_generator_type *) DMA1MUX_GENERATOR3_BASE)
+#define DMA1MUX_GENERATOR4    ((dmamux_generator_type *) DMA1MUX_GENERATOR4_BASE)
 
-#define DMA2                             ((dma_type *) DMA2_BASE)
-#define DMA2_CHANNEL1                    ((dma_channel_type *) DMA2_CHANNEL1_BASE)
-#define DMA2_CHANNEL2                    ((dma_channel_type *) DMA2_CHANNEL2_BASE)
-#define DMA2_CHANNEL3                    ((dma_channel_type *) DMA2_CHANNEL3_BASE)
-#define DMA2_CHANNEL4                    ((dma_channel_type *) DMA2_CHANNEL4_BASE)
-#define DMA2_CHANNEL5                    ((dma_channel_type *) DMA2_CHANNEL5_BASE)
-#define DMA2_CHANNEL6                    ((dma_channel_type *) DMA2_CHANNEL6_BASE)
-#define DMA2_CHANNEL7                    ((dma_channel_type *) DMA2_CHANNEL7_BASE)
+#define DMA2                  ((dma_type *) DMA2_BASE)
+#define DMA2_CHANNEL1         ((dma_channel_type *) DMA2_CHANNEL1_BASE)
+#define DMA2_CHANNEL2         ((dma_channel_type *) DMA2_CHANNEL2_BASE)
+#define DMA2_CHANNEL3         ((dma_channel_type *) DMA2_CHANNEL3_BASE)
+#define DMA2_CHANNEL4         ((dma_channel_type *) DMA2_CHANNEL4_BASE)
+#define DMA2_CHANNEL5         ((dma_channel_type *) DMA2_CHANNEL5_BASE)
+#define DMA2_CHANNEL6         ((dma_channel_type *) DMA2_CHANNEL6_BASE)
+#define DMA2_CHANNEL7         ((dma_channel_type *) DMA2_CHANNEL7_BASE)
 
-#define DMA2MUX_CHANNEL1                 ((dmamux_channel_type *) DMA2MUX_CHANNEL1_BASE)
-#define DMA2MUX_CHANNEL2                 ((dmamux_channel_type *) DMA2MUX_CHANNEL2_BASE)
-#define DMA2MUX_CHANNEL3                 ((dmamux_channel_type *) DMA2MUX_CHANNEL3_BASE)
-#define DMA2MUX_CHANNEL4                 ((dmamux_channel_type *) DMA2MUX_CHANNEL4_BASE)
-#define DMA2MUX_CHANNEL5                 ((dmamux_channel_type *) DMA2MUX_CHANNEL5_BASE)
-#define DMA2MUX_CHANNEL6                 ((dmamux_channel_type *) DMA2MUX_CHANNEL6_BASE)
-#define DMA2MUX_CHANNEL7                 ((dmamux_channel_type *) DMA2MUX_CHANNEL7_BASE)
+#define DMA2MUX_CHANNEL1      ((dmamux_channel_type *) DMA2MUX_CHANNEL1_BASE)
+#define DMA2MUX_CHANNEL2      ((dmamux_channel_type *) DMA2MUX_CHANNEL2_BASE)
+#define DMA2MUX_CHANNEL3      ((dmamux_channel_type *) DMA2MUX_CHANNEL3_BASE)
+#define DMA2MUX_CHANNEL4      ((dmamux_channel_type *) DMA2MUX_CHANNEL4_BASE)
+#define DMA2MUX_CHANNEL5      ((dmamux_channel_type *) DMA2MUX_CHANNEL5_BASE)
+#define DMA2MUX_CHANNEL6      ((dmamux_channel_type *) DMA2MUX_CHANNEL6_BASE)
+#define DMA2MUX_CHANNEL7      ((dmamux_channel_type *) DMA2MUX_CHANNEL7_BASE)
 
-#define DMA2MUX_GENERATOR1               ((dmamux_generator_type *) DMA2MUX_GENERATOR1_BASE)
-#define DMA2MUX_GENERATOR2               ((dmamux_generator_type *) DMA2MUX_GENERATOR2_BASE)
-#define DMA2MUX_GENERATOR3               ((dmamux_generator_type *) DMA2MUX_GENERATOR3_BASE)
-#define DMA2MUX_GENERATOR4               ((dmamux_generator_type *) DMA2MUX_GENERATOR4_BASE)
+#define DMA2MUX_GENERATOR1    ((dmamux_generator_type *) DMA2MUX_GENERATOR1_BASE)
+#define DMA2MUX_GENERATOR2    ((dmamux_generator_type *) DMA2MUX_GENERATOR2_BASE)
+#define DMA2MUX_GENERATOR3    ((dmamux_generator_type *) DMA2MUX_GENERATOR3_BASE)
+#define DMA2MUX_GENERATOR4    ((dmamux_generator_type *) DMA2MUX_GENERATOR4_BASE)
 
 /** @defgroup DMA_exported_functions
   * @{
@@ -750,7 +710,7 @@ void dma_default_para_init(dma_init_type *dma_init_struct);
 void dma_init(dma_channel_type *dmax_channely, dma_init_type *dma_init_struct);
 
 /* dma requst multiplexer function */
-void dma_flexible_config(dma_type* dma_x, dmamux_channel_type *dmamux_channelx, dmamux_requst_id_sel_type dmamux_req_sel);
+void dma_flexible_config(dma_type *dma_x, dmamux_channel_type *dmamux_channelx, dmamux_requst_id_sel_type dmamux_req_sel);
 void dmamux_enable(dma_type *dma_x, confirm_state new_state);
 void dmamux_init(dmamux_channel_type *dmamux_channelx, dmamux_requst_id_sel_type dmamux_req_sel);
 void dmamux_sync_default_para_init(dmamux_sync_init_type *dmamux_sync_init_struct);

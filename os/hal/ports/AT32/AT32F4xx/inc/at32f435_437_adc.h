@@ -396,16 +396,16 @@ typedef struct {
     */
   union {
     __IO uint32_t sts;
-    struct {
-      __IO uint32_t vmor                 : 1; /* [0] */
-      __IO uint32_t occe                 : 1; /* [1] */
-      __IO uint32_t pcce                 : 1; /* [2] */
-      __IO uint32_t pccs                 : 1; /* [3] */
-      __IO uint32_t occs                 : 1; /* [4] */
-      __IO uint32_t occo                 : 1; /* [5] */
-      __IO uint32_t rdy                  : 1; /* [6] */
-      __IO uint32_t reserved1            : 25; /* [31:7] */
-    } sts_bit;
+    struct {                                                                          /* STM32  STM32 ADC_SR register */
+      __IO uint32_t vmor      : 1; /* [0]     Voltage monitoring out of range */      /* ? AWD: Analog watchdog flag */
+      __IO uint32_t occe      : 1; /* [1]     End of conversion */                    /* + EOC: Regular channel end of conversion  */
+      __IO uint32_t pcce      : 1; /* [2]     Preempted channel end of conversion */  /* + JEOC: Injected channel end of conversion */
+      __IO uint32_t pccs      : 1; /* [3]     Preempted channel conversion start */   /* + JSTRT: Injected channel start flag */
+      __IO uint32_t occs      : 1; /* [4]     Ordinary channel conversion start */    /* + STRT: Regular channel start flag */
+      __IO uint32_t occo      : 1; /* [5]     Ordinary channel conversion overflow */ /* + OVR: Overrun */
+      __IO uint32_t rdy       : 1; /* [6]     ADC conversion ready */                 /* - */
+      __IO uint32_t reserved1 : 25; /* [31:7]  */  /*  */
+    } sts_bit;                
   };
 
   /**
@@ -413,23 +413,23 @@ typedef struct {
     */
   union {
     __IO uint32_t ctrl1;
-    struct {
-      __IO uint32_t vmcsel               : 5; /* [4:0]    */  /*  */
-      __IO uint32_t occeien              : 1; /* [5]      */  /*  */
-      __IO uint32_t vmorien              : 1; /* [6]      */  /*  */
-      __IO uint32_t pcceien              : 1; /* [7]      */  /*  */
-      __IO uint32_t sqen                 : 1; /* [8]      */  /*  */
-      __IO uint32_t vmsgen               : 1; /* [9]      */  /*  */
-      __IO uint32_t pcautoen             : 1; /* [10]     */  /*  */
-      __IO uint32_t ocpen                : 1; /* [11]     */  /*  */
-      __IO uint32_t pcpen                : 1; /* [12]     */  /*  */
-      __IO uint32_t ocpcnt               : 3; /* [15:13]  */  /*  */
-      __IO uint32_t reserved1            : 6; /* [21:16]  */  /*  */
-      __IO uint32_t pcvmen               : 1; /* [22]     */  /*  */
-      __IO uint32_t ocvmen               : 1; /* [23]     */  /*  */
-      __IO uint32_t crsel                : 2; /* [25:24]  */  /*  */
-      __IO uint32_t occoien              : 1; /* [26]     */  /*  */
-      __IO uint32_t reserved2            : 5; /* [31:27]  */  /*  */
+    struct {                                                                                            /* STM32   */   
+      __IO uint32_t vmcsel    : 5; /* [4:0]   Voltage monitoring channel select */                      /* ? AWDCH[4:0]: Analog watchdog channel select bits */
+      __IO uint32_t occeien   : 1; /* [5]     Channel conversion end interrupt enable */                /* + EOCIE: Interrupt enable for EOC */
+      __IO uint32_t vmorien   : 1; /* [6]     Voltage monitoring out of range interrupt enable */       /* ? AWDIE: Analog watchdog interrupt enable */
+      __IO uint32_t pcceien   : 1; /* [7]     Conversion end interrupt enable on Preempted */           /* + JEOCIE: Interrupt enable for injected channels */
+      __IO uint32_t sqen      : 1; /* [8]     Sequence mode enable */                                   /* ? SCAN: Scan mode */
+      __IO uint32_t vmsgen    : 1; /* [9]     Voltage monitoring enable on a single channel */          /* ? AWDSGL: Enable the watchdog on a single channel in scan mode */
+      __IO uint32_t pcautoen  : 1; /* [10]    Preempted group automatic conversion enable */            /* + JAUTO: Automatic injected group conversion */
+      __IO uint32_t ocpen     : 1; /* [11]    Partitioned mode enable on ordinary channels */           /* ? DISCEN: Discontinuous mode on regular channels */
+      __IO uint32_t pcpen     : 1; /* [12]    Partitioned mode enable on preempted channels */          /* ? JDISCEN: Discontinuous mode on injected channels */
+      __IO uint32_t ocpcnt    : 3; /* [15:13] Partitioned mode conversion count of ordinary channels */ /* ? DISCNUM[2:0]: Discontinuous mode channel count */
+      __IO uint32_t reserved1 : 6; /* [21:16]  */  /*  */
+      __IO uint32_t pcvmen    : 1; /* [22]    Voltage monitoring enable on preempted channels */        /* ? JAWDEN: Analog watchdog enable on injected channels */
+      __IO uint32_t ocvmen    : 1; /* [23]    Voltage monitoring enable on ordinary channels */         /* ? AWDEN: Analog watchdog enable on regular channels */
+      __IO uint32_t crsel     : 2; /* [25:24] Conversion resolution select */                           /* + RES[1:0]: Resolution */
+      __IO uint32_t occoien   : 1; /* [26]    Ordinary channel conversion overflow interrupt enable */  /* + OVRIE: Overrun interrupt enable */
+      __IO uint32_t reserved2 : 5; /* [31:27]  */  /*  */
     } ctrl1_bit;
   };
 
@@ -438,26 +438,26 @@ typedef struct {
    */
   union {
     __IO uint32_t ctrl2;
-    struct {
-      __IO uint32_t adcen                : 1; /* [0] */
-      __IO uint32_t rpen                 : 1; /* [1] */
-      __IO uint32_t adcal                : 1; /* [2] */
-      __IO uint32_t adcalinit            : 1; /* [3] */
-      __IO uint32_t adabrt               : 1; /* [4] */
-      __IO uint32_t reserved1            : 3; /* [7:5] */
-      __IO uint32_t ocdmaen              : 1; /* [8] */
-      __IO uint32_t ocdrcen              : 1; /* [9] */
-      __IO uint32_t eocsfen              : 1; /* [10] */
-      __IO uint32_t dtalign              : 1; /* [11] */
-      __IO uint32_t reserved2            : 4; /* [15:12] */
-      __IO uint32_t pctesel_l            : 4; /* [19:16] */
-      __IO uint32_t pcete                : 2; /* [21:20] */
-      __IO uint32_t pcswtrg              : 1; /* [22] */
-      __IO uint32_t pctesel_h            : 1; /* [23] */
-      __IO uint32_t octesel_l            : 4; /* [27:24] */
-      __IO uint32_t ocete                : 2; /* [29:28] */
-      __IO uint32_t ocswtrg              : 1; /* [30] */
-      __IO uint32_t octesel_h            : 1; /* [31] */
+    struct {                                                                                          /* STM32 */
+      __IO uint32_t adcen     : 1; /* [0]     A/D converter enable */                                   /* ADON: A/D Converter ON / OFF */
+      __IO uint32_t rpen      : 1; /* [1]     Repetition mode enable */                                 /* ? CONT: Continuous conversion */
+      __IO uint32_t adcal     : 1; /* [2]     A/D Calibration */                                        /* - Reserved */
+      __IO uint32_t adcalinit : 1; /* [3]     Initialize A/D calibration */                             /* - Reserved */
+      __IO uint32_t adabrt    : 1; /* [4]      */                                                       /* - Reserved */
+      __IO uint32_t reserved1 : 3; /* [7:5]    */                                                       /* + Reserved */
+      __IO uint32_t ocdmaen   : 1; /* [8]     DMA transfer enable of ordinary channels */               /* + DMA: Direct memory access mode (for single ADC mode) */
+      __IO uint32_t ocdrcen   : 1; /* [9]     Ordinary channel DMA request continue */                  /* - DDS: DMA disable selection (for single ADC mode) */
+      __IO uint32_t eocsfen   : 1; /* [10]    Each ordinary channel conversion OCCE */                  /* ? EOCS: End of conversion selection */
+      __IO uint32_t dtalign   : 1; /* [11]    Data alignment */                                         /* + ALIGN: Data alignment */
+      __IO uint32_t reserved2 : 4; /* [15:12]  */  /*  */
+      __IO uint32_t pctesel_l : 4; /* [19:16] Preempted channel conversion trigger event select */      /* ? JEXTSEL[3:0]: External event select for injected group */
+      __IO uint32_t pcete     : 2; /* [21:20] Preempted channel external trigger edge select */         /* ? JEXTEN: External trigger enable for injected channels */
+      __IO uint32_t pcswtrg   : 1; /* [22]    Conversion of preempted channels triggered by software */ /* ? JSWSTART: Start conversion of injected channels */
+      __IO uint32_t pctesel_h : 1; /* [23]    Preempted channel conversion trigger event select */      /* - */
+      __IO uint32_t octesel_l : 4; /* [27:24] Ordinary channel conversion trigger event select */       /* ? EXTSEL[3:0]: External event select for regular group */
+      __IO uint32_t ocete     : 2; /* [29:28] Ordinary channel external trigger edge select */          /* + EXTEN: External trigger enable for regular channels */
+      __IO uint32_t ocswtrg   : 1; /* [30]    Conversion of ordinary channels triggered by software */  /* ? SWSTART: Start conversion of regular channels */
+      __IO uint32_t octesel_h : 1; /* [31]    Ordinary channel conversion trigger event select  */      /* - */
     } ctrl2_bit;
   };
 
@@ -466,17 +466,17 @@ typedef struct {
   */
   union {
     __IO uint32_t spt1;
-    struct {
-      __IO uint32_t cspt10               : 3; /* [2:0] */
-      __IO uint32_t cspt11               : 3; /* [5:3] */
-      __IO uint32_t cspt12               : 3; /* [8:6] */
-      __IO uint32_t cspt13               : 3; /* [11:9] */
-      __IO uint32_t cspt14               : 3; /* [14:12] */
-      __IO uint32_t cspt15               : 3; /* [17:15] */
-      __IO uint32_t cspt16               : 3; /* [20:18] */
-      __IO uint32_t cspt17               : 3; /* [23:21] */
-      __IO uint32_t cspt18               : 3; /* [26:24] */
-      __IO uint32_t reserved1            : 5; /* [31:27] */
+    struct {                                                                                /* STM32   */
+      __IO uint32_t cspt10    : 3; /* [2:0]   Sample time selection of channel ADC_IN10 */  /* + SMP10 */
+      __IO uint32_t cspt11    : 3; /* [5:3]   Sample time selection of channel ADC_IN11 */  /* + SMP11 */
+      __IO uint32_t cspt12    : 3; /* [8:6]   Sample time selection of channel ADC_IN12 */  /* + SMP12 */
+      __IO uint32_t cspt13    : 3; /* [11:9]  Sample time selection of channel ADC_IN13 */  /* + SMP13 */
+      __IO uint32_t cspt14    : 3; /* [14:12] Sample time selection of channel ADC_IN14 */  /* + SMP14 */
+      __IO uint32_t cspt15    : 3; /* [17:15] Sample time selection of channel ADC_IN15 */  /* + SMP15 */
+      __IO uint32_t cspt16    : 3; /* [20:18] Sample time selection of channel ADC_IN16 */  /* + SMP16 */
+      __IO uint32_t cspt17    : 3; /* [23:21] Sample time selection of channel ADC_IN17 */  /* + SMP17 */
+      __IO uint32_t cspt18    : 3; /* [26:24] Sample time selection of channel ADC_IN18 */  /* + SMP18 */
+      __IO uint32_t reserved1 : 5; /* [31:27]  */  /*  */
     } spt1_bit;
   };
 
@@ -485,18 +485,18 @@ typedef struct {
   */
   union {
     __IO uint32_t spt2;
-    struct {
-      __IO uint32_t cspt0                : 3; /* [2:0] */
-      __IO uint32_t cspt1                : 3; /* [5:3] */
-      __IO uint32_t cspt2                : 3; /* [8:6] */
-      __IO uint32_t cspt3                : 3; /* [11:9] */
-      __IO uint32_t cspt4                : 3; /* [14:12] */
-      __IO uint32_t cspt5                : 3; /* [17:15] */
-      __IO uint32_t cspt6                : 3; /* [20:18] */
-      __IO uint32_t cspt7                : 3; /* [23:21] */
-      __IO uint32_t cspt8                : 3; /* [26:24] */
-      __IO uint32_t cspt9                : 3; /* [29:27] */
-      __IO uint32_t reserved1            : 2; /* [31:30] */
+    struct {                                                                               /* STM32 */
+      __IO uint32_t cspt0     : 3; /* [2:0]   Sample time selection of channel ADC_IN0 */  /* + SMP0 */
+      __IO uint32_t cspt1     : 3; /* [5:3]   Sample time selection of channel ADC_IN1 */  /* + SMP1 */
+      __IO uint32_t cspt2     : 3; /* [8:6]   Sample time selection of channel ADC_IN2 */  /* + SMP2 */
+      __IO uint32_t cspt3     : 3; /* [11:9]  Sample time selection of channel ADC_IN3 */  /* + SMP3 */
+      __IO uint32_t cspt4     : 3; /* [14:12] Sample time selection of channel ADC_IN4 */  /* + SMP4 */
+      __IO uint32_t cspt5     : 3; /* [17:15] Sample time selection of channel ADC_IN5 */  /* + SMP5 */
+      __IO uint32_t cspt6     : 3; /* [20:18] Sample time selection of channel ADC_IN6 */  /* + SMP6 */
+      __IO uint32_t cspt7     : 3; /* [23:21] Sample time selection of channel ADC_IN7 */  /* + SMP7 */
+      __IO uint32_t cspt8     : 3; /* [26:24] Sample time selection of channel ADC_IN8 */  /* + SMP8 */
+      __IO uint32_t cspt9     : 3; /* [29:27] Sample time selection of channel ADC_IN9 */  /* + SMP9 */
+      __IO uint32_t reserved1 : 2; /* [31:30]  */  /*  */
     } spt2_bit;
   };
 
@@ -505,9 +505,9 @@ typedef struct {
   */
   union {
     __IO uint32_t pcdto1;
-    struct {
-      __IO uint32_t pcdto1               : 12; /* [11:0] */
-      __IO uint32_t reserved1            : 20; /* [31:12] */
+    struct {                                                                           /* STM32 */
+      __IO uint32_t pcdto1    : 12; /* [11:0]  Data offset for Preempted channel 1 */  /* + ADC injected channel data offset register 1 */
+      __IO uint32_t reserved1 : 20; /* [31:12] */
     } pcdto1_bit;
   };
 
@@ -516,9 +516,9 @@ typedef struct {
   */
   union {
     __IO uint32_t pcdto2;
-    struct {
-      __IO uint32_t pcdto2               : 12; /* [11:0] */
-      __IO uint32_t reserved1            : 20; /* [31:12] */
+    struct {                                                                           /* STM32 */
+      __IO uint32_t pcdto2    : 12; /* [11:0]  Data offset for Preempted channel 2 */  /* + ADC injected channel data offset register 2 */
+      __IO uint32_t reserved1 : 20; /* [31:12] */
     } pcdto2_bit;
   };
 
@@ -527,9 +527,9 @@ typedef struct {
   */
   union {
     __IO uint32_t pcdto3;
-    struct {
-      __IO uint32_t pcdto3               : 12; /* [11:0] */
-      __IO uint32_t reserved1            : 20; /* [31:12] */
+    struct {                                                                           /* STM32 */
+      __IO uint32_t pcdto3    : 12; /* [11:0]  Data offset for Preempted channel 3 */  /* + ADC injected channel data offset register 3 */
+      __IO uint32_t reserved1 : 20; /* [31:12] */
     } pcdto3_bit;
   };
 
@@ -538,31 +538,33 @@ typedef struct {
   */
   union {
     __IO uint32_t pcdto4;
-    struct {
-      __IO uint32_t pcdto4               : 12; /* [11:0] */
-      __IO uint32_t reserved1            : 20; /* [31:12] */
+    struct {                                                                           /* STM32 */
+      __IO uint32_t pcdto4    : 12; /* [11:0]  Data offset for Preempted channel 4 */  /* + ADC injected channel data offset register 4 */
+      __IO uint32_t reserved1 : 20; /* [31:12] */
     } pcdto4_bit;
   };
 
   /**
-  * @brief adc vmhb register, offset:0x24
+  * @brief adc vmhb register, offset:0x24 
+  * ADC voltage monitor high threshold register  
   */
   union {
     __IO uint32_t vmhb;
-    struct {
-      __IO uint32_t vmhb                 : 12; /* [11:0] */
-      __IO uint32_t reserved1            : 20; /* [31:12] */
+    struct {                                                                        /* STM32   */
+      __IO uint32_t vmhb      : 12; /* [11:0]  Voltage monitoring high boundary */  /* ? ADC watchdog higher threshold register (ADC_HTR) */   
+      __IO uint32_t reserved1 : 20; /* [31:12] */
     } vmhb_bit;
   };
 
   /**
-  * @brief adc vmlb register, offset:0x28
+  * @brief adc vmlb register, offset:0x28 
+  * ADC voltage monitor low threshold register 
   */
   union {
     __IO uint32_t vmlb;
-    struct {
-      __IO uint32_t vmlb                 : 12; /* [11:0] */
-      __IO uint32_t reserved1            : 20; /* [31:12] */
+    struct {                                                                        /* STM32   */
+      __IO uint32_t vmlb      : 12; /* [11:0]  Voltage monitoring low boundary */   /* ? ADC watchdog lower threshold register */
+      __IO uint32_t reserved1 : 20; /* [31:12] */
     } vmlb_bit;
   };
 
@@ -571,13 +573,13 @@ typedef struct {
   */
   union {
     __IO uint32_t osq1;
-    struct {
-      __IO uint32_t osn13                : 5; /* [4:0] */
-      __IO uint32_t osn14                : 5; /* [9:5] */
-      __IO uint32_t osn15                : 5; /* [14:10] */
-      __IO uint32_t osn16                : 5; /* [19:15] */
-      __IO uint32_t oclen                : 4; /* [23:20] */
-      __IO uint32_t reserved1            : 8; /* [31:24] */
+    struct {                                                                                    /* STM32   */
+      __IO uint32_t osn13     : 5; /* [4:0]   Number of 13th conversion in ordinary sequence */ /* + 13th conversion in regular sequence */
+      __IO uint32_t osn14     : 5; /* [9:5]   Number of 14th conversion in ordinary sequence */ /* + 14th conversion in regular sequence */
+      __IO uint32_t osn15     : 5; /* [14:10] Number of 15th conversion in ordinary sequence */ /* + 15th conversion in regular sequence */
+      __IO uint32_t osn16     : 5; /* [19:15] Number of 16th conversion in ordinary sequence */ /* + 16th conversion in regular sequence */
+      __IO uint32_t oclen     : 4; /* [23:20] Ordinary conversion sequence length */            /* + L[3:0]: Regular channel sequence length */
+      __IO uint32_t reserved1 : 8; /* [31:24]  */
     } osq1_bit;
   };
 
@@ -586,14 +588,14 @@ typedef struct {
   */
   union {
     __IO uint32_t osq2;
-    struct {
-      __IO uint32_t osn7                 : 5; /* [4:0] */
-      __IO uint32_t osn8                 : 5; /* [9:5] */
-      __IO uint32_t osn9                 : 5; /* [14:10] */
-      __IO uint32_t osn10                : 5; /* [19:15] */
-      __IO uint32_t osn11                : 5; /* [24:20] */
-      __IO uint32_t osn12                : 5; /* [29:25] */
-      __IO uint32_t reserved1            : 2; /* [31:30] */
+    struct {                                                                                    /* STM32   */                                
+      __IO uint32_t osn7      : 5; /* [4:0]   Number of 7th conversion in ordinary sequence */  /* + 7th conversion in regular sequence */
+      __IO uint32_t osn8      : 5; /* [9:5]   Number of 8th conversion in ordinary sequence */  /* + 8th conversion in regular sequence */
+      __IO uint32_t osn9      : 5; /* [14:10] Number of 9th conversion in ordinary sequence */  /* + 9th conversion in regular sequence */
+      __IO uint32_t osn10     : 5; /* [19:15] Number of 10th conversion in ordinary sequence */ /* + 10th conversion in regular sequence */
+      __IO uint32_t osn11     : 5; /* [24:20] Number of 11th conversion in ordinary sequence */ /* + 11th conversion in regular sequence */
+      __IO uint32_t osn12     : 5; /* [29:25] Number of 12th conversion in ordinary sequence */ /* + 12th conversion in regular sequence */
+      __IO uint32_t reserved1 : 2; /* [31:30]  */
     } osq2_bit;
   };
 
@@ -602,14 +604,14 @@ typedef struct {
   */
   union {
     __IO uint32_t osq3;
-    struct {
-      __IO uint32_t osn1                 : 5; /* [4:0] */
-      __IO uint32_t osn2                 : 5; /* [9:5] */
-      __IO uint32_t osn3                 : 5; /* [14:10] */
-      __IO uint32_t osn4                 : 5; /* [19:15] */
-      __IO uint32_t osn5                 : 5; /* [24:20] */
-      __IO uint32_t osn6                 : 5; /* [29:25] */
-      __IO uint32_t reserved1            : 2; /* [31:30] */
+    struct {                                                                                    /* STM32   */
+      __IO uint32_t osn1      : 5; /* [4:0]   Number of 1th conversion in ordinary sequence */  /* + 1th conversion in regular sequence */
+      __IO uint32_t osn2      : 5; /* [9:5]   Number of 2th conversion in ordinary sequence */  /* + 2th conversion in regular sequence */
+      __IO uint32_t osn3      : 5; /* [14:10] Number of 3th conversion in ordinary sequence */  /* + 3th conversion in regular sequence */
+      __IO uint32_t osn4      : 5; /* [19:15] Number of 4th conversion in ordinary sequence */  /* + 4th conversion in regular sequence */
+      __IO uint32_t osn5      : 5; /* [24:20] Number of 5th conversion in ordinary sequence */  /* + 5th conversion in regular sequence */
+      __IO uint32_t osn6      : 5; /* [29:25] Number of 6th conversion in ordinary sequence */  /* + 6th conversion in regular sequence */
+      __IO uint32_t reserved1 : 2; /* [31:30]  */
     } osq3_bit;
   };
 
@@ -618,13 +620,13 @@ typedef struct {
   */
   union {
     __IO uint32_t psq;
-    struct {
-      __IO uint32_t psn1                 : 5; /* [4:0] */
-      __IO uint32_t psn2                 : 5; /* [9:5] */
-      __IO uint32_t psn3                 : 5; /* [14:10] */
-      __IO uint32_t psn4                 : 5; /* [19:15] */
-      __IO uint32_t pclen                : 2; /* [21:20] */
-      __IO uint32_t reserved1            : 10; /* [31:22] */
+    struct {                                                                                     /* STM32 ADC injected sequence register (ADC_JSQR) */
+      __IO uint32_t psn1      : 5;   /* [4:0]   Number of 1st conversion in preempted sequence */  /* + 1st conversion in injected sequence */
+      __IO uint32_t psn2      : 5;   /* [9:5]   Number of 2nd conversion in preempted sequence */  /* + 2nd conversion in injected sequence */
+      __IO uint32_t psn3      : 5;   /* [14:10] Number of 3rd conversion in preempted sequence */  /* + 3rd conversion in injected sequence */
+      __IO uint32_t psn4      : 5;   /* [19:15] Number of 4th conversion in preempted sequence */  /* + 4th conversion in injected sequence */
+      __IO uint32_t pclen     : 2;   /* [21:20] Preempted conversion sequence length */            /* + Injected sequence length */
+      __IO uint32_t reserved1 : 10;  /* [31:22]  */
     } psq_bit;
   };
 
@@ -633,9 +635,9 @@ typedef struct {
   */
   union {
     __IO uint32_t pdt1;
-    struct {
-      __IO uint32_t pdt1                 : 16; /* [15:0] */
-      __IO uint32_t reserved1            : 16; /* [31:16] */
+    struct {                                                                           /* STM32  ADC injected data register 1 */
+      __IO uint32_t pdt1      : 16; /* [15:0] Conversion data from preempted channel */  /* JDATA[15:0]: Injected data  */
+      __IO uint32_t reserved1 : 16; /* [31:16] */
     } pdt1_bit;
   };
 
@@ -644,9 +646,9 @@ typedef struct {
   */
   union {
     __IO uint32_t pdt2;
-    struct {
-      __IO uint32_t pdt2                 : 16; /* [15:0] */
-      __IO uint32_t reserved1            : 16; /* [31:16] */
+    struct {                                       /* STM32   */
+      __IO uint32_t pdt2      : 16; /* [15:0]  */  /*  */
+      __IO uint32_t reserved1 : 16; /* [31:16] */
     } pdt2_bit;
   };
 
@@ -655,9 +657,9 @@ typedef struct {
   */
   union {
     __IO uint32_t pdt3;
-    struct {
-      __IO uint32_t pdt3                 : 16; /* [15:0] */
-      __IO uint32_t reserved1            : 16; /* [31:16] */
+    struct {                                       /* STM32   */
+      __IO uint32_t pdt3      : 16; /* [15:0]  */  /*  */
+      __IO uint32_t reserved1 : 16; /* [31:16] */
     } pdt3_bit;
   };
 
@@ -666,9 +668,9 @@ typedef struct {
   */
   union {
     __IO uint32_t pdt4;
-    struct {
-      __IO uint32_t pdt4                 : 16; /* [15:0] */
-      __IO uint32_t reserved1            : 16; /* [31:16] */
+    struct {                                       /* STM32   */
+      __IO uint32_t pdt4      : 16; /* [15:0]  */  /*  */
+      __IO uint32_t reserved1 : 16; /* [31:16] */
     } pdt4_bit;
   };
 
@@ -677,9 +679,9 @@ typedef struct {
   */
   union {
     __IO uint32_t odt;
-    struct {
-      __IO uint32_t odt                  : 16; /* [15:0] */
-      __IO uint32_t reserved1            : 16; /* [31:16] */
+    struct {                                                                            /* STM32  ADC regular data register (ADC_DR) */
+      __IO uint32_t odt       : 16; /* [15:0]  Conversion data of ordinary channel */   /* Regular data */
+      __IO uint32_t reserved1 : 16; /* [31:16] */
     } odt_bit;
   };
 
@@ -690,14 +692,14 @@ typedef struct {
   */
   union {
     __IO uint32_t ovsp;
-    struct {
-      __IO uint32_t oosen                : 1; /* [0] */
-      __IO uint32_t posen                : 1; /* [1] */
-      __IO uint32_t osrsel               : 3; /* [4:2] */
-      __IO uint32_t osssel               : 4; /* [8:5] */
-      __IO uint32_t oostren              : 1; /* [9] */
-      __IO uint32_t oosrsel              : 1; /* [10] */
-      __IO uint32_t reserved1            : 21; /* [31:11] */
+    struct {                                                                                  /* - STM32   */
+      __IO uint32_t oosen     : 1;   /* [0]     Ordinary oversampling enable */               /*  */
+      __IO uint32_t posen     : 1;   /* [1]     Preempted oversampling enable */              /*  */
+      __IO uint32_t osrsel    : 3;   /* [4:2]   Oversampling ratio select */                  /*  */
+      __IO uint32_t osssel    : 4;   /* [8:5]   Oversampling shift select */                  /*  */
+      __IO uint32_t oostren   : 1;   /* [9]     Ordinary oversampling trigger mode enable */  /*  */
+      __IO uint32_t oosrsel   : 1;   /* [10]    Ordinary oversampling restart mode select */  /*  */
+      __IO uint32_t reserved1 : 21;  /* [31:11]  */
     } ovsp_bit;
   };
 
@@ -708,9 +710,9 @@ typedef struct {
   */
   union {
     __IO uint32_t calval;
-    struct {
-      __IO uint32_t calval               : 7; /* [6:0] */
-      __IO uint32_t reserved1            : 25; /* [31:7] */
+    struct {                                                              /* - STM32   */
+      __IO uint32_t calval    : 7;   /* [6:0]  A/D Calibration value */   /*  */
+      __IO uint32_t reserved1 : 25;  /* [31:7] */
     } calval_bit;
   };
 } adc_type;
@@ -725,53 +727,54 @@ typedef struct {
     */
   union {
     __IO uint32_t csts;
-    struct {
-      __IO uint32_t vmor1                : 1; /* [0] */
-      __IO uint32_t occe1                : 1; /* [1] */
-      __IO uint32_t pcce1                : 1; /* [2] */
-      __IO uint32_t pccs1                : 1; /* [3] */
-      __IO uint32_t occs1                : 1; /* [4] */
-      __IO uint32_t occo1                : 1; /* [5] */
-      __IO uint32_t rdy1                 : 1; /* [6] */
-      __IO uint32_t reserved1            : 1; /* [7] */
-      __IO uint32_t vmor2                : 1; /* [8] */
-      __IO uint32_t occe2                : 1; /* [9] */
-      __IO uint32_t pcce2                : 1; /* [10] */
-      __IO uint32_t pccs2                : 1; /* [11] */
-      __IO uint32_t occs2                : 1; /* [12] */
-      __IO uint32_t occo2                : 1; /* [13] */
-      __IO uint32_t rdy2                 : 1; /* [14] */
-      __IO uint32_t reserved2            : 1; /* [15] */
-      __IO uint32_t vmor3                : 1; /* [16] */
-      __IO uint32_t occe3                : 1; /* [17] */
-      __IO uint32_t pcce3                : 1; /* [18] */
-      __IO uint32_t pccs3                : 1; /* [19] */
-      __IO uint32_t occs3                : 1; /* [20] */
-      __IO uint32_t occo3                : 1; /* [21] */
-      __IO uint32_t rdy3                 : 1; /* [22] */
-      __IO uint32_t reserved3            : 9; /* [31:23] */
+    struct {                                     /* STM32 ADC_SR register */
+      __IO uint32_t vmor1     : 1; /* [0]  ADC1 voltage monitoring out of range      */     /* AWD1: Analog watchdog flag of ADC1 */               
+      __IO uint32_t occe1     : 1; /* [1]  ADC1 ordinary channels conversion end     */     /* EOC1: End of conversion of ADC1 */                  
+      __IO uint32_t pcce1     : 1; /* [2]  ADC1 preempted channels conversion end    */     /* JEOC1: Injected channel end of conversion of ADC1 */
+      __IO uint32_t pccs1     : 1; /* [3]  ADC1 Preempted channel conversion start   */     /* JSTRT1: Injected channel Start flag of ADC1 */      
+      __IO uint32_t occs1     : 1; /* [4]  ADC1 ordinary channel conversion start    */     /* STRT1: Regular channel Start flag of ADC1 */        
+      __IO uint32_t occo1     : 1; /* [5]  ADC1 ordinary channel conversion overflow */     /* OVR1: Overrun flag of ADC1 */                       
+      __IO uint32_t rdy1      : 1; /* [6]  ADC1 conversion ready                     */     /*  */
+      __IO uint32_t reserved1 : 1; /* [7]   */     /*  */
+      __IO uint32_t vmor2     : 1; /* [8]  ADC2 voltage monitoring out of range      */     /* AWD2: Analog watchdog flag of ADC2 */                
+      __IO uint32_t occe2     : 1; /* [9]  ADC2 ordinary channels conversion end     */     /* EOC2: End of conversion of ADC2 */                   
+      __IO uint32_t pcce2     : 1; /* [10] ADC2 preempted channels conversion end    */     /* JEOC2: Injected channel end of conversion of ADC2 */ 
+      __IO uint32_t pccs2     : 1; /* [11] ADC2 Preempted channel conversion start   */     /* JSTRT2: Injected channel Start flag of ADC2 */       
+      __IO uint32_t occs2     : 1; /* [12] ADC2 ordinary channel conversion start    */     /* STRT2: Regular channel Start flag of ADC2 */         
+      __IO uint32_t occo2     : 1; /* [13] ADC2 ordinary channel conversion overflow */     /* OVR2: Overrun flag of ADC2 */                        
+      __IO uint32_t rdy2      : 1; /* [14] ADC2 conversion ready                     */     /*  */
+      __IO uint32_t reserved2 : 1; /* [15]  */    /*  */
+      __IO uint32_t vmor3     : 1; /* [16] ADC3 voltage monitoring out of range     */      /* AWD3: Analog watchdog flag of ADC3 */
+      __IO uint32_t occe3     : 1; /* [17] ADC3 ordinary channels conversion end    */      /* EOC3: End of conversion of ADC3 */
+      __IO uint32_t pcce3     : 1; /* [18] ADC3 preempted channels conversion end   */      /* JEOC3: Injected channel end of conversion of ADC3 */
+      __IO uint32_t pccs3     : 1; /* [19] ADC3 Preempted channel conversion start   */     /* JSTRT3: Injected channel Start flag of ADC3 */
+      __IO uint32_t occs3     : 1; /* [20] ADC3 ordinary channel conversion start    */     /* STRT3: Regular channel Start flag of ADC3 */
+      __IO uint32_t occo3     : 1; /* [21] ADC3 ordinary channel conversion overflow */     /* OVR3: Overrun flag of ADC3 */
+      __IO uint32_t rdy3      : 1; /* [22] ADC3 conversion ready                     */     /*  */
+      __IO uint32_t reserved3 : 9; /* [31:23] */ /*  */
     } csts_bit;
   };
 
   /**
     * @brief adc cctrl register, offset:0x04
     */
+  /* STM32 ADC_CR1 register */
   union {
     __IO uint32_t cctrl;
-    struct {
-      __IO uint32_t mssel                : 5; /* [4_0] */
-      __IO uint32_t reserved1            : 3; /* [7:5] */
-      __IO uint32_t asisel               : 4; /* [11:8] */
-      __IO uint32_t reserved2            : 1; /* [12] */
-      __IO uint32_t msdrcen              : 1; /* [13] */
-      __IO uint32_t msdmasel_l           : 2; /* [15:14] */
-      __IO uint32_t adcdiv               : 4; /* [19:16] */
-      __IO uint32_t reserved3            : 2; /* [21:20] */
-      __IO uint32_t vbaten               : 1; /* [22] */
-      __IO uint32_t itsrven              : 1; /* [23] */
-      __IO uint32_t reserved4            : 4; /* [27:24] */
-      __IO uint32_t msdmasel_h           : 1; /* [28] */
-      __IO uint32_t reserved5            : 3; /* [31:29] */
+    struct {                                                                                        /* STM32   */
+      __IO uint32_t mssel       : 5; /* [4_0]   Combined master/slave mode select */                /* + MULTI[4:0]: Multi ADC mode selection */  
+      __IO uint32_t reserved1   : 3; /* [7:5]    */  /*  */
+      __IO uint32_t asisel      : 4; /* [11:8]  Adjacent ADC sampling interval select */            /* + DELAY: Delay between 2 sampling phases */
+      __IO uint32_t reserved2   : 1; /* [12]     */  /*  */
+      __IO uint32_t msdrcen     : 1; /* [13]    Ordinary channel DMA request continuation enable */ /* + DDS: DMA disable selection (for multi-ADC mode) */
+      __IO uint32_t msdmasel_l  : 2; /* [15:14] Ordinary channel DMA transfer mode select (l) */    /* + DMA: Direct memory access mode for multi ADC mode */
+      __IO uint32_t adcdiv      : 4; /* [19:16] ADC division */                                     /* Bits 17:16 ADCPRE: ADC prescaler */
+      __IO uint32_t reserved3   : 2; /* [21:20]  */                                                 /*  */
+      __IO uint32_t vbaten      : 1; /* [22]    VBAT enable */                                      /* + VBATE: VBAT enable */
+      __IO uint32_t itsrven     : 1; /* [23]    Internal temperature sensor and VINTRV enable */    /* + TSVREFE: Temperature sensor and VREFINT enable */
+      __IO uint32_t reserved4   : 4; /* [27:24]  */  /*  */
+      __IO uint32_t msdmasel_h  : 1; /* [28]    Ordinary channel DMA transfer mode select (h) */    /* - */
+      __IO uint32_t reserved5   : 3; /* [31:29]  */  /*  */
     } cctrl_bit;
   };
 
@@ -780,9 +783,9 @@ typedef struct {
   */
   union {
     __IO uint32_t codt;
-    struct {
-      __IO uint32_t codtl                : 16; /* [15:0] */
-      __IO uint32_t codth                : 16; /* [31:16] */
+    struct {                                                                                                    /* STM32   */
+      __IO uint32_t codtl       : 16; /* [15:0]  Ordinary conversion low halfword data in master slave mode */  /* + DATA1[15:0]: 1st data item of a pair of regular conversions */ 
+      __IO uint32_t codth       : 16; /* [31:16] Ordinary conversion high halfword data in master slave mode */ /* + DATA2[15:0]: 2nd data item of a pair of regular conversions */
     } codt_bit;
   };
 } adccom_type;
@@ -790,11 +793,11 @@ typedef struct {
 /**
   * @}
   */
-
-#define ADC1                             ((adc_type *) ADC1_BASE)
-#define ADC2                             ((adc_type *) ADC2_BASE)
-#define ADC3                             ((adc_type *) ADC3_BASE)
-#define ADCCOM                           ((adccom_type *) ADCCOM_BASE)
+                    
+#define ADC1        ((adc_type *)     ADC1_BASE)
+#define ADC2        ((adc_type *)     ADC2_BASE)
+#define ADC3        ((adc_type *)     ADC3_BASE)
+#define ADCCOM      ((adccom_type *)  ADCCOM_BASE)
 
 /** @defgroup ADC_exported_functions
   * @{
