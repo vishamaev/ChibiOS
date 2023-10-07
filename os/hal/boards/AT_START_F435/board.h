@@ -60,7 +60,13 @@
 /*
  * MCU type as defined in the AT header.
  */
-#define AT32F435xx
+#ifndef AT32F435xx
+# define AT32F435xx
+#endif
+
+#ifndef AT32F435ZMT7
+# define AT32F435ZMT7
+#endif
 
 /*
  * IO pins assignments.

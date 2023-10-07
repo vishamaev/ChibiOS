@@ -250,29 +250,21 @@ extern "C"
   * @}
   */
 
+#if 0
 /** @addtogroup Exported_types
   * @{
   */
-typedef enum {
-  RESET = 0U,
-  SET   = !RESET
-} FlagStatus, ITStatus;
+typedef enum { RESET   = 0U, SET    = !RESET   } FlagStatus, ITStatus;
+typedef enum { DISABLE = 0U, ENABLE = !DISABLE } FunctionalState;
 
-typedef enum {
-  DISABLE = 0U,
-  ENABLE  = !DISABLE
-} FunctionalState;
 #define IS_FUNCTIONAL_STATE(STATE) (((STATE) == DISABLE) || ((STATE) == ENABLE))
 
-typedef enum {
-  ERROR = 0U,
-  SUCCESS = !ERROR
-} ErrorStatus;
+typedef enum { ERROR = 0U, SUCCESS = !ERROR } ErrorStatus;
 
 /**
   * @}
   */
-
+#endif
 
 /** @addtogroup Exported_macro
   * @{

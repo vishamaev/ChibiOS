@@ -348,9 +348,11 @@ typedef __I uint32_t vuc32;   /*!< read only */
 typedef __I uint16_t vuc16;   /*!< read only */
 typedef __I uint8_t  vuc8;    /*!< read only */
 
+#if 1
 typedef enum { RESET = 0, SET  = !RESET}    flag_status;
-typedef enum { FALSE = 0, TRUE = !FALSE}    confirm_state;
+//typedef enum { FALSE = 0, TRUE = !FALSE}    confirm_state;
 typedef enum { ERROR = 0, SUCCESS = !ERROR} error_status;
+#endif
 
 /**
   * @}
@@ -404,7 +406,7 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR} error_status;
 #define AHBPERIPH1_BASE                  (PERIPH_BASE + 0x20000)
 #define AHBPERIPH2_BASE                  (PERIPH_BASE + 0x10000000)
 
-//#if defined (AT32F435xx)
+#if defined (AT32F435xx)
 /* apb1 bus base address */
 #define UART8_BASE                       (APB1PERIPH_BASE + 0x7C00)
 #define UART7_BASE                       (APB1PERIPH_BASE + 0x7800)
@@ -424,23 +426,23 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR} error_status;
 #define WDT_BASE                         (APB1PERIPH_BASE + 0x3000)
 #define WWDT_BASE                        (APB1PERIPH_BASE + 0x2C00)
 #define ERTC_BASE                        (APB1PERIPH_BASE + 0x2800)
-#define TMR14_BASE                       (APB1PERIPH_BASE + 0x2000)
-#define TMR13_BASE                       (APB1PERIPH_BASE + 0x1C00)
-#define TMR12_BASE                       (APB1PERIPH_BASE + 0x1800)
-#define TMR7_BASE                        (APB1PERIPH_BASE + 0x1400)
-#define TMR6_BASE                        (APB1PERIPH_BASE + 0x1000)
-#define TMR5_BASE                        (APB1PERIPH_BASE + 0x0C00)
-#define TMR4_BASE                        (APB1PERIPH_BASE + 0x0800)
-#define TMR3_BASE                        (APB1PERIPH_BASE + 0x0400)
-#define TMR2_BASE                        (APB1PERIPH_BASE + 0x0000)
+#define TMR14_BASE                       (APB1PERIPH_BASE + 0x2000)     /* */
+#define TMR13_BASE                       (APB1PERIPH_BASE + 0x1C00)     /* */
+#define TMR12_BASE                       (APB1PERIPH_BASE + 0x1800)     /* */
+#define TMR7_BASE                        (APB1PERIPH_BASE + 0x1400)     /* */
+#define TMR6_BASE                        (APB1PERIPH_BASE + 0x1000)     /* */
+#define TMR5_BASE                        (APB1PERIPH_BASE + 0x0C00)     /* */
+#define TMR4_BASE                        (APB1PERIPH_BASE + 0x0800)     /* */
+#define TMR3_BASE                        (APB1PERIPH_BASE + 0x0400)     /* */
+#define TMR2_BASE                        (APB1PERIPH_BASE + 0x0000)     /* */
 /* apb2 bus base address */
 #define I2S2EXT_BASE                     (APB2PERIPH_BASE + 0x7800)
 #define I2S3EXT_BASE                     (APB2PERIPH_BASE + 0x7C00)
 #define ACC_BASE                         (APB2PERIPH_BASE + 0x7400)
-#define TMR20_BASE                       (APB2PERIPH_BASE + 0x4C00)
-#define TMR11_BASE                       (APB2PERIPH_BASE + 0x4800)
-#define TMR10_BASE                       (APB2PERIPH_BASE + 0x4400)
-#define TMR9_BASE                        (APB2PERIPH_BASE + 0x4000)
+#define TMR20_BASE                       (APB2PERIPH_BASE + 0x4C00)     /* TIM20_BASE (APB2PERIPH_BASE + 0x4C00U) */
+#define TMR11_BASE                       (APB2PERIPH_BASE + 0x4800)     /* */
+#define TMR10_BASE                       (APB2PERIPH_BASE + 0x4400)     /* */
+#define TMR9_BASE                        (APB2PERIPH_BASE + 0x4000)     /* */
 #define EXINT_BASE                       (APB2PERIPH_BASE + 0x3C00)
 #define SCFG_BASE                        (APB2PERIPH_BASE + 0x3800)
 #define SPI4_BASE                        (APB2PERIPH_BASE + 0x3400)
@@ -451,8 +453,8 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR} error_status;
 #define ADCCOM_BASE                      (APB2PERIPH_BASE + 0x2300)
 #define USART6_BASE                      (APB2PERIPH_BASE + 0x1400)
 #define USART1_BASE                      (APB2PERIPH_BASE + 0x1000)
-#define TMR8_BASE                        (APB2PERIPH_BASE + 0x0400)
-#define TMR1_BASE                        (APB2PERIPH_BASE + 0x0000)
+#define TMR8_BASE                        (APB2PERIPH_BASE + 0x0400)     /*  */
+#define TMR1_BASE                        (APB2PERIPH_BASE + 0x0000)     /* TIM1_BASE  (APB2PERIPH_BASE + 0x0000U) */
 /* ahb bus base address */
 #define OTGFS2_BASE                      (AHBPERIPH1_BASE + 0x20000)
 #define SDIO1_BASE                       (AHBPERIPH1_BASE + 0xC400)
@@ -562,8 +564,39 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR} error_status;
 #define SDIO2_BASE                       (AHBPERIPH2_BASE + 0x61000)
 #define DVP_BASE                         (AHBPERIPH2_BASE + 0x50000)
 #define OTGFS1_BASE                      (AHBPERIPH2_BASE + 0x00000)
-//#endif
+#endif
 // --- Exported from at32f435_437.h End  ++VS
+
+//For STM32
+#define TIM1_BASE       TMR1_BASE
+#define TIM2_BASE       TMR2_BASE
+#define TIM3_BASE       TMR3_BASE
+#define TIM4_BASE       TMR4_BASE
+#define TIM5_BASE       TMR5_BASE
+#define TIM6_BASE       TMR6_BASE
+#define TIM7_BASE       TMR7_BASE
+#define TIM8_BASE       TMR8_BASE
+#define TIM9_BASE       TMR9_BASE
+#define TIM10_BASE      TMR10_BASE
+#define TIM11_BASE      TMR11_BASE
+#define TIM12_BASE      TMR12_BASE
+#define TIM13_BASE      TMR13_BASE
+#define TIM14_BASE      TMR14_BASE
+#define TIM15_BASE      TMR15_BASE
+#define TIM16_BASE      TMR16_BASE
+#define TIM17_BASE      TMR17_BASE
+#define TIM18_BASE      TMR18_BASE
+#define TIM19_BASE      TMR19_BASE
+#define TIM20_BASE      TMR20_BASE
+
+//#define PWR_BASE                  (APB1PERIPH_BASE + 0x7000U)
+#define PWR_BASE        PWC_BASE  //(APB1PERIPH_BASE + 0x7000)
+//#define RCC_BASE                    (AHB1PERIPH_BASE + 0x3800U)
+#define RCC_BASE        CRM_BASE    //(AHBPERIPH1_BASE + 0x3800)
+//#define DBGMCU_BASE                              0xE0042000U
+#define DBGMCU_BASE     DEBUG_BASE  //  ((uint32_t)0xE0042000)
+
+
 #endif
 
 
@@ -731,7 +764,7 @@ typedef struct {
 
 
 // --- DMA ---
-#if 0                 // STM32
+#if 1                 // STM32
 /** 
   * @brief DMA Controller
   */
@@ -1406,6 +1439,7 @@ typedef struct {
   * @}
   */
 
+#if 0
 /** @addtogroup Peripheral_memory_map
   * @{
   */
@@ -1680,9 +1714,11 @@ typedef struct {
 #define UID_BASE                     0x1FFF7A10U           /*!< Unique device ID register base address */
 #define FLASHSIZE_BASE               0x1FFF7A22U           /*!< FLASH Size register base address       */
 #define PACKAGE_BASE                 0x1FFF7BF0U           /*!< Package size register base address     */
+
 /**
   * @}
   */
+#endif
 
 /** @addtogroup Peripheral_declaration
   * @{
