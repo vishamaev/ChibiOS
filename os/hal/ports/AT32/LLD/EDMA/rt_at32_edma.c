@@ -42,14 +42,14 @@
 /**
  * @brief   Mask of the DMA1 streams in @p dma_streams_mask.
  */
-#define STM32_DMA1_STREAMS_MASK     ((1U << RT_AT32_EDMA_NUM_CHANNELS) - 1U)
+#define STM32_DMA1_STREAMS_MASK     ((1U << RT_AT32_EDMA1_NUM_CHANNELS) - 1U)
 
-#if STM32_DMA_SUPPORTS_CSELR == TRUE
+#if RT_AT32_EDMA_SUPPORTS_CSELR == TRUE
 
 #if defined(DMA1_CSELR)
-#define __DMA1_CSELR                &DMA1_CSELR->CSELR
+# define __DMA1_CSELR                &DMA1_CSELR->CSELR
 #else
-#define __DMA1_CSELR                &DMA1->CSELR
+# define __DMA1_CSELR                &DMA1->CSELR
 #endif
 
 
@@ -62,7 +62,7 @@
 #define DMA1_CH7_VARIANT            __DMA1_CSELR
 #define DMA1_CH8_VARIANT            __DMA1_CSELR
 
-#elif STM32_DMA_SUPPORTS_DMAMUX == TRUE
+#elif RT_AT32_EDMA_SUPPORTS_DMAMUX == TRUE
 
 #define DMAMUX1_CHANNEL(id)         (DMAMUX1_BASE + ((id) * 4U))
 
@@ -142,28 +142,28 @@
  *          instead: @p STM32_DMA1_STREAM1, @p STM32_DMA1_STREAM2 etc.
  */
 const stm32_dma_stream_t _stm32_dma_streams[STM32_DMA_STREAMS] = {
-#if RT_AT32_EDMA_NUM_CHANNELS > 0
+#if RT_AT32_EDMA1_NUM_CHANNELS > 0
   {DMA1, DMA1_Channel1, STM32_DMA1_CH1_CMASK, DMA1_CH1_VARIANT,  0, 0, STM32_DMA1_CH1_NUMBER},
 #endif
-#if RT_AT32_EDMA_NUM_CHANNELS > 1
+#if RT_AT32_EDMA1_NUM_CHANNELS > 1
   {DMA1, DMA1_Channel2, STM32_DMA1_CH2_CMASK, DMA1_CH2_VARIANT,  4, 1, STM32_DMA1_CH2_NUMBER},
 #endif
-#if RT_AT32_EDMA_NUM_CHANNELS > 2
+#if RT_AT32_EDMA1_NUM_CHANNELS > 2
   {DMA1, DMA1_Channel3, STM32_DMA1_CH3_CMASK, DMA1_CH3_VARIANT,  8, 2, STM32_DMA1_CH3_NUMBER},
 #endif
-#if RT_AT32_EDMA_NUM_CHANNELS > 3
+#if RT_AT32_EDMA1_NUM_CHANNELS > 3
   {DMA1, DMA1_Channel4, STM32_DMA1_CH4_CMASK, DMA1_CH4_VARIANT, 12, 3, STM32_DMA1_CH4_NUMBER},
 #endif
-#if RT_AT32_EDMA_NUM_CHANNELS > 4
+#if RT_AT32_EDMA1_NUM_CHANNELS > 4
   {DMA1, DMA1_Channel5, STM32_DMA1_CH5_CMASK, DMA1_CH5_VARIANT, 16, 4, STM32_DMA1_CH5_NUMBER},
 #endif
-#if RT_AT32_EDMA_NUM_CHANNELS > 5
+#if RT_AT32_EDMA1_NUM_CHANNELS > 5
   {DMA1, DMA1_Channel6, STM32_DMA1_CH6_CMASK, DMA1_CH6_VARIANT, 20, 5, STM32_DMA1_CH6_NUMBER},
 #endif
 #if SRT_AT32_EDMA_NUM_CHANNELS > 6
   {DMA1, DMA1_Channel7, STM32_DMA1_CH7_CMASK, DMA1_CH7_VARIANT, 24, 6, STM32_DMA1_CH7_NUMBER},
 #endif
-#if RT_AT32_EDMA_NUM_CHANNELS > 7
+#if RT_AT32_EDMA1_NUM_CHANNELS > 7
   {DMA1, DMA1_Channel8, STM32_DMA1_CH8_CMASK, DMA1_CH8_VARIANT, 28, 7, STM32_DMA1_CH8_NUMBER},
 #endif
 
@@ -386,22 +386,22 @@ const stm32_dma_stream_t *dmaStreamAllocI(uint32_t id,
 
   osalDbgCheckClassI();
 
-  if (id < STM32_DMA_STREAMS) {
+  if (id < RT_AT32_EDMA_STREAMS) {
     startid = id;
     endid   = id;
   }
-#if STM32_DMA_SUPPORTS_DMAMUX == TRUE
+#if RT_AT32_EDMA_SUPPORTS_DMAMUX == TRUE
   else if (id == STM32_DMA_STREAM_ID_ANY) {
     startid = 0U;
-    endid   = STM32_DMA_STREAMS - 1U;
+    endid   = RT_AT32_EDMA_STREAMS - 1U;
   }
   else if (id == STM32_DMA_STREAM_ID_ANY_DMA1) {
     startid = 0U;
-    endid   = RT_AT32_EDMA_NUM_CHANNELS - 1U;
+    endid   = RT_AT32_EDMA1_NUM_CHANNELS - 1U;
   }
-#if STM32_DMA2_NUM_CHANNELS > 0
+#if RT_AT32_EDMA2_NUM_CHANNELS > 0
   else if (id == STM32_DMA_STREAM_ID_ANY_DMA2) {
-    startid = RT_AT32_EDMA_NUM_CHANNELS;
+    startid = RT_AT32_EDMA1_NUM_CHANNELS;
     endid   = STM32_DMA_STREAMS - 1U;
   }
 #endif
@@ -414,7 +414,7 @@ const stm32_dma_stream_t *dmaStreamAllocI(uint32_t id,
   for (i = startid; i <= endid; i++) {
     uint32_t mask = (1U << i);
     if ((dma.allocated_mask & mask) == 0U) {
-      const stm32_dma_stream_t *dmastp = STM32_DMA_STREAM(i);
+      const stm32_dma_stream_t *dmastp = RT_AT32_EDMA_STREAM(i);
 
       /* Installs the DMA handler.*/
       dma.streams[i].func  = func;
@@ -425,13 +425,13 @@ const stm32_dma_stream_t *dmaStreamAllocI(uint32_t id,
       if ((STM32_DMA1_STREAMS_MASK & mask) != 0U) {
         rccEnableDMA1(true);
       }
-#if STM32_DMA2_NUM_CHANNELS > 0
+#if RT_AT32_EDMA2_NUM_CHANNELS > 0
       if ((STM32_DMA2_STREAMS_MASK & mask) != 0U) {
         rccEnableDMA2(true);
       }
 #endif
 
-#if (STM32_DMA_SUPPORTS_DMAMUX == TRUE) && defined(rccEnableDMAMUX)
+#if (RT_AT32_EDMA_SUPPORTS_DMAMUX == TRUE) && defined(rccEnableDMAMUX)
       /* Enabling DMAMUX if present.*/
       if (dma.allocated_mask != 0U) {
         rccEnableDMAMUX(true);
@@ -527,13 +527,13 @@ void dmaStreamFreeI(const stm32_dma_stream_t *dmastp) {
   if ((dma.allocated_mask & STM32_DMA1_STREAMS_MASK) == 0U) {
     rccDisableDMA1();
   }
-#if STM32_DMA2_NUM_CHANNELS > 0
+#if RT_AT32_EDMA2_NUM_CHANNELS > 0
   if ((dma.allocated_mask & STM32_DMA2_STREAMS_MASK) == 0U) {
     rccDisableDMA2();
   }
 #endif
 
-#if (STM32_DMA_SUPPORTS_DMAMUX == TRUE) && defined(rccDisableDMAMUX)
+#if (RT_AT32_EDMA_SUPPORTS_DMAMUX == TRUE) && defined(rccDisableDMAMUX)
   /* Shutting down DMAMUX if present.*/
   if (dma.allocated_mask == 0U) {
     rccDisableDMAMUX();
@@ -578,7 +578,7 @@ void dmaServeInterrupt(const stm32_dma_stream_t *dmastp) {
   }
 }
 
-#if (STM32_DMA_SUPPORTS_DMAMUX == TRUE) || defined(__DOXYGEN__)
+#if (RT_AT32_EDMA_SUPPORTS_DMAMUX == TRUE) || defined(__DOXYGEN__)
 /**
  * @brief   Associates a peripheral request to a DMA stream.
  * @note    This function can be invoked in both ISR or thread context.
