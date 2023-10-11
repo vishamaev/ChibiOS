@@ -180,8 +180,11 @@
 
 /* EDMA attributes.*/
 #define RT_AT32_ADVANCED_EDMA               TRUE
-#define RT_AT32_EDMA_CACHE_HANDLING         FALSE
-#define RT_AT32_EDMA_SUPPORTS_DMAMUX        FALSE
+#define RT_AT32_EDMA_CACHE_HANDLING         FALSE       // FixMe Проверить!
+#define RT_AT32_EDMA_SUPPORTS_DMAMUX        TRUE
+#define RT_AT32_EDMA_SUPPORTS_CSELR         FALSE       // FixMe Проверить!
+#define RT_AT32_EDMA1_NUM_CHANNELS          8
+#define RT_AT32_EDMA2_NUM_CHANNELS          0
 
 #define RT_AT32_HAS_EDMA                    TRUE
 #define RT_AT32_EDMA_CH1_HANDLER            Vector6C
