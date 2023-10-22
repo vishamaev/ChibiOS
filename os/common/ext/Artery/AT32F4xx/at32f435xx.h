@@ -513,17 +513,17 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR} error_status;
 #define DMA2MUX_GENERATOR3_BASE          (DMA2_BASE + 0x0128)
 #define DMA2MUX_GENERATOR4_BASE          (DMA2_BASE + 0x012C)
 
-#define EDMA_BASE                        (AHBPERIPH1_BASE + 0x6000)
-#define EDMA_STREAM1_BASE                (EDMA_BASE + 0x0010)
-#define EDMA_STREAM2_BASE                (EDMA_BASE + 0x0028)
-#define EDMA_STREAM3_BASE                (EDMA_BASE + 0x0040)
-#define EDMA_STREAM4_BASE                (EDMA_BASE + 0x0058)
-#define EDMA_STREAM5_BASE                (EDMA_BASE + 0x0070)
-#define EDMA_STREAM6_BASE                (EDMA_BASE + 0x0088)
-#define EDMA_STREAM7_BASE                (EDMA_BASE + 0x00A0)
-#define EDMA_STREAM8_BASE                (EDMA_BASE + 0x00B8)
+#define EDMA1_BASE                        (AHBPERIPH1_BASE + 0x6000)
+#define EDMA1_STREAM1_BASE                (EDMA1_BASE + 0x0010)
+#define EDMA1_STREAM2_BASE                (EDMA1_BASE + 0x0028)
+#define EDMA1_STREAM3_BASE                (EDMA1_BASE + 0x0040)
+#define EDMA1_STREAM4_BASE                (EDMA1_BASE + 0x0058)
+#define EDMA1_STREAM5_BASE                (EDMA1_BASE + 0x0070)
+#define EDMA1_STREAM6_BASE                (EDMA1_BASE + 0x0088)
+#define EDMA1_STREAM7_BASE                (EDMA1_BASE + 0x00A0)
+#define EDMA1_STREAM8_BASE                (EDMA1_BASE + 0x00B8)
 
-#define EDMA_2D_BASE                     (EDMA_BASE + 0x00F4)
+#define EDMA_2D_BASE                     (EDMA1_BASE + 0x00F4)
 #define EDMA_STREAM1_2D_BASE             (EDMA_2D_BASE + 0x0004)
 #define EDMA_STREAM2_2D_BASE             (EDMA_2D_BASE + 0x000C)
 #define EDMA_STREAM3_2D_BASE             (EDMA_2D_BASE + 0x0014)
@@ -533,7 +533,7 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR} error_status;
 #define EDMA_STREAM7_2D_BASE             (EDMA_2D_BASE + 0x0034)
 #define EDMA_STREAM8_2D_BASE             (EDMA_2D_BASE + 0x003C)
 
-#define EDMA_LL_BASE                     (EDMA_BASE + 0x00D0)
+#define EDMA_LL_BASE                     (EDMA1_BASE + 0x00D0)
 #define EDMA_STREAM1_LL_BASE             (EDMA_LL_BASE + 0x0004)
 #define EDMA_STREAM2_LL_BASE             (EDMA_LL_BASE + 0x0008)
 #define EDMA_STREAM3_LL_BASE             (EDMA_LL_BASE + 0x000C)
@@ -543,7 +543,7 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR} error_status;
 #define EDMA_STREAM7_LL_BASE             (EDMA_LL_BASE + 0x001C)
 #define EDMA_STREAM8_LL_BASE             (EDMA_LL_BASE + 0x0020)
 
-#define EDMAMUX_BASE                     (EDMA_BASE + 0x0140)
+#define EDMAMUX_BASE                     (EDMA1_BASE + 0x0140)
 #define EDMAMUX_CHANNEL1_BASE            (EDMAMUX_BASE)
 #define EDMAMUX_CHANNEL2_BASE            (EDMAMUX_BASE + 0x0004)
 #define EDMAMUX_CHANNEL3_BASE            (EDMAMUX_BASE + 0x0008)
@@ -553,10 +553,10 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR} error_status;
 #define EDMAMUX_CHANNEL7_BASE            (EDMAMUX_BASE + 0x0018)
 #define EDMAMUX_CHANNEL8_BASE            (EDMAMUX_BASE + 0x001C)
 
-#define EDMAMUX_GENERATOR1_BASE          (EDMA_BASE + 0x0160)
-#define EDMAMUX_GENERATOR2_BASE          (EDMA_BASE + 0x0164)
-#define EDMAMUX_GENERATOR3_BASE          (EDMA_BASE + 0x0168)
-#define EDMAMUX_GENERATOR4_BASE          (EDMA_BASE + 0x016C)
+#define EDMAMUX_GENERATOR1_BASE          (EDMA1_BASE + 0x0160)
+#define EDMAMUX_GENERATOR2_BASE          (EDMA1_BASE + 0x0164)
+#define EDMAMUX_GENERATOR3_BASE          (EDMA1_BASE + 0x0168)
+#define EDMAMUX_GENERATOR4_BASE          (EDMA1_BASE + 0x016C)
 
 #define FLASH_REG_BASE                   (AHBPERIPH1_BASE + 0x3C00)
 #define CRM_BASE                         (AHBPERIPH1_BASE + 0x3800)
@@ -764,11 +764,11 @@ typedef struct {
 
 
 // --- DMA ---
-#if 0                 // STM32
 /** 
   * @brief DMA Controller
   */
 
+#if 0                 // STM32
 typedef struct{
   __IO uint32_t CR;     /*!< DMA stream x configuration register      */
   __IO uint32_t NDTR;   /*!< DMA stream x number of data register     */
@@ -822,9 +822,30 @@ typedef struct{
 }
 DMA2D_TypeDef;
 #else             //RT-AT32
+
+
 /**
   * @brief EDMA Controller
   */
+
+
+typedef struct{
+  __IO uint32_t STS1;   /*!< EDMA status register 1 (EDMA_STS1),     Address offset: 0x00 */
+  __IO uint32_t STS2;   /*!< EDMA status register 2 (EDMA_STS2),     Address offset: 0x04 */
+  __IO uint32_t CLR1;   /*!< EDMA flag clear register 1 (EDMA_CLR1), Address offset: 0x08 */
+  __IO uint32_t CLR2;   /*!< EDMA flag clear register 2 (EDMA_CLR2), Address offset: 0x0C */
+} EDMA_TypeDef;
+
+
+typedef struct{
+  __IO uint32_t CTRL;   /*!< EDMA stream-x control register (EDMA_SxCTRL)  */
+  __IO uint32_t DTCNT;  /*!< EDMA stream-x data register (EDMA_SxDTCNT)    */
+  __IO uint32_t PADDR;  /*!< EDMA stream-x peripheral address register (EDMA_SxPADDR)  */
+  __IO uint32_t M0ADDR; /*!< EDMA stream-x memory 0 address register (EDMA_SxM0ADDR)   */
+  __IO uint32_t M1ADDR; /*!< EDMA stream-x memory 1 address register (EDMA_SxM1ADDR)   */
+  __IO uint32_t FCTRL;  /*!< EDMA stream-x FIFO control register (EDMA_SxFCTRL)        */
+} EDMA_Stream_TypeDef;
+
 
 typedef struct {
   __IO uint32_t CCR;         /*!< EDMA channel x configuration register        */
@@ -832,11 +853,6 @@ typedef struct {
   __IO uint32_t CPAR;        /*!< EDMA channel x peripheral address register   */
   __IO uint32_t CMAR;        /*!< EDMA channel x memory address register       */
 } EDMA_Channel_TypeDef;
-
-typedef struct {
-  __IO uint32_t ISR;         /*!< EDMA interrupt status register,                 Address offset: 0x00 */
-  __IO uint32_t IFCR;        /*!< EDMA interrupt flag clear register,             Address offset: 0x04 */
-} EDMA_TypeDef; 
 
 
 /**
@@ -1852,6 +1868,9 @@ typedef struct {
 #define DMA2_Stream6        ((DMA_Stream_TypeDef *) DMA2_Stream6_BASE)
 #define DMA2_Stream7        ((DMA_Stream_TypeDef *) DMA2_Stream7_BASE)
 #define DMA2D               ((DMA2D_TypeDef *)DMA2D_BASE)
+
+
+
 
 #define ETH                 ((ETH_TypeDef *) ETH_BASE)
 #define DCMI                ((DCMI_TypeDef *) DCMI_BASE)

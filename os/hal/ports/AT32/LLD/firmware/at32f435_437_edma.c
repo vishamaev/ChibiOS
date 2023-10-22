@@ -56,6 +56,7 @@
   * @retval none.
   */
 void edma_reset(edma_stream_type *edma_streamx) {
+
   /* reset registers for the selected stream */
   edma_streamx->ctrl_bit.sen = FALSE;
   edma_streamx->ctrl    = 0x0;

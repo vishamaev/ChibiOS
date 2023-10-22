@@ -66,15 +66,19 @@
 
 #define DMAMUX1_CHANNEL(id)         (DMAMUX1_BASE + ((id) * 4U))
 
-#define DMA1_CH1_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(0))
-#define DMA1_CH2_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(1))
-#define DMA1_CH3_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(2))
-#define DMA1_CH4_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(3))
-#define DMA1_CH5_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(4))
-#define DMA1_CH6_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(5))
-#define DMA1_CH7_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(6))
-#define DMA1_CH8_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(7))
+#define EDMA1_CH1_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(0))
+#define EDMA1_CH2_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(1))
+#define EDMA1_CH3_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(2))
+#define EDMA1_CH4_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(3))
+#define EDMA1_CH5_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(4))
+#define EDMA1_CH6_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(5))
+#define EDMA1_CH7_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(6))
+#define EDMA1_CH8_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(7))
 
+/*--------------------------------------------------*/
+
+
+/*--------------------------------------------------*/
 #else /* !(STM32_DMA_SUPPORTS_DMAMUX == TRUE) */
 
 #define DMA1_CH1_VARIANT            0
@@ -214,7 +218,8 @@ static struct {
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(RT_AT32_EDMA1_CH1_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_EDMA1_CH1_HANDLER) 
+{
 
   OSAL_IRQ_PROLOGUE();
   dmaServeInterrupt(RT_AT32_EDMA1_STREAM1);         //FixMe dmaServeInterrupt() - проверить!
@@ -228,12 +233,10 @@ OSAL_IRQ_HANDLER(RT_AT32_EDMA1_CH1_HANDLER) {
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH2_HANDLER) {
-
+OSAL_IRQ_HANDLER(STM32_DMA1_CH2_HANDLER) 
+{
   OSAL_IRQ_PROLOGUE();
-
   dmaServeInterrupt(RT_AT32_EDMA1_STREAM2);
-
   OSAL_IRQ_EPILOGUE();
 }
 #endif
@@ -244,12 +247,10 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH2_HANDLER) {
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH3_HANDLER) {
-
+OSAL_IRQ_HANDLER(STM32_DMA1_CH3_HANDLER)
+{
   OSAL_IRQ_PROLOGUE();
-
   dmaServeInterrupt(RT_AT32_EDMA1_STREAM3);
-
   OSAL_IRQ_EPILOGUE();
 }
 #endif
@@ -260,12 +261,10 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH3_HANDLER) {
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH4_HANDLER) {
-
+OSAL_IRQ_HANDLER(STM32_DMA1_CH4_HANDLER)
+{
   OSAL_IRQ_PROLOGUE();
-
   dmaServeInterrupt(STM32_DMA1_STREAM4);
-
   OSAL_IRQ_EPILOGUE();
 }
 #endif
@@ -276,12 +275,10 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH4_HANDLER) {
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH5_HANDLER) {
-
+OSAL_IRQ_HANDLER(STM32_DMA1_CH5_HANDLER)
+{
   OSAL_IRQ_PROLOGUE();
-
   dmaServeInterrupt(RT_AT32_EDMA1_STREAM5);
-
   OSAL_IRQ_EPILOGUE();
 }
 #endif
@@ -292,12 +289,10 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH5_HANDLER) {
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH6_HANDLER) {
-
+OSAL_IRQ_HANDLER(STM32_DMA1_CH6_HANDLER)
+{
   OSAL_IRQ_PROLOGUE();
-
   dmaServeInterrupt(RT_AT32_EDMA1_STREAM6);
-
   OSAL_IRQ_EPILOGUE();
 }
 #endif
@@ -308,12 +303,10 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH6_HANDLER) {
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH7_HANDLER) {
-
+OSAL_IRQ_HANDLER(STM32_DMA1_CH7_HANDLER)
+{
   OSAL_IRQ_PROLOGUE();
-
   dmaServeInterrupt(RT_AT32_EDMA1_STREAM7);
-
   OSAL_IRQ_EPILOGUE();
 }
 #endif
@@ -324,12 +317,10 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH7_HANDLER) {
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH8_HANDLER) {
-
+OSAL_IRQ_HANDLER(STM32_DMA1_CH8_HANDLER)
+{
   OSAL_IRQ_PROLOGUE();
-
   dmaServeInterrupt(RT_AT32_EDMA1_STREAM8);
-
   OSAL_IRQ_EPILOGUE();
 }
 #endif

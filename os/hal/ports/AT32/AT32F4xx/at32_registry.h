@@ -52,9 +52,9 @@
 /* RTC attributes.*/
 #define STM32_HAS_RTC                       TRUE
 #if !defined(STM32F2XX)
-#define STM32_RTC_HAS_SUBSECONDS            TRUE
+# define STM32_RTC_HAS_SUBSECONDS           TRUE
 #else
-#define STM32_RTC_HAS_SUBSECONDS            FALSE
+# define STM32_RTC_HAS_SUBSECONDS           FALSE
 #endif
 #define STM32_RTC_HAS_PERIODIC_WAKEUPS      TRUE
 #define STM32_RTC_NUM_ALARMS                2
@@ -68,6 +68,7 @@
 #define STM32_RTC_ALARM_EXTI                17
 #define STM32_RTC_TAMP_STAMP_EXTI           21
 #define STM32_RTC_WKUP_EXTI                 22
+
 #define STM32_RTC_IRQ_ENABLE() do {                                         \
   nvicEnableVector(STM32_RTC_TAMP_STAMP_NUMBER, STM32_IRQ_EXTI21_PRIORITY); \
   nvicEnableVector(STM32_RTC_WKUP_NUMBER, STM32_IRQ_EXTI22_PRIORITY);       \
@@ -95,13 +96,43 @@
 #define STM32_TIMPRE_PRESCALE4              TRUE
 
 /* ADC attributes.*/
-#define STM32_ADC_HANDLER                   Vector88
+#define STM32_ADC_HANDLER                   Vector88        // ADC1, ADC2 and ADC3 global interrupt
 #define STM32_ADC_NUMBER                    18
 
 #define STM32_HAS_ADC1                      TRUE
 #define STM32_ADC1_DMA_MSK                  (STM32_DMA_STREAM_ID_MSK(2, 0) |\
                                              STM32_DMA_STREAM_ID_MSK(2, 4))
 #define STM32_ADC1_DMA_CHN                  0x00000000
+
+#if 0
+/*----------------------------------------------------------------*/
+/**
+  * @brief masks define
+  */
+#define EDMA_STREAM1_INT_MASK            (uint32_t)(0x0000003D)                  /*!< edma stream1 interrupt mask */
+#define EDMA_STREAM2_INT_MASK            (uint32_t)(EDMA_STREAM1_INT_MASK << 6)  /*!< edma stream2 interrupt mask */
+#define EDMA_STREAM3_INT_MASK            (uint32_t)(EDMA_STREAM1_INT_MASK << 16) /*!< edma stream3 interrupt mask */
+#define EDMA_STREAM4_INT_MASK            (uint32_t)(EDMA_STREAM1_INT_MASK << 22) /*!< edma stream4 interrupt mask */
+#define EDMA_STREAM5_INT_MASK            (uint32_t)(EDMA_STREAM1_INT_MASK)       /*!< edma stream5 interrupt mask */
+#define EDMA_STREAM6_INT_MASK            (uint32_t)(EDMA_STREAM2_INT_MASK)       /*!< edma stream6 interrupt mask */
+#define EDMA_STREAM7_INT_MASK            (uint32_t)(EDMA_STREAM3_INT_MASK)       /*!< edma stream7 interrupt mask */
+#define EDMA_STREAM8_INT_MASK            (uint32_t)(EDMA_STREAM4_INT_MASK)       /*!< edma stream8 interrupt mask */
+
+#define STM32_DMA_STREAM_ID_MSK(dma, stream)  (1U << RT_AT32_EDMA_STREAM_ID(dma, stream))
+
+/**
+ * @brief   Returns an unique numeric identifier for a DMA stream.
+ *
+ * @param[in] dma       the DMA unit number
+ * @param[in] stream    the stream number
+ * @return              An unique numeric stream identifier.
+ */
+#define RT_AT32_EDMA_STREAM_ID(dma, stream)   ((((dma) - 1) * RT_AT32_EDMA1_NUM_CHANNELS) + ((stream) - 1))
+
+
+/*----------------------------------------------------------------*/
+#endif
+
 
 #define STM32_HAS_ADC2                      TRUE
 #define STM32_ADC2_DMA_MSK                  (STM32_DMA_STREAM_ID_MSK(2, 2) |\
@@ -139,44 +170,44 @@
 
 /* DMA attributes.*/
 #define STM32_ADVANCED_DMA                  TRUE
-#define STM32_DMA_CACHE_HANDLING            FALSE
-#define STM32_DMA_SUPPORTS_DMAMUX           FALSE
+#define STM32_DMA_CACHE_HANDLING            FALSE       //FixMe проверить!
+#define STM32_DMA_SUPPORTS_DMAMUX           TRUE
 
-#define STM32_HAS_DMA1                      TRUE
-#define STM32_DMA1_CH0_HANDLER              Vector6C
-#define STM32_DMA1_CH1_HANDLER              Vector70
-#define STM32_DMA1_CH2_HANDLER              Vector74
-#define STM32_DMA1_CH3_HANDLER              Vector78
-#define STM32_DMA1_CH4_HANDLER              Vector7C
-#define STM32_DMA1_CH5_HANDLER              Vector80
-#define STM32_DMA1_CH6_HANDLER              Vector84
-#define STM32_DMA1_CH7_HANDLER              VectorFC
-#define STM32_DMA1_CH0_NUMBER               11
-#define STM32_DMA1_CH1_NUMBER               12
-#define STM32_DMA1_CH2_NUMBER               13
-#define STM32_DMA1_CH3_NUMBER               14
-#define STM32_DMA1_CH4_NUMBER               15
-#define STM32_DMA1_CH5_NUMBER               16
-#define STM32_DMA1_CH6_NUMBER               17
-#define STM32_DMA1_CH7_NUMBER               47
+#define RT_AT32_HAS_DMA1                    TRUE
+#define RT_AT32_DMA1_CH1_HANDLER            Vector120       //DMA1 channel1 global interrupt
+#define RT_AT32_DMA1_CH2_HANDLER            Vector124       //DMA1 channel2 global interrupt
+#define RT_AT32_DMA1_CH3_HANDLER            Vector128       //DMA1 channel3 global interrupt
+#define RT_AT32_DMA1_CH4_HANDLER            Vector12C       //DMA1 channel4 global interrupt
+#define RT_AT32_DMA1_CH5_HANDLER            Vector130       //DMA1 channel5 global interrupt
+#define RT_AT32_DMA1_CH6_HANDLER            Vector150       //DMA1 channel6 global interrupt
+#define RT_AT32_DMA1_CH7_HANDLER            Vector154       //DMA1 channel7 global interrupt
+//#define RT_AT32_DMA1_CH7_HANDLER            Vector158
 
-#define STM32_HAS_DMA2                      TRUE
-#define STM32_DMA2_CH0_HANDLER              Vector120
-#define STM32_DMA2_CH1_HANDLER              Vector124
-#define STM32_DMA2_CH2_HANDLER              Vector128
-#define STM32_DMA2_CH3_HANDLER              Vector12C
-#define STM32_DMA2_CH4_HANDLER              Vector130
-#define STM32_DMA2_CH5_HANDLER              Vector150
-#define STM32_DMA2_CH6_HANDLER              Vector154
-#define STM32_DMA2_CH7_HANDLER              Vector158
-#define STM32_DMA2_CH0_NUMBER               56
-#define STM32_DMA2_CH1_NUMBER               57
-#define STM32_DMA2_CH2_NUMBER               58
-#define STM32_DMA2_CH3_NUMBER               59
-#define STM32_DMA2_CH4_NUMBER               60
-#define STM32_DMA2_CH5_NUMBER               68
-#define STM32_DMA2_CH6_NUMBER               69
-#define STM32_DMA2_CH7_NUMBER               70
+#define RT_AT32_DMA1_CH1_NUMBER             56       
+#define RT_AT32_DMA1_CH2_NUMBER             57       
+#define RT_AT32_DMA1_CH3_NUMBER             58       
+#define RT_AT32_DMA1_CH4_NUMBER             59       
+#define RT_AT32_DMA1_CH5_NUMBER             60       
+#define RT_AT32_DMA1_CH6_NUMBER             68       
+#define RT_AT32_DMA1_CH7_NUMBER             69       
+//#define RT_AT32_DMA1_CH7_NUMBER             70       
+
+#define RT_AT32_HAS_DMA2                    TRUE
+#define RT_AT32_DMA2_CH1_HANDLER            Vector1F0       //DMA2 channel1 global interrupt
+#define RT_AT32_DMA2_CH2_HANDLER            Vector1F4       //DMA2 channel2 global interrupt
+#define RT_AT32_DMA2_CH3_HANDLER            Vector1F8       //DMA2 channel3 global interrupt
+#define RT_AT32_DMA2_CH4_HANDLER            Vector1FC       //DMA2 channel4 global interrupt
+#define RT_AT32_DMA2_CH5_HANDLER            Vector200       //DMA2 channel5 global interrupt
+#define RT_AT32_DMA2_CH6_HANDLER            Vector204       //DMA2 channel6 global interrupt
+#define RT_AT32_DMA2_CH7_HANDLER            Vector208       //DMA2 channel7 global interrupt
+
+#define RT_AT32_DMA2_CH1_NUMBER             108
+#define RT_AT32_DMA2_CH2_NUMBER             109
+#define RT_AT32_DMA2_CH3_NUMBER             110
+#define RT_AT32_DMA2_CH4_NUMBER             111
+#define RT_AT32_DMA2_CH5_NUMBER             112
+#define RT_AT32_DMA2_CH6_NUMBER             113
+#define RT_AT32_DMA2_CH7_NUMBER             114
 
 /* EDMA attributes.*/
 #define RT_AT32_ADVANCED_EDMA               TRUE
@@ -187,14 +218,14 @@
 #define RT_AT32_EDMA2_NUM_CHANNELS          0
 
 #define RT_AT32_HAS_EDMA1                   TRUE
-#define RT_AT32_EDMA1_CH1_HANDLER           Vector6C
-#define RT_AT32_EDMA1_CH2_HANDLER           Vector70
-#define RT_AT32_EDMA1_CH3_HANDLER           Vector74
-#define RT_AT32_EDMA1_CH4_HANDLER           Vector78
-#define RT_AT32_EDMA1_CH5_HANDLER           Vector7C
-#define RT_AT32_EDMA1_CH6_HANDLER           Vector80
-#define RT_AT32_EDMA1_CH7_HANDLER           Vector84
-#define RT_AT32_EDMA1_CH8_HANDLER           VectorFC
+#define RT_AT32_EDMA1_CH1_HANDLER           Vector6C    // EDMA data flow1 global interrupt
+#define RT_AT32_EDMA1_CH2_HANDLER           Vector70    // EDMA data flow2 global interrupt
+#define RT_AT32_EDMA1_CH3_HANDLER           Vector74    // EDMA data flow3 global interrupt
+#define RT_AT32_EDMA1_CH4_HANDLER           Vector78    // EDMA data flow4 global interrupt
+#define RT_AT32_EDMA1_CH5_HANDLER           Vector7C    // EDMA data flow5 global interrupt
+#define RT_AT32_EDMA1_CH6_HANDLER           Vector80    // EDMA data flow6 global interrupt
+#define RT_AT32_EDMA1_CH7_HANDLER           Vector84    // EDMA data flow7 global interrupt
+#define RT_AT32_EDMA1_CH8_HANDLER           VectorFC    // EDMA data flow8 global interrupt
 
 #define RT_AT32_EDMA1_CH1_NUMBER            11
 #define RT_AT32_EDMA1_CH2_NUMBER            12
@@ -207,9 +238,9 @@
 
 
 /* ETH attributes.*/
-#define STM32_HAS_ETH                       TRUE
-#define STM32_ETH_HANDLER                   Vector134
-#define STM32_ETH_NUMBER                    61
+#define RT_AT32_HAS_ETH                     TRUE
+#define RT_AT32_ETH_HANDLER                 Vector134   // Ethernet global interrupt
+#define RT_AT32_ETH_NUMBER                  61          
 
 /* EXTI attributes.*/
 #define STM32_EXTI_NUM_LINES                23
