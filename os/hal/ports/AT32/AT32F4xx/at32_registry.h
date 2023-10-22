@@ -186,25 +186,24 @@
 #define RT_AT32_EDMA1_NUM_CHANNELS          8
 #define RT_AT32_EDMA2_NUM_CHANNELS          0
 
-#define RT_AT32_HAS_EDMA                    TRUE
-#define RT_AT32_EDMA_CH1_HANDLER            Vector6C
-#define RT_AT32_EDMA_CH2_HANDLER            Vector70
-#define RT_AT32_EDMA_CH3_HANDLER            Vector74
-#define RT_AT32_EDMA_CH4_HANDLER            Vector78
-#define RT_AT32_EDMA_CH5_HANDLER            Vector7C
-#define RT_AT32_EDMA_CH6_HANDLER            Vector80
-#define RT_AT32_EDMA_CH7_HANDLER            Vector84
-#define RT_AT32_EDMA_CH8_HANDLER            VectorFC
+#define RT_AT32_HAS_EDMA1                   TRUE
+#define RT_AT32_EDMA1_CH1_HANDLER           Vector6C
+#define RT_AT32_EDMA1_CH2_HANDLER           Vector70
+#define RT_AT32_EDMA1_CH3_HANDLER           Vector74
+#define RT_AT32_EDMA1_CH4_HANDLER           Vector78
+#define RT_AT32_EDMA1_CH5_HANDLER           Vector7C
+#define RT_AT32_EDMA1_CH6_HANDLER           Vector80
+#define RT_AT32_EDMA1_CH7_HANDLER           Vector84
+#define RT_AT32_EDMA1_CH8_HANDLER           VectorFC
 
-#define RT_AT32_EDMA_CH1_NUMBER             11
-#define RT_AT32_EDMA_CH2_NUMBER             12
-#define RT_AT32_EDMA_CH3_NUMBER             13
-#define RT_AT32_EDMA_CH4_NUMBER             14
-#define RT_AT32_EDMA_CH5_NUMBER             15
-#define RT_AT32_EDMA_CH6_NUMBER             16
-#define RT_AT32_EDMA_CH7_NUMBER             17
-#define RT_AT32_EDMA_CH8_NUMBER             47
-
+#define RT_AT32_EDMA1_CH1_NUMBER            11
+#define RT_AT32_EDMA1_CH2_NUMBER            12
+#define RT_AT32_EDMA1_CH3_NUMBER            13
+#define RT_AT32_EDMA1_CH4_NUMBER            14
+#define RT_AT32_EDMA1_CH5_NUMBER            15
+#define RT_AT32_EDMA1_CH6_NUMBER            16
+#define RT_AT32_EDMA1_CH7_NUMBER            17
+#define RT_AT32_EDMA1_CH8_NUMBER            47
 
 
 /* ETH attributes.*/

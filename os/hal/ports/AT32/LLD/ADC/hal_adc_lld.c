@@ -258,7 +258,7 @@ void adc_lld_start(ADCDriver *adcp) {
     if (&ADCD1 == adcp) {
       adcp->dmastp = dmaStreamAllocI(STM32_ADC_ADC1_DMA_STREAM,
                                      STM32_ADC_ADC1_DMA_IRQ_PRIORITY,
-                                     (stm32_dmaisr_t)adc_lld_serve_rx_interrupt,
+                                     (rt_at32_edmaisr_t)adc_lld_serve_rx_interrupt,
                                      (void *)adcp);
       osalDbgAssert(adcp->dmastp != NULL, "unable to allocate stream");
       dmaStreamSetPeripheral(adcp->dmastp, &ADC1->DR);
@@ -270,7 +270,7 @@ void adc_lld_start(ADCDriver *adcp) {
     if (&ADCD2 == adcp) {
       adcp->dmastp = dmaStreamAllocI(STM32_ADC_ADC2_DMA_STREAM,
                                      STM32_ADC_ADC2_DMA_IRQ_PRIORITY,
-                                     (stm32_dmaisr_t)adc_lld_serve_rx_interrupt,
+                                     (rt_at32_edmaisr_t)adc_lld_serve_rx_interrupt,
                                      (void *)adcp);
       osalDbgAssert(adcp->dmastp != NULL, "unable to allocate stream");
       dmaStreamSetPeripheral(adcp->dmastp, &ADC2->DR);
@@ -282,7 +282,7 @@ void adc_lld_start(ADCDriver *adcp) {
     if (&ADCD3 == adcp) {
       adcp->dmastp = dmaStreamAllocI(STM32_ADC_ADC3_DMA_STREAM,
                                      STM32_ADC_ADC3_DMA_IRQ_PRIORITY,
-                                     (stm32_dmaisr_t)adc_lld_serve_rx_interrupt,
+                                     (rt_at32_edmaisr_t)adc_lld_serve_rx_interrupt,
                                      (void *)adcp);
       osalDbgAssert(adcp->dmastp != NULL, "unable to allocate stream");
       dmaStreamSetPeripheral(adcp->dmastp, &ADC3->DR);

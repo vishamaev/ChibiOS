@@ -54,7 +54,7 @@
 
 /**
  * @brief   Returns the request line associated to the specified stream.
- * @note    In some STM32 manuals the request line is named confusingly
+ * @note    In some AT32 manuals the request line is named confusingly
  *          channel.
  *
  * @param[in] id        the unique numeric stream identifier
@@ -85,16 +85,16 @@
  * @retval true         correct DMA channel.
  */
 # define RT_AT32_EDMA_IS_VALID_STREAM(id) (((id) >= 0U) &&                      \
-                                       ((id) < STM32_DMA_STREAMS))
+                                       ((id) < RT_AT32_EDMA_STREAMS))
 #else /* const stm32_dma_stream_t *dmaStreamAlloc(uint32_t id, == FALSE */
 # if RT_AT32_EDMA2_NUM_CHANNELS > 0
 #  define RT_AT32_EDMA_IS_VALID_STREAM(id) (((id) >= 0U) &&                      \
-                                       ((id) <= (STM32_DMA_STREAMS + 2)))
+                                       ((id) <= (RT_AT32_EDMA_STREAMS + 2)))
 # else
 #  define RT_AT32_EDMA_IS_VALID_STREAM(id) (((id) >= 0U) &&                      \
-                                       ((id) <= (STM32_DMA_STREAMS + 1)))
+                                       ((id) <= (RT_AT32_EDMA_STREAMS + 1)))
 # endif
-#endif /* STM32_DMA_SUPPORTS_DMAMUX == FALSE */
+#endif /* RT_AT32_EDMA_SUPPORTS_DMAMUX == FALSE */
 
 /**
  * @brief   Returns an unique numeric identifier for a DMA stream.
@@ -103,7 +103,7 @@
  * @param[in] stream    the stream number
  * @return              An unique numeric stream identifier.
  */
-#define STM32_DMA_STREAM_ID(dma, stream)                                    \
+#define RT_AT32_EDMA_STREAM_ID(dma, stream)                                    \
   ((((dma) - 1) * RT_AT32_EDMA1_NUM_CHANNELS) + ((stream) - 1))
 
 /**
@@ -115,7 +115,7 @@
  * @return              A DMA stream identifier mask.
  */
 #define STM32_DMA_STREAM_ID_MSK(dma, stream)                                \
-  (1U << STM32_DMA_STREAM_ID(dma, stream))
+  (1U << RT_AT32_EDMA_STREAM_ID(dma, stream))
 
 /**
  * @brief   Checks if a DMA stream unique identifier belongs to a mask.
@@ -134,7 +134,7 @@
  * @name    Special stream identifiers
  * @{
  */
-#define STM32_DMA_STREAM_ID_ANY         STM32_DMA_STREAMS
+#define STM32_DMA_STREAM_ID_ANY         RT_AT32_EDMA_STREAMS
 #define STM32_DMA_STREAM_ID_ANY_DMA1    (STM32_DMA_STREAM_ID_ANY + 1)
 #if RT_AT32_EDMA2_NUM_CHANNELS > 0
 #define STM32_DMA_STREAM_ID_ANY_DMA2    (STM32_DMA_STREAM_ID_ANY_DMA1 + 1)
@@ -153,31 +153,31 @@
  * @return              A pointer to the stm32_dma_stream_t constant structure
  *                      associated to the DMA stream.
  */
-#define RT_AT32_EDMA_STREAM(id)     (&_stm32_dma_streams[id])
+#define RT_AT32_EDMA_STREAM(id)     (&_rt_at32_edma_streams[id])
 
 #if RT_AT32_EDMA1_NUM_CHANNELS > 0
-#define STM32_DMA1_STREAM1          RT_AT32_EDMA_STREAM(0)
+#define RT_AT32_EDMA1_STREAM1       RT_AT32_EDMA_STREAM(0)
 #endif
 #if RT_AT32_EDMA1_NUM_CHANNELS > 1
-#define STM32_DMA1_STREAM2          RT_AT32_EDMA_STREAM(1)
+#define RT_AT32_EDMA1_STREAM2       RT_AT32_EDMA_STREAM(1)
 #endif
 #if RT_AT32_EDMA1_NUM_CHANNELS > 2
-#define STM32_DMA1_STREAM3          RT_AT32_EDMA_STREAM(2)
+#define RT_AT32_EDMA1_STREAM3       RT_AT32_EDMA_STREAM(2)
 #endif
 #if RT_AT32_EDMA1_NUM_CHANNELS > 3
-#define STM32_DMA1_STREAM4          RT_AT32_EDMA_STREAM(3)
+#define RT_AT32_EDMA1_STREAM4       RT_AT32_EDMA_STREAM(3)
 #endif
 #if RT_AT32_EDMA1_NUM_CHANNELS > 4
-#define STM32_DMA1_STREAM5          RT_AT32_EDMA_STREAM(4)
+#define RT_AT32_EDMA1_STREAM5       RT_AT32_EDMA_STREAM(4)
 #endif
 #if RT_AT32_EDMA1_NUM_CHANNELS > 5
-#define STM32_DMA1_STREAM6          RT_AT32_EDMA_STREAM(5)
+#define RT_AT32_EDMA1_STREAM6       RT_AT32_EDMA_STREAM(5)
 #endif
 #if RT_AT32_EDMA1_NUM_CHANNELS > 6
-#define STM32_DMA1_STREAM7          RT_AT32_EDMA_STREAM(6)
+#define RT_AT32_EDMA1_STREAM7       RT_AT32_EDMA_STREAM(6)
 #endif
 #if RT_AT32_EDMA1_NUM_CHANNELS > 7
-#define STM32_DMA1_STREAM8          RT_AT32_EDMA_STREAM(7)
+#define RT_AT32_EDMA1_STREAM8       RT_AT32_EDMA_STREAM(7)
 #endif
 
 /** @} */
@@ -286,14 +286,14 @@
  * @param[in] flags     pre-shifted content of the ISR register, the bits
  *                      are aligned to bit zero
  */
-typedef void (*stm32_dmaisr_t)(void *p, uint32_t flags);
+typedef void (*rt_at32_edmaisr_t)(void *p, uint32_t flags);
 
 /**
- * @brief   STM32 DMA stream descriptor structure.
+ * @brief   RT_AT32 EDMA stream descriptor structure.
  */
 typedef struct {
-  EDMA_TypeDef           *dma;          /**< @brief Associated DMA.         */
-  EDMA_Channel_TypeDef   *channel;      /**< @brief Associated DMA channel. */
+  EDMA_TypeDef          *dma;           /**< @brief Associated DMA.         */
+  EDMA_Channel_TypeDef  *channel;       /**< @brief Associated DMA channel. */
   uint32_t              cmask;          /**< @brief Mask of streams sharing
                                              the same ISR.                  */
 #if (RT_AT32_EDMA_SUPPORTS_CSELR == TRUE) || defined(__DOXYGEN__)
@@ -307,7 +307,7 @@ typedef struct {
                                              and CSELR registers.           */
   uint8_t               selfindex;      /**< @brief Index to self in array. */
   uint8_t               vector;         /**< @brief Associated IRQ vector.  */
-} stm32_dma_stream_t;
+} rt_at32_edma_stream_t;
 
 /*===========================================================================*/
 /* Driver macros.                                                            */
@@ -495,28 +495,28 @@ typedef struct {
 /*===========================================================================*/
 
 #if !defined(__DOXYGEN__)
-extern const stm32_dma_stream_t _stm32_dma_streams[RT_AT32_EDMA_STREAMS];
+extern const rt_at32_edma_stream_t _rt_at32_edma_streams[RT_AT32_EDMA_STREAMS];
 #endif
 
 #ifdef __cplusplus
 extern "C" {
 #endif
   void dmaInit(void);
-  const stm32_dma_stream_t *dmaStreamAllocI(uint32_t        id,
+  const rt_at32_edma_stream_t *dmaStreamAllocI(uint32_t        id,
                                             uint32_t        priority,
-                                            stm32_dmaisr_t  func,
+                                            rt_at32_edmaisr_t  func,
                                             void *param);
 
-  const stm32_dma_stream_t *dmaStreamAlloc(uint32_t         id,
+  const rt_at32_edma_stream_t *dmaStreamAlloc(uint32_t         id,
                                            uint32_t         priority,
-                                           stm32_dmaisr_t   func,
+                                           rt_at32_edmaisr_t   func,
                                            void *param);
 
-  void dmaStreamFreeI(const stm32_dma_stream_t *dmastp);
-  void dmaStreamFree(const stm32_dma_stream_t *dmastp);
-  void dmaServeInterrupt(const stm32_dma_stream_t *dmastp);
+  void dmaStreamFreeI(const rt_at32_edma_stream_t *dmastp);
+  void dmaStreamFree(const rt_at32_edma_stream_t *dmastp);
+  void dmaServeInterrupt(const rt_at32_edma_stream_t *dmastp);
 #if RT_AT32_EDMA_SUPPORTS_DMAMUX == TRUE
-  void dmaSetRequestSource(const stm32_dma_stream_t *dmastp, uint32_t per);
+  void dmaSetRequestSource(const rt_at32_edma_stream_t *dmastp, uint32_t per);
 #endif
 #ifdef __cplusplus
 }

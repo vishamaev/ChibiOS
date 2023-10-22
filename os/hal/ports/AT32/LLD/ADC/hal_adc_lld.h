@@ -175,21 +175,21 @@
  * @brief   DMA stream used for ADC1 operations.
  */
 #if !defined(STM32_ADC_ADC1_DMA_STREAM) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC1_DMA_STREAM           STM32_DMA_STREAM_ID(2, 4)
+#define STM32_ADC_ADC1_DMA_STREAM           RT_AT32_EDMA_STREAM_ID(2, 4)
 #endif
 
 /**
  * @brief   DMA stream used for ADC2 operations.
  */
 #if !defined(STM32_ADC_ADC2_DMA_STREAM) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC2_DMA_STREAM           STM32_DMA_STREAM_ID(2, 2)
+#define STM32_ADC_ADC2_DMA_STREAM           RT_AT32_EDMA_STREAM_ID(2, 2)
 #endif
 
 /**
  * @brief   DMA stream used for ADC3 operations.
  */
 #if !defined(STM32_ADC_ADC3_DMA_STREAM) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC3_DMA_STREAM           STM32_DMA_STREAM_ID(2, 1)
+#define STM32_ADC_ADC3_DMA_STREAM           RT_AT32_EDMA_STREAM_ID(2, 1)
 #endif
 
 /**
@@ -329,7 +329,7 @@ typedef uint32_t adcerror_t;
  */
 #define adc_lld_driver_fields                                                     \
   ADC_TypeDef               *adc;     /* Pointer to the ADCx registers block.*/   \
-  const stm32_dma_stream_t  *dmastp;  /* Pointer to associated DMA channel.*/     \
+  const rt_at32_edma_stream_t  *dmastp;  /* Pointer to associated DMA channel.*/     \
   uint32_t                  dmamode   /* DMA mode bit mask.*/
 
 /**

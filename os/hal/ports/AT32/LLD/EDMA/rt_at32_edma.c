@@ -141,7 +141,7 @@
  * @note    Don't use this array directly, use the appropriate wrapper macros
  *          instead: @p STM32_DMA1_STREAM1, @p STM32_DMA1_STREAM2 etc.
  */
-const stm32_dma_stream_t _stm32_dma_streams[STM32_DMA_STREAMS] = {
+const rt_at32_edma_stream_t _rt_at32_edma_streams[RT_AT32_EDMA_STREAMS] = {
 #if RT_AT32_EDMA1_NUM_CHANNELS > 0
   {DMA1, DMA1_Channel1, STM32_DMA1_CH1_CMASK, DMA1_CH1_VARIANT,  0, 0, STM32_DMA1_CH1_NUMBER},
 #endif
@@ -192,12 +192,12 @@ static struct {
     /**
      * @brief   DMA callback function.
      */
-    stm32_dmaisr_t    func;
+    rt_at32_edmaisr_t    func;
     /**
      * @brief   DMA callback parameter.
      */
     void              *param;
-  } streams[STM32_DMA_STREAMS];
+  } streams[RT_AT32_EDMA_STREAMS];
 } dma;
 
 /*===========================================================================*/
@@ -208,18 +208,16 @@ static struct {
 /* Driver interrupt handlers.                                                */
 /*===========================================================================*/
 
-#if defined(STM32_DMA1_CH1_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_EDMA_CH1_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA1 stream 1 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH1_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_EDMA1_CH1_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
-
-  dmaServeInterrupt(STM32_DMA1_STREAM1);
-
+  dmaServeInterrupt(RT_AT32_EDMA1_STREAM1);         //FixMe dmaServeInterrupt() - проверить!
   OSAL_IRQ_EPILOGUE();
 }
 #endif
@@ -234,7 +232,7 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH2_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM2);
+  dmaServeInterrupt(RT_AT32_EDMA1_STREAM2);
 
   OSAL_IRQ_EPILOGUE();
 }
@@ -250,7 +248,7 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH3_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM3);
+  dmaServeInterrupt(RT_AT32_EDMA1_STREAM3);
 
   OSAL_IRQ_EPILOGUE();
 }
@@ -282,7 +280,7 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH5_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM5);
+  dmaServeInterrupt(RT_AT32_EDMA1_STREAM5);
 
   OSAL_IRQ_EPILOGUE();
 }
@@ -298,7 +296,7 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH6_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM6);
+  dmaServeInterrupt(RT_AT32_EDMA1_STREAM6);
 
   OSAL_IRQ_EPILOGUE();
 }
@@ -314,7 +312,7 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH7_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM7);
+  dmaServeInterrupt(RT_AT32_EDMA1_STREAM7);
 
   OSAL_IRQ_EPILOGUE();
 }
@@ -330,7 +328,7 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH8_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM8);
+  dmaServeInterrupt(RT_AT32_EDMA1_STREAM8);
 
   OSAL_IRQ_EPILOGUE();
 }
@@ -351,8 +349,8 @@ void dmaInit(void) {
 
   dma.allocated_mask = 0U;
   dma.isr_mask       = 0U;
-  for (i = 0; i < STM32_DMA_STREAMS; i++) {
-    _stm32_dma_streams[i].channel->CCR = STM32_DMA_CCR_RESET_VALUE;
+  for (i = 0; i < RT_AT32_EDMA_STREAMS; i++) {
+    _rt_at32_edma_streams[i].channel->CCR = STM32_DMA_CCR_RESET_VALUE;
     dma.streams[i].func = NULL;
   }
   DMA1->IFCR = 0xFFFFFFFFU;
@@ -378,9 +376,9 @@ void dmaInit(void) {
  *
  * @iclass
  */
-const stm32_dma_stream_t *dmaStreamAllocI(uint32_t id,
+const rt_at32_edma_stream_t *dmaStreamAllocI(uint32_t id,
                                           uint32_t priority,
-                                          stm32_dmaisr_t func,
+                                          rt_at32_edmaisr_t func,
                                           void *param) {
   uint32_t i, startid, endid;
 
@@ -402,7 +400,7 @@ const stm32_dma_stream_t *dmaStreamAllocI(uint32_t id,
 #if RT_AT32_EDMA2_NUM_CHANNELS > 0
   else if (id == STM32_DMA_STREAM_ID_ANY_DMA2) {
     startid = RT_AT32_EDMA1_NUM_CHANNELS;
-    endid   = STM32_DMA_STREAMS - 1U;
+    endid   = RT_AT32_EDMA_STREAMS - 1U;
   }
 #endif
 #endif
@@ -414,7 +412,7 @@ const stm32_dma_stream_t *dmaStreamAllocI(uint32_t id,
   for (i = startid; i <= endid; i++) {
     uint32_t mask = (1U << i);
     if ((dma.allocated_mask & mask) == 0U) {
-      const stm32_dma_stream_t *dmastp = RT_AT32_EDMA_STREAM(i);
+      const rt_at32_edma_stream_t *dmastp = RT_AT32_EDMA_STREAM(i);
 
       /* Installs the DMA handler.*/
       dma.streams[i].func  = func;
@@ -478,11 +476,11 @@ const stm32_dma_stream_t *dmaStreamAllocI(uint32_t id,
  *
  * @api
  */
-const stm32_dma_stream_t *dmaStreamAlloc(uint32_t id,
+const rt_at32_edma_stream_t *dmaStreamAlloc(uint32_t id,
                                          uint32_t priority,
-                                         stm32_dmaisr_t func,
+                                         rt_at32_edmaisr_t func,
                                          void *param) {
-  const stm32_dma_stream_t *dmastp;
+  const rt_at32_edma_stream_t *dmastp;
 
   osalSysLock();
   dmastp = dmaStreamAllocI(id, priority, func, param);
@@ -501,7 +499,7 @@ const stm32_dma_stream_t *dmaStreamAlloc(uint32_t id,
  *
  * @iclass
  */
-void dmaStreamFreeI(const stm32_dma_stream_t *dmastp) {
+void dmaStreamFreeI(const rt_at32_edma_stream_t *dmastp) {
   uint32_t selfindex = (uint32_t)dmastp->selfindex;
 
   osalDbgCheck(dmastp != NULL);
@@ -551,7 +549,7 @@ void dmaStreamFreeI(const stm32_dma_stream_t *dmastp) {
  *
  * @api
  */
-void dmaStreamFree(const stm32_dma_stream_t *dmastp) {
+void dmaStreamFree(const rt_at32_edma_stream_t *dmastp) {
 
   osalSysLock();
   dmaStreamFreeI(dmastp);
@@ -565,7 +563,7 @@ void dmaStreamFree(const stm32_dma_stream_t *dmastp) {
  *
  * @special
  */
-void dmaServeInterrupt(const stm32_dma_stream_t *dmastp) {
+void dmaServeInterrupt(const rt_at32_edma_stream_t *dmastp) {
   uint32_t flags;
   uint32_t selfindex = (uint32_t)dmastp->selfindex;
 
@@ -588,7 +586,7 @@ void dmaServeInterrupt(const stm32_dma_stream_t *dmastp) {
  *
  * @special
  */
-void dmaSetRequestSource(const stm32_dma_stream_t *dmastp, uint32_t per) {
+void dmaSetRequestSource(const rt_at32_edma_stream_t *dmastp, uint32_t per) {
 
   osalDbgCheck(per < 256U);
 
