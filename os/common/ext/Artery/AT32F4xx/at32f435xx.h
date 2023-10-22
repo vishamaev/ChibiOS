@@ -822,44 +822,6 @@ typedef struct{
 }
 DMA2D_TypeDef;
 #else             //RT-AT32
-/**
-  * @brief EDMA Controller
-  */
-
-typedef struct {
-  __IO uint32_t CCR;         /*!< EDMA channel x configuration register        */
-  __IO uint32_t CNDTR;       /*!< EDMA channel x number of data register       */
-  __IO uint32_t CPAR;        /*!< EDMA channel x peripheral address register   */
-  __IO uint32_t CMAR;        /*!< EDMA channel x memory address register       */
-} EDMA_Channel_TypeDef;
-
-typedef struct {
-  __IO uint32_t ISR;         /*!< EDMA interrupt status register,                 Address offset: 0x00 */
-  __IO uint32_t IFCR;        /*!< EDMA interrupt flag clear register,             Address offset: 0x04 */
-} EDMA_TypeDef; 
-
-
-/**
-  * @brief EDMA Multiplexer
-  */
-
-typedef struct {
-  __IO uint32_t   CCR;       /*!< DMA Multiplexer Channel x Control Register    Address offset: 0x0004 * (channel x) */
-}EDMAMUX_Channel_TypeDef;
-
-typedef struct {
-  __IO uint32_t   CSR;      /*!< DMA Channel Status Register                    Address offset: 0x0080   */
-  __IO uint32_t   CFR;      /*!< DMA Channel Clear Flag Register                Address offset: 0x0084   */
-}EDMAMUX_ChannelStatus_TypeDef;
-
-typedef struct {
-  __IO uint32_t   RGCR;        /*!< DMA Request Generator x Control Register     Address offset: 0x0100 + 0x0004 * (Req Gen x) */
-}EDMAMUX_RequestGen_TypeDef;
-
-typedef struct {
-  __IO uint32_t   RGSR;        /*!< DMA Request Generator Status Register        Address offset: 0x0140   */
-  __IO uint32_t   RGCFR;        /*!< DMA Request Generator Clear Flag Register    Address offset: 0x0144   */
-}EDMAMUX_RequestGenStatus_TypeDef; 
 
 
 /**
