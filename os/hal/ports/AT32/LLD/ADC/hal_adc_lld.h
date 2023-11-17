@@ -175,21 +175,21 @@
  * @brief   DMA stream used for ADC1 operations.
  */
 #if !defined(STM32_ADC_ADC1_DMA_STREAM) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC1_DMA_STREAM           RT_AT32_EDMA_STREAM_ID(2, 4)
+#define STM32_ADC_ADC1_DMA_STREAM           RT_AT32_DMA_STREAM_ID(2, 4)
 #endif
 
 /**
  * @brief   DMA stream used for ADC2 operations.
  */
 #if !defined(STM32_ADC_ADC2_DMA_STREAM) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC2_DMA_STREAM           RT_AT32_EDMA_STREAM_ID(2, 2)
+#define STM32_ADC_ADC2_DMA_STREAM           RT_AT32_DMA_STREAM_ID(2, 2)
 #endif
 
 /**
  * @brief   DMA stream used for ADC3 operations.
  */
 #if !defined(STM32_ADC_ADC3_DMA_STREAM) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC3_DMA_STREAM           RT_AT32_EDMA_STREAM_ID(2, 1)
+#define STM32_ADC_ADC3_DMA_STREAM           RT_AT32_DMA_STREAM_ID(2, 1)
 #endif
 
 /**
@@ -265,6 +265,9 @@
 #error "ADC driver activated but no ADC peripheral assigned"
 #endif
 
+#if STM32_DMA_SUPPORTS_DMAMUX
+
+#else /* !STM32_DMA_SUPPORTS_DMAMUX */
 #if STM32_ADC_USE_ADC1 &&                                                   \
     !STM32_DMA_IS_VALID_ID(STM32_ADC_ADC1_DMA_STREAM, STM32_ADC1_DMA_MSK)
 #error "invalid DMA stream associated to ADC1"
@@ -279,6 +282,8 @@
     !STM32_DMA_IS_VALID_ID(STM32_ADC_ADC3_DMA_STREAM, STM32_ADC3_DMA_MSK)
 #error "invalid DMA stream associated to ADC3"
 #endif
+
+#endif /* !STM32_DMA_SUPPORTS_DMAMUX */
 
 /* ADC clock related settings and checks.*/
 #if STM32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV2
@@ -327,10 +332,13 @@ typedef uint32_t adcerror_t;
 /**
  * @brief   Low level fields of the ADC driver structure.
  */
-#define adc_lld_driver_fields                                                     \
-  ADC_TypeDef               *adc;     /* Pointer to the ADCx registers block.*/   \
-  const rt_at32_edma_stream_t  *dmastp;  /* Pointer to associated DMA channel.*/     \
-  uint32_t                  dmamode   /* DMA mode bit mask.*/
+#define adc_lld_driver_fields                                               \
+  /* Pointer to the ADCx registers block.*/                                 \
+  ADC_TypeDef               *adc;                                           \
+  /* Pointer to associated DMA channel.*/                                   \
+  const rt_at32_dma_stream_t  *dmastp;                                      \
+  /* DMA mode bit mask.*/                                                   \
+  uint32_t                  dmamode
 
 /**
  * @brief   Low level fields of the ADC configuration structure.

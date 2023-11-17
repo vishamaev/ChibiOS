@@ -379,6 +379,29 @@
  * @api
  */
 #define rccResetDMA1() rccResetAHB1(RCC_AHB1RSTR_DMA1RST)
+
+/**
+ * @brief   Enables the DMA2 peripheral clock.
+ *
+ * @param[in] lp        low power enable flag
+ *
+ * @api
+ */
+#define rccEnableDMA2(lp) rccEnableAHB1(RCC_AHB1ENR_DMA2EN, lp)
+
+/**
+ * @brief   Disables the DMA2 peripheral clock.
+ *
+ * @api
+ */
+#define rccDisableDMA2() rccDisableAHB1(RCC_AHB1ENR_DMA2EN)
+
+/**
+ * @brief   Resets the DMA2 peripheral.
+ *
+ * @api
+ */
+#define rccResetDMA2() rccResetAHB1(RCC_AHB1RSTR_DMA2RST)
 /** @} */
 
 /**

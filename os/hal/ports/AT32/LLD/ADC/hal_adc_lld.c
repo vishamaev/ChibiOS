@@ -79,7 +79,8 @@ static void adc_lld_serve_rx_interrupt(ADCDriver *adcp, uint32_t flags) {
     /* DMA, this could help only if the DMA tries to access an unmapped
        address space or violates alignment rules.*/
     _adc_isr_error_code(adcp, ADC_ERR_DMAFAILURE);
-  } else {
+  }
+  else {
     /* It is possible that the conversion group has already be reset by the
        ADC error handler, in this case this interrupt is spurious.*/
     if (adcp->grpp != NULL) {
@@ -201,7 +202,6 @@ void adc_lld_init(void) {
 #if STM32_ADC_USE_ADC1
   /* Driver initialization.*/
   adcObjectInit(&ADCD1);
-
   ADCD1.adc     = ADC1;
   ADCD1.dmastp  = NULL;
   ADCD1.dmamode = STM32_DMA_CR_CHSEL(ADC1_DMA_CHANNEL) |
@@ -238,6 +238,10 @@ void adc_lld_init(void) {
                   STM32_DMA_CR_DMEIE       | STM32_DMA_CR_TEIE;
 #endif
 
+#if defined(rccResetADC)
+  /* Shared reset case.*/
+  rccResetADC();
+#endif
   /* The shared vector is initialized on driver initialization and never
      disabled because sharing.*/
   nvicEnableVector(STM32_ADC_NUMBER, STM32_ADC_IRQ_PRIORITY);
@@ -258,11 +262,17 @@ void adc_lld_start(ADCDriver *adcp) {
     if (&ADCD1 == adcp) {
       adcp->dmastp = dmaStreamAllocI(STM32_ADC_ADC1_DMA_STREAM,
                                      STM32_ADC_ADC1_DMA_IRQ_PRIORITY,
-                                     (rt_at32_edmaisr_t)adc_lld_serve_rx_interrupt,
+                                     (at32_dmaisr_t)adc_lld_serve_rx_interrupt,
                                      (void *)adcp);
       osalDbgAssert(adcp->dmastp != NULL, "unable to allocate stream");
       dmaStreamSetPeripheral(adcp->dmastp, &ADC1->DR);
+#if defined(rccResetADC1)
+      rccResetADC1();
+#endif
       rccEnableADC1(true);
+#if STM32_DMA_SUPPORTS_DMAMUX
+      dmaSetRequestSource(adcp->dmastp, STM32_DMAMUX1_ADC1);
+#endif
     }
 #endif /* STM32_ADC_USE_ADC1 */
 
@@ -270,11 +280,17 @@ void adc_lld_start(ADCDriver *adcp) {
     if (&ADCD2 == adcp) {
       adcp->dmastp = dmaStreamAllocI(STM32_ADC_ADC2_DMA_STREAM,
                                      STM32_ADC_ADC2_DMA_IRQ_PRIORITY,
-                                     (rt_at32_edmaisr_t)adc_lld_serve_rx_interrupt,
+                                     (at32_dmaisr_t)adc_lld_serve_rx_interrupt,
                                      (void *)adcp);
       osalDbgAssert(adcp->dmastp != NULL, "unable to allocate stream");
       dmaStreamSetPeripheral(adcp->dmastp, &ADC2->DR);
+#if defined(rccResetADC2)
+      rccResetADC2();
+#endif
       rccEnableADC2(true);
+#if STM32_DMA_SUPPORTS_DMAMUX
+      dmaSetRequestSource(adcp->dmastp, STM32_DMAMUX1_ADC2);
+#endif
     }
 #endif /* STM32_ADC_USE_ADC2 */
 
@@ -282,17 +298,24 @@ void adc_lld_start(ADCDriver *adcp) {
     if (&ADCD3 == adcp) {
       adcp->dmastp = dmaStreamAllocI(STM32_ADC_ADC3_DMA_STREAM,
                                      STM32_ADC_ADC3_DMA_IRQ_PRIORITY,
-                                     (rt_at32_edmaisr_t)adc_lld_serve_rx_interrupt,
+                                     (at32_dmaisr_t)adc_lld_serve_rx_interrupt,
                                      (void *)adcp);
       osalDbgAssert(adcp->dmastp != NULL, "unable to allocate stream");
       dmaStreamSetPeripheral(adcp->dmastp, &ADC3->DR);
+#if defined(rccResetADC3)
+      rccResetADC3();
+#endif
       rccEnableADC3(true);
+#if STM32_DMA_SUPPORTS_DMAMUX
+      dmaSetRequestSource(adcp->dmastp, STM32_DMAMUX1_ADC3);
+#endif
     }
 #endif /* STM32_ADC_USE_ADC3 */
 
     /* This is a common register but apparently it requires that at least one
        of the ADCs is clocked in order to allow writing, see bug 3575297.*/
-    ADC->CCR = (ADC->CCR & (ADC_CCR_TSVREFE | ADC_CCR_VBATE)) | (STM32_ADC_ADCPRE << 16);
+    ADC->CCR = (ADC->CCR & (ADC_CCR_TSVREFE | ADC_CCR_VBATE)) |
+               (STM32_ADC_ADCPRE << 16);
 
     /* ADC initial setup, starting the analog part here in order to reduce
        the latency when starting a conversion.*/
