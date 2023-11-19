@@ -103,7 +103,7 @@ typedef enum {
   DebugMonitor_IRQn           = -4,     /*!< 12 Cortex-M4 Debug Monitor Interrupt                              */
   PendSV_IRQn                 = -2,     /*!< 14 Cortex-M4 Pend SV Interrupt                                    */
   SysTick_IRQn                = -1,     /*!< 15 Cortex-M4 System Tick Interrupt                                */
-#if 1
+#if 0
 /******  STM32 specific Interrupt Numbers **********************************************************************/
   WWDG_IRQn                   = 0,      /*!< Window WatchDog Interrupt                                         */
   PVD_IRQn                    = 1,      /*!< PVD through EXTI Line detection Interrupt                         */
@@ -304,7 +304,7 @@ typedef enum {
 #include "system_at32f4xx.h"
 #include <stdint.h>
 
-#if 0
+#if 1
 // --- Exported from at32f435_437.h Begin       ++VS
 /** @addtogroup Exported_types
   * @{
@@ -380,191 +380,217 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR} error_status;
   * @{
   */
 
-#define XMC_SDRAM_MEM_BASE               ((uint32_t)0xC0000000)
-#define QSPI2_MEM_BASE                   ((uint32_t)0xB0000000)
-#define XMC_CARD_MEM_BASE                ((uint32_t)0xA8000000)
-#define QSPI2_REG_BASE                   ((uint32_t)0xA0002000)
-#define QSPI1_REG_BASE                   ((uint32_t)0xA0001000)
-#define XMC_REG_BASE                     ((uint32_t)0xA0000000)
-#define XMC_BANK1_REG_BASE               (XMC_REG_BASE + 0x0000)
-#define XMC_BANK2_REG_BASE               (XMC_REG_BASE + 0x0060)
-#define XMC_BANK3_REG_BASE               (XMC_REG_BASE + 0x0080)
-#define XMC_BANK4_REG_BASE               (XMC_REG_BASE + 0x00A0)
-#define XMC_SDRAM_REG_BASE               (XMC_REG_BASE + 0x0140)
-#define QSPI1_MEM_BASE                   ((uint32_t)0x90000000)
-#define XMC_MEM_BASE                     ((uint32_t)0x60000000)
-#define PERIPH_BASE                      ((uint32_t)0x40000000)
-#define SRAM_BB_BASE                     ((uint32_t)0x22000000)
-#define PERIPH_BB_BASE                   ((uint32_t)0x42000000)
-#define SRAM_BASE                        ((uint32_t)0x20000000)
-#define USD_BASE                         ((uint32_t)0x1FFFC000)
-#define FLASH_BASE                       ((uint32_t)0x08000000)
+#define XMC_SDRAM_MEM_BASE               ((uint32_t)0xC0000000U)
+#define QSPI2_MEM_BASE                   ((uint32_t)0xB0000000U)
+#define XMC_CARD_MEM_BASE                ((uint32_t)0xA8000000U)
+#define QSPI2_REG_BASE                   ((uint32_t)0xA0002000U)
+#define QSPI1_REG_BASE                   ((uint32_t)0xA0001000U)
+#define XMC_REG_BASE                     ((uint32_t)0xA0000000U)
+#define XMC_BANK1_REG_BASE               (XMC_REG_BASE + 0x0000U)
+#define XMC_BANK2_REG_BASE               (XMC_REG_BASE + 0x0060U)
+#define XMC_BANK3_REG_BASE               (XMC_REG_BASE + 0x0080U)
+#define XMC_BANK4_REG_BASE               (XMC_REG_BASE + 0x00A0U)
+#define XMC_SDRAM_REG_BASE               (XMC_REG_BASE + 0x0140U)
+#define QSPI1_MEM_BASE                   ((uint32_t)0x90000000U)
+#define XMC_MEM_BASE                     ((uint32_t)0x60000000U)
+#define PERIPH_BASE                      ((uint32_t)0x40000000U)
+#define SRAM_BB_BASE                     ((uint32_t)0x22000000U)
+#define PERIPH_BB_BASE                   ((uint32_t)0x42000000U)
+#define SRAM_BASE                        ((uint32_t)0x20000000U)
+#define USD_BASE                         ((uint32_t)0x1FFFC000U)
+#define FLASH_BASE                       ((uint32_t)0x08000000U)
 
 #define DEBUG_BASE                       ((uint32_t)0xE0042000)
 
 #define APB1PERIPH_BASE                  (PERIPH_BASE)
-#define APB2PERIPH_BASE                  (PERIPH_BASE + 0x10000)
-#define AHBPERIPH1_BASE                  (PERIPH_BASE + 0x20000)
-#define AHBPERIPH2_BASE                  (PERIPH_BASE + 0x10000000)
+#define APB2PERIPH_BASE                  (PERIPH_BASE + 0x10000U)
+#define AHBPERIPH1_BASE                  (PERIPH_BASE + 0x20000U)
+#define AHBPERIPH2_BASE                  (PERIPH_BASE + 0x10000000U)
 
 #if defined (AT32F435xx)
 /* apb1 bus base address */
-#define UART8_BASE                       (APB1PERIPH_BASE + 0x7C00)
-#define UART7_BASE                       (APB1PERIPH_BASE + 0x7800)
-#define DAC_BASE                         (APB1PERIPH_BASE + 0x7400)
-#define PWC_BASE                         (APB1PERIPH_BASE + 0x7000)
-#define CAN2_BASE                        (APB1PERIPH_BASE + 0x6800)
-#define CAN1_BASE                        (APB1PERIPH_BASE + 0x6400)
-#define I2C3_BASE                        (APB1PERIPH_BASE + 0x5C00)
-#define I2C2_BASE                        (APB1PERIPH_BASE + 0x5800)
-#define I2C1_BASE                        (APB1PERIPH_BASE + 0x5400)
-#define UART5_BASE                       (APB1PERIPH_BASE + 0x5000)
-#define UART4_BASE                       (APB1PERIPH_BASE + 0x4C00)
-#define USART3_BASE                      (APB1PERIPH_BASE + 0x4800)
-#define USART2_BASE                      (APB1PERIPH_BASE + 0x4400)
-#define SPI3_BASE                        (APB1PERIPH_BASE + 0x3C00)
-#define SPI2_BASE                        (APB1PERIPH_BASE + 0x3800)
-#define WDT_BASE                         (APB1PERIPH_BASE + 0x3000)
-#define WWDT_BASE                        (APB1PERIPH_BASE + 0x2C00)
-#define ERTC_BASE                        (APB1PERIPH_BASE + 0x2800)
-#define TMR14_BASE                       (APB1PERIPH_BASE + 0x2000)     /* */
-#define TMR13_BASE                       (APB1PERIPH_BASE + 0x1C00)     /* */
-#define TMR12_BASE                       (APB1PERIPH_BASE + 0x1800)     /* */
-#define TMR7_BASE                        (APB1PERIPH_BASE + 0x1400)     /* */
-#define TMR6_BASE                        (APB1PERIPH_BASE + 0x1000)     /* */
-#define TMR5_BASE                        (APB1PERIPH_BASE + 0x0C00)     /* */
-#define TMR4_BASE                        (APB1PERIPH_BASE + 0x0800)     /* */
-#define TMR3_BASE                        (APB1PERIPH_BASE + 0x0400)     /* */
-#define TMR2_BASE                        (APB1PERIPH_BASE + 0x0000)     /* */
+#define UART8_BASE                       (APB1PERIPH_BASE + 0x7C00U)
+#define UART7_BASE                       (APB1PERIPH_BASE + 0x7800U)
+#define DAC_BASE                         (APB1PERIPH_BASE + 0x7400U)
+#define PWC_BASE                         (APB1PERIPH_BASE + 0x7000U)
+#define CAN2_BASE                        (APB1PERIPH_BASE + 0x6800U)
+#define CAN1_BASE                        (APB1PERIPH_BASE + 0x6400U)
+#define I2C3_BASE                        (APB1PERIPH_BASE + 0x5C00U)
+#define I2C2_BASE                        (APB1PERIPH_BASE + 0x5800U)
+#define I2C1_BASE                        (APB1PERIPH_BASE + 0x5400U)
+#define UART5_BASE                       (APB1PERIPH_BASE + 0x5000U)
+#define UART4_BASE                       (APB1PERIPH_BASE + 0x4C00U)
+#define USART3_BASE                      (APB1PERIPH_BASE + 0x4800U)
+#define USART2_BASE                      (APB1PERIPH_BASE + 0x4400U)
+#define SPI3_BASE                        (APB1PERIPH_BASE + 0x3C00U)
+#define SPI2_BASE                        (APB1PERIPH_BASE + 0x3800U)
+#define WDT_BASE                         (APB1PERIPH_BASE + 0x3000U)
+#define WWDT_BASE                        (APB1PERIPH_BASE + 0x2C00U)
+#define ERTC_BASE                        (APB1PERIPH_BASE + 0x2800U)
+#define TMR14_BASE                       (APB1PERIPH_BASE + 0x2000U)     /* */
+#define TMR13_BASE                       (APB1PERIPH_BASE + 0x1C00U)     /* */
+#define TMR12_BASE                       (APB1PERIPH_BASE + 0x1800U)     /* */
+#define TMR7_BASE                        (APB1PERIPH_BASE + 0x1400U)     /* */
+#define TMR6_BASE                        (APB1PERIPH_BASE + 0x1000U)     /* */
+#define TMR5_BASE                        (APB1PERIPH_BASE + 0x0C00U)     /* */
+#define TMR4_BASE                        (APB1PERIPH_BASE + 0x0800U)     /* */
+#define TMR3_BASE                        (APB1PERIPH_BASE + 0x0400U)     /* */
+#define TMR2_BASE                        (APB1PERIPH_BASE + 0x0000U)     /* */
 /* apb2 bus base address */
-#define I2S2EXT_BASE                     (APB2PERIPH_BASE + 0x7800)
-#define I2S3EXT_BASE                     (APB2PERIPH_BASE + 0x7C00)
-#define ACC_BASE                         (APB2PERIPH_BASE + 0x7400)
-#define TMR20_BASE                       (APB2PERIPH_BASE + 0x4C00)     /* TIM20_BASE (APB2PERIPH_BASE + 0x4C00U) */
-#define TMR11_BASE                       (APB2PERIPH_BASE + 0x4800)     /* */
-#define TMR10_BASE                       (APB2PERIPH_BASE + 0x4400)     /* */
-#define TMR9_BASE                        (APB2PERIPH_BASE + 0x4000)     /* */
-#define EXINT_BASE                       (APB2PERIPH_BASE + 0x3C00)
-#define SCFG_BASE                        (APB2PERIPH_BASE + 0x3800)
-#define SPI4_BASE                        (APB2PERIPH_BASE + 0x3400)
-#define SPI1_BASE                        (APB2PERIPH_BASE + 0x3000)
-#define ADC1_BASE                        (APB2PERIPH_BASE + 0x2000)
-#define ADC2_BASE                        (APB2PERIPH_BASE + 0x2100)
-#define ADC3_BASE                        (APB2PERIPH_BASE + 0x2200)
-#define ADCCOM_BASE                      (APB2PERIPH_BASE + 0x2300)
-#define USART6_BASE                      (APB2PERIPH_BASE + 0x1400)
-#define USART1_BASE                      (APB2PERIPH_BASE + 0x1000)
-#define TMR8_BASE                        (APB2PERIPH_BASE + 0x0400)     /*  */
-#define TMR1_BASE                        (APB2PERIPH_BASE + 0x0000)     /* TIM1_BASE  (APB2PERIPH_BASE + 0x0000U) */
+#define I2S2EXT_BASE                     (APB2PERIPH_BASE + 0x7800U)
+#define I2S3EXT_BASE                     (APB2PERIPH_BASE + 0x7C00U)
+#define ACC_BASE                         (APB2PERIPH_BASE + 0x7400U)
+#define TMR20_BASE                       (APB2PERIPH_BASE + 0x4C00U)     /* TIM20_BASE (APB2PERIPH_BASE + 0x4C00U) */
+#define TMR11_BASE                       (APB2PERIPH_BASE + 0x4800U)     /* */
+#define TMR10_BASE                       (APB2PERIPH_BASE + 0x4400U)     /* */
+#define TMR9_BASE                        (APB2PERIPH_BASE + 0x4000U)     /* */
+#define EXINT_BASE                       (APB2PERIPH_BASE + 0x3C00U)
+#define SCFG_BASE                        (APB2PERIPH_BASE + 0x3800U)
+#define SPI4_BASE                        (APB2PERIPH_BASE + 0x3400U)
+#define SPI1_BASE                        (APB2PERIPH_BASE + 0x3000U)
+#define ADC1_BASE                        (APB2PERIPH_BASE + 0x2000U)
+#define ADC2_BASE                        (APB2PERIPH_BASE + 0x2100U)
+#define ADC3_BASE                        (APB2PERIPH_BASE + 0x2200U)
+#define ADCCOM_BASE                      (APB2PERIPH_BASE + 0x2300U)
+#define ADC123_COMMON_BASE                ADCCOM_BASE
+/* Legacy define */
+#define ADC_BASE                          ADC123_COMMON_BASE
+
+#define USART6_BASE                      (APB2PERIPH_BASE + 0x1400U)
+#define USART1_BASE                      (APB2PERIPH_BASE + 0x1000U)
+#define TMR8_BASE                        (APB2PERIPH_BASE + 0x0400U)     /*  */
+#define TMR1_BASE                        (APB2PERIPH_BASE + 0x0000U)     /* TIM1_BASE  (APB2PERIPH_BASE + 0x0000U) */
 /* ahb bus base address */
-#define OTGFS2_BASE                      (AHBPERIPH1_BASE + 0x20000)
-#define SDIO1_BASE                       (AHBPERIPH1_BASE + 0xC400)
-#define GPIOH_BASE                       (AHBPERIPH1_BASE + 0x1C00)
-#define GPIOG_BASE                       (AHBPERIPH1_BASE + 0x1800)
-#define GPIOF_BASE                       (AHBPERIPH1_BASE + 0x1400)
-#define GPIOE_BASE                       (AHBPERIPH1_BASE + 0x1000)
-#define GPIOD_BASE                       (AHBPERIPH1_BASE + 0x0C00)
-#define GPIOC_BASE                       (AHBPERIPH1_BASE + 0x0800)
-#define GPIOB_BASE                       (AHBPERIPH1_BASE + 0x0400)
-#define GPIOA_BASE                       (AHBPERIPH1_BASE + 0x0000)
+#define OTGFS2_BASE                      (AHBPERIPH1_BASE + 0x20000U)
+#define SDIO1_BASE                       (AHBPERIPH1_BASE + 0xC400U)
+#define GPIOH_BASE                       (AHBPERIPH1_BASE + 0x1C00U)
+#define GPIOG_BASE                       (AHBPERIPH1_BASE + 0x1800U)
+#define GPIOF_BASE                       (AHBPERIPH1_BASE + 0x1400U)
+#define GPIOE_BASE                       (AHBPERIPH1_BASE + 0x1000U)
+#define GPIOD_BASE                       (AHBPERIPH1_BASE + 0x0C00U)
+#define GPIOC_BASE                       (AHBPERIPH1_BASE + 0x0800U)
+#define GPIOB_BASE                       (AHBPERIPH1_BASE + 0x0400U)
+#define GPIOA_BASE                       (AHBPERIPH1_BASE + 0x0000U)
 
-#define DMA1_BASE                        (AHBPERIPH1_BASE + 0x6400)
-#define DMA1_CHANNEL1_BASE               (DMA1_BASE + 0x0008)
-#define DMA1_CHANNEL2_BASE               (DMA1_BASE + 0x001C)
-#define DMA1_CHANNEL3_BASE               (DMA1_BASE + 0x0030)
-#define DMA1_CHANNEL4_BASE               (DMA1_BASE + 0x0044)
-#define DMA1_CHANNEL5_BASE               (DMA1_BASE + 0x0058)
-#define DMA1_CHANNEL6_BASE               (DMA1_BASE + 0x006C)
-#define DMA1_CHANNEL7_BASE               (DMA1_BASE + 0x0080)
+#define DMA1_BASE                        (AHBPERIPH1_BASE + 0x6400U)
+#define DMA1_CHANNEL1_BASE               (DMA1_BASE + 0x0008U)
+#define DMA1_CHANNEL2_BASE               (DMA1_BASE + 0x001CU)
+#define DMA1_CHANNEL3_BASE               (DMA1_BASE + 0x0030U)
+#define DMA1_CHANNEL4_BASE               (DMA1_BASE + 0x0044U)
+#define DMA1_CHANNEL5_BASE               (DMA1_BASE + 0x0058U)
+#define DMA1_CHANNEL6_BASE               (DMA1_BASE + 0x006CU)
+#define DMA1_CHANNEL7_BASE               (DMA1_BASE + 0x0080U)
 
-#define DMA1MUX_BASE                     (DMA1_BASE + 0x0104)
+#define DMA1                             ((DMA_TypeDef *) DMA1_BASE)
+#define DMA1_Channel1_BASE                DMA1_CHANNEL1_BASE
+#define DMA1_Channel2_BASE                DMA1_CHANNEL2_BASE
+#define DMA1_Channel3_BASE                DMA1_CHANNEL3_BASE
+#define DMA1_Channel4_BASE                DMA1_CHANNEL4_BASE
+#define DMA1_Channel5_BASE                DMA1_CHANNEL5_BASE
+#define DMA1_Channel6_BASE                DMA1_CHANNEL6_BASE
+#define DMA1_Channel7_BASE                DMA1_CHANNEL7_BASE
+
+#define DMA1MUX_BASE                     (DMA1_BASE + 0x0104U)
 #define DMA1MUX_CHANNEL1_BASE            (DMA1MUX_BASE)
-#define DMA1MUX_CHANNEL2_BASE            (DMA1MUX_BASE + 0x0004)
-#define DMA1MUX_CHANNEL3_BASE            (DMA1MUX_BASE + 0x0008)
-#define DMA1MUX_CHANNEL4_BASE            (DMA1MUX_BASE + 0x000C)
-#define DMA1MUX_CHANNEL5_BASE            (DMA1MUX_BASE + 0x0010)
-#define DMA1MUX_CHANNEL6_BASE            (DMA1MUX_BASE + 0x0014)
-#define DMA1MUX_CHANNEL7_BASE            (DMA1MUX_BASE + 0x0018)
+#define DMA1MUX_CHANNEL2_BASE            (DMA1MUX_BASE + 0x0004U)
+#define DMA1MUX_CHANNEL3_BASE            (DMA1MUX_BASE + 0x0008U)
+#define DMA1MUX_CHANNEL4_BASE            (DMA1MUX_BASE + 0x000CU)
+#define DMA1MUX_CHANNEL5_BASE            (DMA1MUX_BASE + 0x0010U)
+#define DMA1MUX_CHANNEL6_BASE            (DMA1MUX_BASE + 0x0014U)
+#define DMA1MUX_CHANNEL7_BASE            (DMA1MUX_BASE + 0x0018U)
 
-#define DMA1MUX_GENERATOR1_BASE          (DMA1_BASE + 0x0120)
-#define DMA1MUX_GENERATOR2_BASE          (DMA1_BASE + 0x0124)
-#define DMA1MUX_GENERATOR3_BASE          (DMA1_BASE + 0x0128)
-#define DMA1MUX_GENERATOR4_BASE          (DMA1_BASE + 0x012C)
+#define DMAMUX1_BASE                     DMA1MUX_BASE
 
-#define DMA2_BASE                        (AHBPERIPH1_BASE + 0x6600)
-#define DMA2_CHANNEL1_BASE               (DMA2_BASE + 0x0008)
-#define DMA2_CHANNEL2_BASE               (DMA2_BASE + 0x001C)
-#define DMA2_CHANNEL3_BASE               (DMA2_BASE + 0x0030)
-#define DMA2_CHANNEL4_BASE               (DMA2_BASE + 0x0044)
-#define DMA2_CHANNEL5_BASE               (DMA2_BASE + 0x0058)
-#define DMA2_CHANNEL6_BASE               (DMA2_BASE + 0x006C)
-#define DMA2_CHANNEL7_BASE               (DMA2_BASE + 0x0080)
 
-#define DMA2MUX_BASE                     (DMA2_BASE + 0x0104)
+#define DMA1MUX_GENERATOR1_BASE          (DMA1_BASE + 0x0120U)
+#define DMA1MUX_GENERATOR2_BASE          (DMA1_BASE + 0x0124U)
+#define DMA1MUX_GENERATOR3_BASE          (DMA1_BASE + 0x0128U)
+#define DMA1MUX_GENERATOR4_BASE          (DMA1_BASE + 0x012CU)
+
+#define DMA2_BASE                        (AHBPERIPH1_BASE + 0x6600U)
+#define DMA2_CHANNEL1_BASE               (DMA2_BASE + 0x0008U)
+#define DMA2_CHANNEL2_BASE               (DMA2_BASE + 0x001CU)
+#define DMA2_CHANNEL3_BASE               (DMA2_BASE + 0x0030U)
+#define DMA2_CHANNEL4_BASE               (DMA2_BASE + 0x0044U)
+#define DMA2_CHANNEL5_BASE               (DMA2_BASE + 0x0058U)
+#define DMA2_CHANNEL6_BASE               (DMA2_BASE + 0x006CU)
+#define DMA2_CHANNEL7_BASE               (DMA2_BASE + 0x0080U)
+
+#define DMA2                             ((DMA_TypeDef *) DMA2_BASE)
+#define DMA2_Channel1_BASE               DMA2_CHANNEL1_BASE
+#define DMA2_Channel2_BASE               DMA2_CHANNEL2_BASE
+#define DMA2_Channel3_BASE               DMA2_CHANNEL3_BASE
+#define DMA2_Channel4_BASE               DMA2_CHANNEL4_BASE
+#define DMA2_Channel5_BASE               DMA2_CHANNEL5_BASE
+#define DMA2_Channel6_BASE               DMA2_CHANNEL6_BASE
+#define DMA2_Channel7_BASE               DMA2_CHANNEL7_BASE
+
+
+#define DMA2MUX_BASE                     (DMA2_BASE + 0x0104U)
 #define DMA2MUX_CHANNEL1_BASE            (DMA2MUX_BASE)
-#define DMA2MUX_CHANNEL2_BASE            (DMA2MUX_BASE + 0x0004)
-#define DMA2MUX_CHANNEL3_BASE            (DMA2MUX_BASE + 0x0008)
-#define DMA2MUX_CHANNEL4_BASE            (DMA2MUX_BASE + 0x000C)
-#define DMA2MUX_CHANNEL5_BASE            (DMA2MUX_BASE + 0x0010)
-#define DMA2MUX_CHANNEL6_BASE            (DMA2MUX_BASE + 0x0014)
-#define DMA2MUX_CHANNEL7_BASE            (DMA2MUX_BASE + 0x0018)
+#define DMA2MUX_CHANNEL2_BASE            (DMA2MUX_BASE + 0x0004U)
+#define DMA2MUX_CHANNEL3_BASE            (DMA2MUX_BASE + 0x0008U)
+#define DMA2MUX_CHANNEL4_BASE            (DMA2MUX_BASE + 0x000CU)
+#define DMA2MUX_CHANNEL5_BASE            (DMA2MUX_BASE + 0x0010U)
+#define DMA2MUX_CHANNEL6_BASE            (DMA2MUX_BASE + 0x0014U)
+#define DMA2MUX_CHANNEL7_BASE            (DMA2MUX_BASE + 0x0018U)
 
-#define DMA2MUX_GENERATOR1_BASE          (DMA2_BASE + 0x0120)
-#define DMA2MUX_GENERATOR2_BASE          (DMA2_BASE + 0x0124)
-#define DMA2MUX_GENERATOR3_BASE          (DMA2_BASE + 0x0128)
-#define DMA2MUX_GENERATOR4_BASE          (DMA2_BASE + 0x012C)
+#define DMA2MUX_GENERATOR1_BASE          (DMA2_BASE + 0x0120U)
+#define DMA2MUX_GENERATOR2_BASE          (DMA2_BASE + 0x0124U)
+#define DMA2MUX_GENERATOR3_BASE          (DMA2_BASE + 0x0128U)
+#define DMA2MUX_GENERATOR4_BASE          (DMA2_BASE + 0x012CU)
 
-#define EDMA1_BASE                        (AHBPERIPH1_BASE + 0x6000)
-#define EDMA1_STREAM1_BASE                (EDMA1_BASE + 0x0010)
-#define EDMA1_STREAM2_BASE                (EDMA1_BASE + 0x0028)
-#define EDMA1_STREAM3_BASE                (EDMA1_BASE + 0x0040)
-#define EDMA1_STREAM4_BASE                (EDMA1_BASE + 0x0058)
-#define EDMA1_STREAM5_BASE                (EDMA1_BASE + 0x0070)
-#define EDMA1_STREAM6_BASE                (EDMA1_BASE + 0x0088)
-#define EDMA1_STREAM7_BASE                (EDMA1_BASE + 0x00A0)
-#define EDMA1_STREAM8_BASE                (EDMA1_BASE + 0x00B8)
+#define EDMA1_BASE                        (AHBPERIPH1_BASE + 0x6000U)
+#define EDMA1_STREAM1_BASE                (EDMA1_BASE + 0x0010U)
+#define EDMA1_STREAM2_BASE                (EDMA1_BASE + 0x0028U)
+#define EDMA1_STREAM3_BASE                (EDMA1_BASE + 0x0040U)
+#define EDMA1_STREAM4_BASE                (EDMA1_BASE + 0x0058U)
+#define EDMA1_STREAM5_BASE                (EDMA1_BASE + 0x0070U)
+#define EDMA1_STREAM6_BASE                (EDMA1_BASE + 0x0088U)
+#define EDMA1_STREAM7_BASE                (EDMA1_BASE + 0x00A0U)
+#define EDMA1_STREAM8_BASE                (EDMA1_BASE + 0x00B8U)
 
-#define EDMA_2D_BASE                     (EDMA1_BASE + 0x00F4)
-#define EDMA_STREAM1_2D_BASE             (EDMA_2D_BASE + 0x0004)
-#define EDMA_STREAM2_2D_BASE             (EDMA_2D_BASE + 0x000C)
-#define EDMA_STREAM3_2D_BASE             (EDMA_2D_BASE + 0x0014)
-#define EDMA_STREAM4_2D_BASE             (EDMA_2D_BASE + 0x001C)
-#define EDMA_STREAM5_2D_BASE             (EDMA_2D_BASE + 0x0024)
-#define EDMA_STREAM6_2D_BASE             (EDMA_2D_BASE + 0x002C)
-#define EDMA_STREAM7_2D_BASE             (EDMA_2D_BASE + 0x0034)
-#define EDMA_STREAM8_2D_BASE             (EDMA_2D_BASE + 0x003C)
+#define EDMA_2D_BASE                     (EDMA1_BASE + 0x00F4U)
+#define EDMA_STREAM1_2D_BASE             (EDMA_2D_BASE + 0x0004U)
+#define EDMA_STREAM2_2D_BASE             (EDMA_2D_BASE + 0x000CU)
+#define EDMA_STREAM3_2D_BASE             (EDMA_2D_BASE + 0x0014U)
+#define EDMA_STREAM4_2D_BASE             (EDMA_2D_BASE + 0x001CU)
+#define EDMA_STREAM5_2D_BASE             (EDMA_2D_BASE + 0x0024U)
+#define EDMA_STREAM6_2D_BASE             (EDMA_2D_BASE + 0x002CU)
+#define EDMA_STREAM7_2D_BASE             (EDMA_2D_BASE + 0x0034U)
+#define EDMA_STREAM8_2D_BASE             (EDMA_2D_BASE + 0x003CU)
 
-#define EDMA_LL_BASE                     (EDMA1_BASE + 0x00D0)
-#define EDMA_STREAM1_LL_BASE             (EDMA_LL_BASE + 0x0004)
-#define EDMA_STREAM2_LL_BASE             (EDMA_LL_BASE + 0x0008)
-#define EDMA_STREAM3_LL_BASE             (EDMA_LL_BASE + 0x000C)
-#define EDMA_STREAM4_LL_BASE             (EDMA_LL_BASE + 0x0010)
-#define EDMA_STREAM5_LL_BASE             (EDMA_LL_BASE + 0x0014)
-#define EDMA_STREAM6_LL_BASE             (EDMA_LL_BASE + 0x0018)
-#define EDMA_STREAM7_LL_BASE             (EDMA_LL_BASE + 0x001C)
-#define EDMA_STREAM8_LL_BASE             (EDMA_LL_BASE + 0x0020)
+#define EDMA_LL_BASE                     (EDMA1_BASE + 0x00D0U)
+#define EDMA_STREAM1_LL_BASE             (EDMA_LL_BASE + 0x0004U)
+#define EDMA_STREAM2_LL_BASE             (EDMA_LL_BASE + 0x0008U)
+#define EDMA_STREAM3_LL_BASE             (EDMA_LL_BASE + 0x000CU)
+#define EDMA_STREAM4_LL_BASE             (EDMA_LL_BASE + 0x0010U)
+#define EDMA_STREAM5_LL_BASE             (EDMA_LL_BASE + 0x0014U)
+#define EDMA_STREAM6_LL_BASE             (EDMA_LL_BASE + 0x0018U)
+#define EDMA_STREAM7_LL_BASE             (EDMA_LL_BASE + 0x001CU)
+#define EDMA_STREAM8_LL_BASE             (EDMA_LL_BASE + 0x0020U)
 
-#define EDMAMUX_BASE                     (EDMA1_BASE + 0x0140)
+#define EDMAMUX_BASE                     (EDMA1_BASE + 0x0140U)
 #define EDMAMUX_CHANNEL1_BASE            (EDMAMUX_BASE)
-#define EDMAMUX_CHANNEL2_BASE            (EDMAMUX_BASE + 0x0004)
-#define EDMAMUX_CHANNEL3_BASE            (EDMAMUX_BASE + 0x0008)
-#define EDMAMUX_CHANNEL4_BASE            (EDMAMUX_BASE + 0x000C)
-#define EDMAMUX_CHANNEL5_BASE            (EDMAMUX_BASE + 0x0010)
-#define EDMAMUX_CHANNEL6_BASE            (EDMAMUX_BASE + 0x0014)
-#define EDMAMUX_CHANNEL7_BASE            (EDMAMUX_BASE + 0x0018)
-#define EDMAMUX_CHANNEL8_BASE            (EDMAMUX_BASE + 0x001C)
+#define EDMAMUX_CHANNEL2_BASE            (EDMAMUX_BASE + 0x0004U)
+#define EDMAMUX_CHANNEL3_BASE            (EDMAMUX_BASE + 0x0008U)
+#define EDMAMUX_CHANNEL4_BASE            (EDMAMUX_BASE + 0x000CU)
+#define EDMAMUX_CHANNEL5_BASE            (EDMAMUX_BASE + 0x0010U)
+#define EDMAMUX_CHANNEL6_BASE            (EDMAMUX_BASE + 0x0014U)
+#define EDMAMUX_CHANNEL7_BASE            (EDMAMUX_BASE + 0x0018U)
+#define EDMAMUX_CHANNEL8_BASE            (EDMAMUX_BASE + 0x001CU)
 
-#define EDMAMUX_GENERATOR1_BASE          (EDMA1_BASE + 0x0160)
-#define EDMAMUX_GENERATOR2_BASE          (EDMA1_BASE + 0x0164)
-#define EDMAMUX_GENERATOR3_BASE          (EDMA1_BASE + 0x0168)
-#define EDMAMUX_GENERATOR4_BASE          (EDMA1_BASE + 0x016C)
+#define EDMAMUX_GENERATOR1_BASE          (EDMA1_BASE + 0x0160U)
+#define EDMAMUX_GENERATOR2_BASE          (EDMA1_BASE + 0x0164U)
+#define EDMAMUX_GENERATOR3_BASE          (EDMA1_BASE + 0x0168U)
+#define EDMAMUX_GENERATOR4_BASE          (EDMA1_BASE + 0x016CU)
 
-#define FLASH_REG_BASE                   (AHBPERIPH1_BASE + 0x3C00)
-#define CRM_BASE                         (AHBPERIPH1_BASE + 0x3800)
-#define CRC_BASE                         (AHBPERIPH1_BASE + 0x3000)
-#define SDIO2_BASE                       (AHBPERIPH2_BASE + 0x61000)
-#define DVP_BASE                         (AHBPERIPH2_BASE + 0x50000)
-#define OTGFS1_BASE                      (AHBPERIPH2_BASE + 0x00000)
+#define FLASH_REG_BASE                   (AHBPERIPH1_BASE + 0x3C00U)
+#define CRM_BASE                         (AHBPERIPH1_BASE + 0x3800U)
+#define CRC_BASE                         (AHBPERIPH1_BASE + 0x3000U)
+#define SDIO2_BASE                       (AHBPERIPH2_BASE + 0x61000U)
+#define DVP_BASE                         (AHBPERIPH2_BASE + 0x50000U)
+#define OTGFS1_BASE                      (AHBPERIPH2_BASE + 0x00000U)
 #endif
 // --- Exported from at32f435_437.h End  ++VS
 
@@ -1511,7 +1537,7 @@ typedef struct {
   * @}
   */
 
-#if 1
+#if 0
 /** @addtogroup Peripheral_memory_map
   * @{
   */
@@ -1864,6 +1890,7 @@ typedef struct {
 #define RCC                 ((RCC_TypeDef *) RCC_BASE)
 #define FLASH               ((FLASH_TypeDef *) FLASH_R_BASE)
 
+#if 1
 #define DMA1                ((DMA_TypeDef *) DMA1_BASE)
 #define DMA1_Channel1       ((DMA_Channel_TypeDef *) DMA1_Channel1_BASE)
 #define DMA1_Channel2       ((DMA_Channel_TypeDef *) DMA1_Channel2_BASE)
@@ -1881,7 +1908,7 @@ typedef struct {
 #define DMA2_Channel6       ((DMA_Channel_TypeDef *) DMA2_Channel6_BASE)
 #define DMA2_Channel7       ((DMA_Channel_TypeDef *) DMA2_Channel7_BASE)
 #define ETH                 ((ETH_TypeDef *) ETH_BASE)
-
+#endif
 
 #define DMA2D               ((DMA2D_TypeDef *)DMA2D_BASE)
 
