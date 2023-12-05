@@ -717,7 +717,7 @@
 /* Derived constants and error checks.                                       */
 /*===========================================================================*/
 
-#if defined(STM32F4XX) || defined(__DOXYGEN__)
+#if defined(AT32F4XX) || defined(__DOXYGEN__)
 /*
  * Configuration-related checks.
  */
@@ -1379,15 +1379,15 @@
  * @brief   APB1 frequency.
  */
 #if (STM32_PPRE1 == STM32_PPRE1_DIV1) || defined(__DOXYGEN__)
-#define STM32_PCLK1                 (STM32_HCLK / 1)
+#define AT32_PCLK1                 (STM32_HCLK / 1)
 #elif STM32_PPRE1 == STM32_PPRE1_DIV2
-#define STM32_PCLK1                 (STM32_HCLK / 2)
+#define AT32_PCLK1                 (STM32_HCLK / 2)
 #elif STM32_PPRE1 == STM32_PPRE1_DIV4
-#define STM32_PCLK1                 (STM32_HCLK / 4)
+#define AT32_PCLK1                 (STM32_HCLK / 4)
 #elif STM32_PPRE1 == STM32_PPRE1_DIV8
-#define STM32_PCLK1                 (STM32_HCLK / 8)
+#define AT32_PCLK1                 (STM32_HCLK / 8)
 #elif STM32_PPRE1 == STM32_PPRE1_DIV16
-#define STM32_PCLK1                 (STM32_HCLK / 16)
+#define AT32_PCLK1                 (STM32_HCLK / 16)
 #else
 #error "invalid STM32_PPRE1 value specified"
 #endif
@@ -1395,7 +1395,7 @@
 /*
  * APB1 frequency check.
  */
-#if STM32_PCLK1 > STM32_PCLK1_MAX
+#if AT32_PCLK1 > STM32_PCLK1_MAX
 #error "STM32_PCLK1 exceeding maximum frequency (STM32_PCLK1_MAX)"
 #endif
 
@@ -1403,15 +1403,15 @@
  * @brief   APB2 frequency.
  */
 #if (STM32_PPRE2 == STM32_PPRE2_DIV1) || defined(__DOXYGEN__)
-#define STM32_PCLK2                 (STM32_HCLK / 1)
+#define AT32_PCLK2                 (STM32_HCLK / 1)
 #elif STM32_PPRE2 == STM32_PPRE2_DIV2
-#define STM32_PCLK2                 (STM32_HCLK / 2)
+#define AT32_PCLK2                 (STM32_HCLK / 2)
 #elif STM32_PPRE2 == STM32_PPRE2_DIV4
-#define STM32_PCLK2                 (STM32_HCLK / 4)
+#define AT32_PCLK2                 (STM32_HCLK / 4)
 #elif STM32_PPRE2 == STM32_PPRE2_DIV8
-#define STM32_PCLK2                 (STM32_HCLK / 8)
+#define AT32_PCLK2                 (STM32_HCLK / 8)
 #elif STM32_PPRE2 == STM32_PPRE2_DIV16
-#define STM32_PCLK2                 (STM32_HCLK / 16)
+#define AT32_PCLK2                 (STM32_HCLK / 16)
 #else
 #error "invalid STM32_PPRE2 value specified"
 #endif
@@ -1419,7 +1419,7 @@
 /*
  * APB2 frequency check.
  */
-#if STM32_PCLK2 > STM32_PCLK2_MAX
+#if AT32_PCLK2 > STM32_PCLK2_MAX
 #error "STM32_PCLK2 exceeding maximum frequency (STM32_PCLK2_MAX)"
 #endif
 

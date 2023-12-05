@@ -52,7 +52,7 @@
 /* Driver interrupt handlers.                                                */
 /*===========================================================================*/
 
-#if defined(STM32_DMA_REQUIRED) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA_REQUIRED) || defined(__DOXYGEN__)
 /**
  * @brief   DMA1 (4567) and DMA2 (12345)shared ISR.
  *
@@ -63,37 +63,37 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH4567_DMA2_CH12345_HANDLER) {
   OSAL_IRQ_PROLOGUE();
 
   /* Check on channel 4.*/
-  dmaServeInterrupt(STM32_DMA1_STREAM4);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM4);
 
-#if STM32_DMA1_NUM_CHANNELS >= 5
+#if RT_AT32_DMA1_NUM_CHANNELS >= 5
   /* Check on channel 5.*/
-  dmaServeInterrupt(STM32_DMA1_STREAM5);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM5);
 #endif
 
-#if STM32_DMA1_NUM_CHANNELS >= 6
+#if RT_AT32_DMA1_NUM_CHANNELS >= 6
   /* Check on channel 6.*/
-  dmaServeInterrupt(STM32_DMA1_STREAM6);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM6);
 #endif
 
-#if STM32_DMA1_NUM_CHANNELS >= 7
+#if RT_AT32_DMA1_NUM_CHANNELS >= 7
   /* Check on channel 7.*/
-  dmaServeInterrupt(STM32_DMA1_STREAM7);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM7);
 #endif
 
   /* Check on channel 1.*/
-  dmaServeInterrupt(STM32_DMA2_STREAM1);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM1);
 
   /* Check on channel 2.*/
-  dmaServeInterrupt(STM32_DMA2_STREAM2);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM2);
 
   /* Check on channel 3.*/
-  dmaServeInterrupt(STM32_DMA2_STREAM3);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM3);
 
   /* Check on channel 4.*/
-  dmaServeInterrupt(STM32_DMA2_STREAM4);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM4);
 
   /* Check on channel 5.*/
-  dmaServeInterrupt(STM32_DMA2_STREAM5);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM5);
 
   OSAL_IRQ_EPILOGUE();
 }

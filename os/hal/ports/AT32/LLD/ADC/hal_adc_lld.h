@@ -47,15 +47,15 @@
 /**
  * @brief   Minimum ADC clock frequency.
  */
-#define STM32_ADCCLK_MIN        600000
+#define RT_AT32_ADCCLK_MIN        600000
 
 /**
  * @brief   Maximum ADC clock frequency.
  */
-#if defined(STM32F4XX) || defined(__DOXYGEN__)
-#define STM32_ADCCLK_MAX        36000000
+#if defined(AT32F4XX) || defined(__DOXYGEN__)
+#define AT32_ADCCLK_MAX        36000000
 #else
-#define STM32_ADCCLK_MAX        30000000
+#define AT32_ADCCLK_MAX        30000000
 #endif
 /** @} */
 
@@ -140,8 +140,8 @@
  *          info.<br>
  *          See section 5.3.20 "12-bit ADC characteristics".
  */
-#if !defined(STM32_ADC_ADCPRE) || defined(__DOXYGEN__)
-#define STM32_ADC_ADCPRE                    ADC_CCR_ADCPRE_DIV2
+#if !defined(AT32_ADC_ADCPRE) || defined(__DOXYGEN__)
+#define AT32_ADC_ADCPRE                    ADC_CCR_ADCPRE_DIV2
 #endif
 
 /**
@@ -149,8 +149,8 @@
  * @details If set to @p TRUE the support for ADC1 is included.
  * @note    The default is @p TRUE.
  */
-#if !defined(STM32_ADC_USE_ADC1) || defined(__DOXYGEN__)
-#define STM32_ADC_USE_ADC1                  FALSE
+#if !defined(RT_AT32_ADC_USE_ADC1) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_USE_ADC1                  FALSE
 #endif
 
 /**
@@ -158,8 +158,8 @@
  * @details If set to @p TRUE the support for ADC2 is included.
  * @note    The default is @p TRUE.
  */
-#if !defined(STM32_ADC_USE_ADC2) || defined(__DOXYGEN__)
-#define STM32_ADC_USE_ADC2                  FALSE
+#if !defined(RT_AT32_ADC_USE_ADC2) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_USE_ADC2                  FALSE
 #endif
 
 /**
@@ -167,50 +167,50 @@
  * @details If set to @p TRUE the support for ADC3 is included.
  * @note    The default is @p TRUE.
  */
-#if !defined(STM32_ADC_USE_ADC3) || defined(__DOXYGEN__)
-#define STM32_ADC_USE_ADC3                  FALSE
+#if !defined(RT_AT32_ADC_USE_ADC3) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_USE_ADC3                  FALSE
 #endif
 
 /**
  * @brief   DMA stream used for ADC1 operations.
  */
-#if !defined(STM32_ADC_ADC1_DMA_STREAM) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC1_DMA_STREAM           RT_AT32_DMA_STREAM_ID(2, 4)
+#if !defined(RT_AT32_ADC_ADC1_DMA_STREAM) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_ADC1_DMA_STREAM           RT_AT32_DMA_STREAM_ID(2, 4)
 #endif
 
 /**
  * @brief   DMA stream used for ADC2 operations.
  */
-#if !defined(STM32_ADC_ADC2_DMA_STREAM) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC2_DMA_STREAM           RT_AT32_DMA_STREAM_ID(2, 2)
+#if !defined(RT_AT32_ADC_ADC2_DMA_STREAM) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_ADC2_DMA_STREAM           RT_AT32_DMA_STREAM_ID(2, 2)
 #endif
 
 /**
  * @brief   DMA stream used for ADC3 operations.
  */
-#if !defined(STM32_ADC_ADC3_DMA_STREAM) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC3_DMA_STREAM           RT_AT32_DMA_STREAM_ID(2, 1)
+#if !defined(RT_AT32_ADC_ADC3_DMA_STREAM) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_ADC3_DMA_STREAM           RT_AT32_DMA_STREAM_ID(2, 1)
 #endif
 
 /**
  * @brief   ADC1 DMA priority (0..3|lowest..highest).
  */
-#if !defined(STM32_ADC_ADC1_DMA_PRIORITY) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC1_DMA_PRIORITY         2
+#if !defined(RT_AT32_ADC_ADC1_DMA_PRIORITY) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_ADC1_DMA_PRIORITY         2
 #endif
 
 /**
  * @brief   ADC2 DMA priority (0..3|lowest..highest).
  */
-#if !defined(STM32_ADC_ADC2_DMA_PRIORITY) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC2_DMA_PRIORITY         2
+#if !defined(RT_AT32_ADC_ADC2_DMA_PRIORITY) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_ADC2_DMA_PRIORITY         2
 #endif
 
 /**
  * @brief   ADC3 DMA priority (0..3|lowest..highest).
  */
-#if !defined(STM32_ADC_ADC3_DMA_PRIORITY) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC3_DMA_PRIORITY         2
+#if !defined(RT_AT32_ADC_ADC3_DMA_PRIORITY) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_ADC3_DMA_PRIORITY         2
 #endif
 
 /**
@@ -218,29 +218,29 @@
  * @note    This setting is shared among ADC1, ADC2 and ADC3 because
  *          all ADCs share the same vector.
  */
-#if !defined(STM32_ADC_IRQ_PRIORITY) || defined(__DOXYGEN__)
-#define STM32_ADC_IRQ_PRIORITY              5
+#if !defined(RT_AT32_ADC_IRQ_PRIORITY) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_IRQ_PRIORITY              5
 #endif
 
 /**
  * @brief   ADC1 DMA interrupt priority level setting.
  */
-#if !defined(STM32_ADC_ADC1_DMA_IRQ_PRIORITY) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC1_DMA_IRQ_PRIORITY     5
+#if !defined(RT_AT32_ADC_ADC1_DMA_IRQ_PRIORITY) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_ADC1_DMA_IRQ_PRIORITY     5
 #endif
 
 /**
  * @brief   ADC2 DMA interrupt priority level setting.
  */
-#if !defined(STM32_ADC_ADC2_DMA_IRQ_PRIORITY) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC2_DMA_IRQ_PRIORITY     5
+#if !defined(RT_AT32_ADC_ADC2_DMA_IRQ_PRIORITY) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_ADC2_DMA_IRQ_PRIORITY     5
 #endif
 
 /**
  * @brief   ADC3 DMA interrupt priority level setting.
  */
-#if !defined(STM32_ADC_ADC3_DMA_IRQ_PRIORITY) || defined(__DOXYGEN__)
-#define STM32_ADC_ADC3_DMA_IRQ_PRIORITY     5
+#if !defined(RT_AT32_ADC_ADC3_DMA_IRQ_PRIORITY) || defined(__DOXYGEN__)
+#define RT_AT32_ADC_ADC3_DMA_IRQ_PRIORITY     5
 #endif
 
 /** @} */
@@ -249,61 +249,61 @@
 /* Derived constants and error checks.                                       */
 /*===========================================================================*/
 
-#if STM32_ADC_USE_ADC1 && !STM32_HAS_ADC1
+#if RT_AT32_ADC_USE_ADC1 && !RT_AT32_HAS_ADC1
 #error "ADC1 not present in the selected device"
 #endif
 
-#if STM32_ADC_USE_ADC2 && !STM32_HAS_ADC2
+#if RT_AT32_ADC_USE_ADC2 && !RT_AT32_HAS_ADC2
 #error "ADC2 not present in the selected device"
 #endif
 
-#if STM32_ADC_USE_ADC3 && !STM32_HAS_ADC3
+#if RT_AT32_ADC_USE_ADC3 && !RT_AT32_HAS_ADC3
 #error "ADC3 not present in the selected device"
 #endif
 
-#if !STM32_ADC_USE_ADC1 && !STM32_ADC_USE_ADC2 && !STM32_ADC_USE_ADC3
+#if !RT_AT32_ADC_USE_ADC1 && !RT_AT32_ADC_USE_ADC2 && !RT_AT32_ADC_USE_ADC3
 #error "ADC driver activated but no ADC peripheral assigned"
 #endif
 
-#if STM32_DMA_SUPPORTS_DMAMUX
+#if RT_AT32_DMA_SUPPORTS_DMAMUX
 
-#else /* !STM32_DMA_SUPPORTS_DMAMUX */
-#if STM32_ADC_USE_ADC1 &&                                                   \
-    !STM32_DMA_IS_VALID_ID(STM32_ADC_ADC1_DMA_STREAM, STM32_ADC1_DMA_MSK)
+#else /* !RT_AT32_DMA_SUPPORTS_DMAMUX */
+#if RT_AT32_ADC_USE_ADC1 &&                                                   \
+    !RT_AT32_DMA_IS_VALID_ID(RT_AT32_ADC_ADC1_DMA_STREAM, RT_AT32_ADC1_DMA_MSK)
 #error "invalid DMA stream associated to ADC1"
 #endif
 
-#if STM32_ADC_USE_ADC2 &&                                                   \
-    !STM32_DMA_IS_VALID_ID(STM32_ADC_ADC2_DMA_STREAM, STM32_ADC2_DMA_MSK)
+#if RT_AT32_ADC_USE_ADC2 &&                                                   \
+    !RT_AT32_DMA_IS_VALID_ID(RT_AT32_ADC_ADC2_DMA_STREAM, RT_AT32_ADC2_DMA_MSK)
 #error "invalid DMA stream associated to ADC2"
 #endif
 
-#if STM32_ADC_USE_ADC3 &&                                                   \
-    !STM32_DMA_IS_VALID_ID(STM32_ADC_ADC3_DMA_STREAM, STM32_ADC3_DMA_MSK)
+#if RT_AT32_ADC_USE_ADC3 &&                                                   \
+    !RT_AT32_DMA_IS_VALID_ID(RT_AT32_ADC_ADC3_DMA_STREAM, RT_AT32_ADC3_DMA_MSK)
 #error "invalid DMA stream associated to ADC3"
 #endif
 
-#endif /* !STM32_DMA_SUPPORTS_DMAMUX */
+#endif /* !RT_AT32_DMA_SUPPORTS_DMAMUX */
 
 /* ADC clock related settings and checks.*/
-#if STM32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV2
-#define STM32_ADCCLK                        (STM32_PCLK2 / 2)
-#elif STM32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV4
-#define STM32_ADCCLK                        (STM32_PCLK2 / 4)
-#elif STM32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV6
-#define STM32_ADCCLK                        (STM32_PCLK2 / 6)
-#elif STM32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV8
-#define STM32_ADCCLK                        (STM32_PCLK2 / 8)
+#if AT32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV2
+# define AT32_ADCCLK                       (AT32_PCLK2 / 2)
+#elif AT32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV4
+# define AT32_ADCCLK                       (AT32_PCLK2 / 4)
+#elif AT32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV6
+# define AT32_ADCCLK                       (AT32_PCLK2 / 6)
+#elif AT32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV8
+# define AT32_ADCCLK                       (AT32_PCLK2 / 8)
 #else
-#error "invalid STM32_ADC_ADCPRE value specified"
+# error "invalid STM32_ADC_ADCPRE value specified"
 #endif
 
-#if (STM32_ADCCLK < STM32_ADCCLK_MIN) || (STM32_ADCCLK > STM32_ADCCLK_MAX)
+#if (AT32_ADCCLK < RT_AT32_ADCCLK_MIN) || (AT32_ADCCLK > AT32_ADCCLK_MAX)
 #error "STM32_ADCCLK outside acceptable range (STM32_ADCCLK_MIN...STM32_ADCCLK_MAX)"
 #endif
 
-#if !defined(STM32_DMA_REQUIRED)
-#define STM32_DMA_REQUIRED
+#if !defined(RT_AT32_DMA_REQUIRED)
+#define RT_AT32_DMA_REQUIRED
 #endif
 
 /*===========================================================================*/
@@ -459,15 +459,15 @@ typedef uint32_t adcerror_t;
 /* External declarations.                                                    */
 /*===========================================================================*/
 
-#if STM32_ADC_USE_ADC1 && !defined(__DOXYGEN__)
+#if RT_AT32_ADC_USE_ADC1 && !defined(__DOXYGEN__)
 extern ADCDriver ADCD1;
 #endif
 
-#if STM32_ADC_USE_ADC2 && !defined(__DOXYGEN__)
+#if RT_AT32_ADC_USE_ADC2 && !defined(__DOXYGEN__)
 extern ADCDriver ADCD2;
 #endif
 
-#if STM32_ADC_USE_ADC3 && !defined(__DOXYGEN__)
+#if RT_AT32_ADC_USE_ADC3 && !defined(__DOXYGEN__)
 extern ADCDriver ADCD3;
 #endif
 
@@ -479,10 +479,10 @@ extern "C" {
   void adc_lld_stop(ADCDriver *adcp);
   void adc_lld_start_conversion(ADCDriver *adcp);
   void adc_lld_stop_conversion(ADCDriver *adcp);
-  void adcSTM32EnableTSVREFE(void);
-  void adcSTM32DisableTSVREFE(void);
-  void adcSTM32EnableVBATE(void);
-  void adcSTM32DisableVBATE(void);
+  void adcAT32EnableTSVREFE(void);
+  void adcAT32DisableTSVREFE(void);
+  void adcAT32EnableVBATE(void);
+  void adcAT32DisableVBATE(void);
 #ifdef __cplusplus
 }
 #endif

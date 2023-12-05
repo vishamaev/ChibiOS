@@ -156,20 +156,20 @@
 /*
  * ADC driver system settings.
  */
-#define STM32_ADC_ADCPRE                    ADC_CCR_ADCPRE_DIV4
-#define STM32_ADC_USE_ADC1                  TRUE
-#define STM32_ADC_USE_ADC2                  TRUE
-#define STM32_ADC_USE_ADC3                  TRUE
-#define STM32_ADC_ADC1_DMA_STREAM           STM32_DMA_STREAM_ID_ANY
-#define STM32_ADC_ADC2_DMA_STREAM           STM32_DMA_STREAM_ID_ANY
-#define STM32_ADC_ADC3_DMA_STREAM           STM32_DMA_STREAM_ID_ANY
-#define STM32_ADC_ADC1_DMA_PRIORITY         2
-#define STM32_ADC_ADC2_DMA_PRIORITY         2
-#define STM32_ADC_ADC3_DMA_PRIORITY         2
-#define STM32_ADC_IRQ_PRIORITY              6
-#define STM32_ADC_ADC1_DMA_IRQ_PRIORITY     6
-#define STM32_ADC_ADC2_DMA_IRQ_PRIORITY     6
-#define STM32_ADC_ADC3_DMA_IRQ_PRIORITY     6
+#define AT32_ADC_ADCPRE                    ADC_CCR_ADCPRE_DIV4
+#define RT_AT32_ADC_USE_ADC1                  TRUE
+#define RT_AT32_ADC_USE_ADC2                  TRUE
+#define RT_AT32_ADC_USE_ADC3                  TRUE
+#define RT_AT32_ADC_ADC1_DMA_STREAM           STM32_DMA_STREAM_ID_ANY
+#define RT_AT32_ADC_ADC2_DMA_STREAM           STM32_DMA_STREAM_ID_ANY
+#define RT_AT32_ADC_ADC3_DMA_STREAM           STM32_DMA_STREAM_ID_ANY
+#define RT_AT32_ADC_ADC1_DMA_PRIORITY         2
+#define RT_AT32_ADC_ADC2_DMA_PRIORITY         2
+#define RT_AT32_ADC_ADC3_DMA_PRIORITY         2
+#define RT_AT32_ADC_IRQ_PRIORITY              6
+#define RT_AT32_ADC_ADC1_DMA_IRQ_PRIORITY     6
+#define RT_AT32_ADC_ADC2_DMA_IRQ_PRIORITY     6
+#define RT_AT32_ADC_ADC3_DMA_IRQ_PRIORITY     6
 
 /*
  * CAN driver system settings.
@@ -311,7 +311,7 @@
 /*
  * SERIAL driver system settings.
  */
-#define STM32_SERIAL_USE_USART1             FALSE
+#define STM32_SERIAL_USE_USART1             TRUE
 #define STM32_SERIAL_USE_USART2             FALSE
 #define STM32_SERIAL_USE_USART3             FALSE
 #define STM32_SERIAL_USE_UART4              FALSE

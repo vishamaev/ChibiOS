@@ -31,30 +31,30 @@
 /*===========================================================================*/
 
 #define ADC1_DMA_CHANNEL                                                    \
-  STM32_DMA_GETCHANNEL(STM32_ADC_ADC1_DMA_STREAM, STM32_ADC1_DMA_CHN)
+  RT_AT32_DMA_GETCHANNEL(RT_AT32_ADC_ADC1_DMA_STREAM, STM32_ADC1_DMA_CHN)
 
 #define ADC2_DMA_CHANNEL                                                    \
-  STM32_DMA_GETCHANNEL(STM32_ADC_ADC2_DMA_STREAM, STM32_ADC2_DMA_CHN)
+  RT_AT32_DMA_GETCHANNEL(RT_AT32_ADC_ADC2_DMA_STREAM, STM32_ADC2_DMA_CHN)
 
 #define ADC3_DMA_CHANNEL                                                    \
-  STM32_DMA_GETCHANNEL(STM32_ADC_ADC3_DMA_STREAM, STM32_ADC3_DMA_CHN)
+  RT_AT32_DMA_GETCHANNEL(RT_AT32_ADC_ADC3_DMA_STREAM, STM32_ADC3_DMA_CHN)
 
 /*===========================================================================*/
 /* Driver exported variables.                                                */
 /*===========================================================================*/
 
 /** @brief ADC1 driver identifier.*/
-#if STM32_ADC_USE_ADC1 || defined(__DOXYGEN__)
+#if RT_AT32_ADC_USE_ADC1 || defined(__DOXYGEN__)
 ADCDriver ADCD1;
 #endif
 
 /** @brief ADC2 driver identifier.*/
-#if STM32_ADC_USE_ADC2 || defined(__DOXYGEN__)
+#if RT_AT32_ADC_USE_ADC2 || defined(__DOXYGEN__)
 ADCDriver ADCD2;
 #endif
 
 /** @brief ADC3 driver identifier.*/
-#if STM32_ADC_USE_ADC3 || defined(__DOXYGEN__)
+#if RT_AT32_ADC_USE_ADC3 || defined(__DOXYGEN__)
 ADCDriver ADCD3;
 #endif
 
@@ -145,7 +145,7 @@ static void adc_lld_serve_interrupt(ADCDriver *adcp, uint32_t sr) {
 /* Driver interrupt handlers.                                                */
 /*===========================================================================*/
 
-#if STM32_ADC_USE_ADC1 || STM32_ADC_USE_ADC2 || STM32_ADC_USE_ADC3 ||       \
+#if RT_AT32_ADC_USE_ADC1 || RT_AT32_ADC_USE_ADC2 || RT_AT32_ADC_USE_ADC3 ||       \
     defined(__DOXYGEN__)
 /**
  * @brief   ADC interrupt handler.
@@ -157,7 +157,7 @@ OSAL_IRQ_HANDLER(STM32_ADC_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-#if STM32_ADC_USE_ADC1
+#if RT_AT32_ADC_USE_ADC1
   sr = ADC1->SR;
   ADC1->SR = 0;
 #if defined(STM32_ADC_ADC1_IRQ_HOOK)
@@ -166,7 +166,7 @@ OSAL_IRQ_HANDLER(STM32_ADC_HANDLER) {
   adc_lld_serve_interrupt(&ADCD1, sr);
 #endif /* STM32_ADC_USE_ADC1 */
 
-#if STM32_ADC_USE_ADC2
+#if RT_AT32_ADC_USE_ADC2
   sr = ADC2->SR;
   ADC2->SR = 0;
 #if defined(STM32_ADC_ADC2_IRQ_HOOK)
@@ -175,7 +175,7 @@ OSAL_IRQ_HANDLER(STM32_ADC_HANDLER) {
   adc_lld_serve_interrupt(&ADCD2, sr);
 #endif /* STM32_ADC_USE_ADC2 */
 
-#if STM32_ADC_USE_ADC3
+#if RT_AT32_ADC_USE_ADC3
   sr = ADC3->SR;
   ADC3->SR = 0;
 #if defined(STM32_ADC_ADC3_IRQ_HOOK)
@@ -199,39 +199,39 @@ OSAL_IRQ_HANDLER(STM32_ADC_HANDLER) {
  */
 void adc_lld_init(void) {
 
-#if STM32_ADC_USE_ADC1
+#if RT_AT32_ADC_USE_ADC1
   /* Driver initialization.*/
   adcObjectInit(&ADCD1);
   ADCD1.adc     = ADC1;
   ADCD1.dmastp  = NULL;
-  ADCD1.dmamode = STM32_DMA_CR_CHSEL(ADC1_DMA_CHANNEL) |
-                  STM32_DMA_CR_PL(STM32_ADC_ADC1_DMA_PRIORITY) |
+  ADCD1.dmamode = RT_AT32_DMA_CR_CHSEL(ADC1_DMA_CHANNEL) |
+                  STM32_DMA_CR_PL(RT_AT32_ADC_ADC1_DMA_PRIORITY) |
                   STM32_DMA_CR_DIR_P2M |
                   STM32_DMA_CR_MSIZE_HWORD | STM32_DMA_CR_PSIZE_HWORD |
                   STM32_DMA_CR_MINC        | STM32_DMA_CR_TCIE        |
                   STM32_DMA_CR_DMEIE       | STM32_DMA_CR_TEIE;
 #endif
 
-#if STM32_ADC_USE_ADC2
+#if RT_AT32_ADC_USE_ADC2
   /* Driver initialization.*/
   adcObjectInit(&ADCD2);
   ADCD2.adc     = ADC2;
   ADCD2.dmastp  = NULL;
-  ADCD2.dmamode = STM32_DMA_CR_CHSEL(ADC2_DMA_CHANNEL) |
-                  STM32_DMA_CR_PL(STM32_ADC_ADC2_DMA_PRIORITY) |
+  ADCD2.dmamode = RT_AT32_DMA_CR_CHSEL(ADC2_DMA_CHANNEL) |
+                  STM32_DMA_CR_PL(RT_AT32_ADC_ADC2_DMA_PRIORITY) |
                   STM32_DMA_CR_DIR_P2M |
                   STM32_DMA_CR_MSIZE_HWORD | STM32_DMA_CR_PSIZE_HWORD |
                   STM32_DMA_CR_MINC        | STM32_DMA_CR_TCIE        |
                   STM32_DMA_CR_DMEIE       | STM32_DMA_CR_TEIE;
 #endif
 
-#if STM32_ADC_USE_ADC3
+#if RT_AT32_ADC_USE_ADC3
   /* Driver initialization.*/
   adcObjectInit(&ADCD3);
   ADCD3.adc     = ADC3;
   ADCD3.dmastp  = NULL;
-  ADCD3.dmamode = STM32_DMA_CR_CHSEL(ADC3_DMA_CHANNEL) |
-                  STM32_DMA_CR_PL(STM32_ADC_ADC3_DMA_PRIORITY) |
+  ADCD3.dmamode = RT_AT32_DMA_CR_CHSEL(ADC3_DMA_CHANNEL) |
+                  STM32_DMA_CR_PL(RT_AT32_ADC_ADC3_DMA_PRIORITY) |
                   STM32_DMA_CR_DIR_P2M |
                   STM32_DMA_CR_MSIZE_HWORD | STM32_DMA_CR_PSIZE_HWORD |
                   STM32_DMA_CR_MINC        | STM32_DMA_CR_TCIE        |
@@ -244,7 +244,7 @@ void adc_lld_init(void) {
 #endif
   /* The shared vector is initialized on driver initialization and never
      disabled because sharing.*/
-  nvicEnableVector(STM32_ADC_NUMBER, STM32_ADC_IRQ_PRIORITY);
+  nvicEnableVector(STM32_ADC_NUMBER, RT_AT32_ADC_IRQ_PRIORITY);
 }
 
 /**
@@ -258,10 +258,10 @@ void adc_lld_start(ADCDriver *adcp) {
 
   /* If in stopped state then enables the ADC and DMA clocks.*/
   if (adcp->state == ADC_STOP) {
-#if STM32_ADC_USE_ADC1
+#if RT_AT32_ADC_USE_ADC1
     if (&ADCD1 == adcp) {
-      adcp->dmastp = dmaStreamAllocI(STM32_ADC_ADC1_DMA_STREAM,
-                                     STM32_ADC_ADC1_DMA_IRQ_PRIORITY,
+      adcp->dmastp = dmaStreamAllocI(RT_AT32_ADC_ADC1_DMA_STREAM,
+                                     RT_AT32_ADC_ADC1_DMA_IRQ_PRIORITY,
                                      (at32_dmaisr_t)adc_lld_serve_rx_interrupt,
                                      (void *)adcp);
       osalDbgAssert(adcp->dmastp != NULL, "unable to allocate stream");
@@ -270,16 +270,16 @@ void adc_lld_start(ADCDriver *adcp) {
       rccResetADC1();
 #endif
       rccEnableADC1(true);
-#if STM32_DMA_SUPPORTS_DMAMUX
+#if RT_AT32_DMA_SUPPORTS_DMAMUX
       dmaSetRequestSource(adcp->dmastp, STM32_DMAMUX1_ADC1);
 #endif
     }
 #endif /* STM32_ADC_USE_ADC1 */
 
-#if STM32_ADC_USE_ADC2
+#if RT_AT32_ADC_USE_ADC2
     if (&ADCD2 == adcp) {
-      adcp->dmastp = dmaStreamAllocI(STM32_ADC_ADC2_DMA_STREAM,
-                                     STM32_ADC_ADC2_DMA_IRQ_PRIORITY,
+      adcp->dmastp = dmaStreamAllocI(RT_AT32_ADC_ADC2_DMA_STREAM,
+                                     RT_AT32_ADC_ADC2_DMA_IRQ_PRIORITY,
                                      (at32_dmaisr_t)adc_lld_serve_rx_interrupt,
                                      (void *)adcp);
       osalDbgAssert(adcp->dmastp != NULL, "unable to allocate stream");
@@ -288,16 +288,16 @@ void adc_lld_start(ADCDriver *adcp) {
       rccResetADC2();
 #endif
       rccEnableADC2(true);
-#if STM32_DMA_SUPPORTS_DMAMUX
+#if RT_AT32_DMA_SUPPORTS_DMAMUX
       dmaSetRequestSource(adcp->dmastp, STM32_DMAMUX1_ADC2);
 #endif
     }
 #endif /* STM32_ADC_USE_ADC2 */
 
-#if STM32_ADC_USE_ADC3
+#if RT_AT32_ADC_USE_ADC3
     if (&ADCD3 == adcp) {
-      adcp->dmastp = dmaStreamAllocI(STM32_ADC_ADC3_DMA_STREAM,
-                                     STM32_ADC_ADC3_DMA_IRQ_PRIORITY,
+      adcp->dmastp = dmaStreamAllocI(RT_AT32_ADC_ADC3_DMA_STREAM,
+                                     RT_AT32_ADC_ADC3_DMA_IRQ_PRIORITY,
                                      (at32_dmaisr_t)adc_lld_serve_rx_interrupt,
                                      (void *)adcp);
       osalDbgAssert(adcp->dmastp != NULL, "unable to allocate stream");
@@ -306,7 +306,7 @@ void adc_lld_start(ADCDriver *adcp) {
       rccResetADC3();
 #endif
       rccEnableADC3(true);
-#if STM32_DMA_SUPPORTS_DMAMUX
+#if RT_AT32_DMA_SUPPORTS_DMAMUX
       dmaSetRequestSource(adcp->dmastp, STM32_DMAMUX1_ADC3);
 #endif
     }
@@ -315,7 +315,7 @@ void adc_lld_start(ADCDriver *adcp) {
     /* This is a common register but apparently it requires that at least one
        of the ADCs is clocked in order to allow writing, see bug 3575297.*/
     ADC->CCR = (ADC->CCR & (ADC_CCR_TSVREFE | ADC_CCR_VBATE)) |
-               (STM32_ADC_ADCPRE << 16);
+               (AT32_ADC_ADCPRE << 16);
 
     /* ADC initial setup, starting the analog part here in order to reduce
        the latency when starting a conversion.*/
@@ -343,17 +343,17 @@ void adc_lld_stop(ADCDriver *adcp) {
     adcp->adc->CR1 = 0;
     adcp->adc->CR2 = 0;
 
-#if STM32_ADC_USE_ADC1
+#if RT_AT32_ADC_USE_ADC1
     if (&ADCD1 == adcp)
       rccDisableADC1();
 #endif
 
-#if STM32_ADC_USE_ADC2
+#if RT_AT32_ADC_USE_ADC2
     if (&ADCD2 == adcp)
       rccDisableADC2();
 #endif
 
-#if STM32_ADC_USE_ADC3
+#if RT_AT32_ADC_USE_ADC3
     if (&ADCD3 == adcp)
       rccDisableADC3();
 #endif
@@ -439,7 +439,7 @@ void adc_lld_stop_conversion(ADCDriver *adcp) {
  *          temperature sensor and internal reference voltage.
  * @note    This is an STM32-only functionality.
  */
-void adcSTM32EnableTSVREFE(void) {
+void adcAT32EnableTSVREFE(void) {
 
   ADC->CCR |= ADC_CCR_TSVREFE;
 }
@@ -450,7 +450,7 @@ void adcSTM32EnableTSVREFE(void) {
  *          temperature sensor and internal reference voltage.
  * @note    This is an STM32-only functionality.
  */
-void adcSTM32DisableTSVREFE(void) {
+void adcAT32DisableTSVREFE(void) {
 
   ADC->CCR &= ~ADC_CCR_TSVREFE;
 }
@@ -461,7 +461,7 @@ void adcSTM32DisableTSVREFE(void) {
  * @note    This is an STM32-only functionality.
  * @note    This function is meant to be called after @p adcStart().
  */
-void adcSTM32EnableVBATE(void) {
+void adcAT32EnableVBATE(void) {
 
   ADC->CCR |= ADC_CCR_VBATE;
 }
@@ -472,7 +472,7 @@ void adcSTM32EnableVBATE(void) {
  * @note    This is an STM32-only functionality.
  * @note    This function is meant to be called after @p adcStart().
  */
-void adcSTM32DisableVBATE(void) {
+void adcAT32DisableVBATE(void) {
 
   ADC->CCR &= ~ADC_CCR_VBATE;
 }

@@ -54,7 +54,6 @@
 
 /** @} */
 
-
 /*===========================================================================*/
 /**
  * @name System timers settings
@@ -155,6 +154,7 @@
 #if !defined(CH_CFG_HARDENING_LEVEL)
 #define CH_CFG_HARDENING_LEVEL              0
 #endif
+
 /** @} */
 
 /*===========================================================================*/
@@ -697,6 +697,7 @@
 #define CH_CFG_SYSTEM_INIT_HOOK() {                                         \
   /* Add system initialization code here.*/                                 \
 }
+
 /**
  * @brief   OS instance structure extension.
  * @details User fields added to the end of the @p os_instance_t structure.
@@ -710,9 +711,8 @@
  * @param[in] oip       pointer to the @p os_instance_t structure
  */
 #define CH_CFG_OS_INSTANCE_INIT_HOOK(oip) {                                 \
-  /* Add OS instance initialization code here.*/                                \
+  /* Add OS instance initialization code here.*/                            \
 }
-
 
 /**
  * @brief   Threads descriptor structure extension.
@@ -829,8 +829,9 @@
  * @details This hook is invoked each time new faults are collected and stored.
  */
 #define CH_CFG_RUNTIME_FAULTS_HOOK(mask) {                                  \
-  /* Faults handling code here.*/                                                     \
+  /* Faults handling code here.*/                                           \
 }
+
 /** @} */
 
 /*===========================================================================*/

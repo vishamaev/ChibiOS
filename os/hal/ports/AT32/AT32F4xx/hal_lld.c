@@ -131,7 +131,7 @@ void hal_lld_init(void) {
   hal_lld_backup_domain_init();
 
   /* DMA subsystems initialization.*/
-#if defined(STM32_DMA_REQUIRED)
+#if defined(RT_AT32_DMA_REQUIRED)
   dmaInit();
 #endif
 

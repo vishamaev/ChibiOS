@@ -237,18 +237,18 @@
  *          (Timers 2, 3, 4, 5, 6, 7, 12, 13, 14).
  */
 #if (STM32_PPRE1 == STM32_PPRE1_DIV1) || defined(__DOXYGEN__)
-#define STM32_TIMCLK1               (STM32_PCLK1 * 1)
+#define STM32_TIMCLK1               (AT32_PCLK1 * 1)
 #else
-#define STM32_TIMCLK1               (STM32_PCLK1 * 2)
+#define STM32_TIMCLK1               (AT32_PCLK1 * 2)
 #endif
 
 /**
  * @brief   Clock of timers connected to APB2 (Timers 1, 8, 9, 10, 11).
  */
 #if (STM32_PPRE2 == STM32_PPRE2_DIV1) || defined(__DOXYGEN__)
-#define STM32_TIMCLK2               (STM32_PCLK2 * 1)
+#define STM32_TIMCLK2               (AT32_PCLK2 * 1)
 #else
-#define STM32_TIMCLK2               (STM32_PCLK2 * 2)
+#define STM32_TIMCLK2               (AT32_PCLK2 * 2)
 #endif
 
 #else /* STM32_HAS_RCC_DCKCFGR && (STM32_TIMPRE == STM32_TIMPRE_HCLK) */
@@ -258,7 +258,7 @@
      (STM32_TIMPRE_PRESCALE4 == TRUE)) || defined(__DOXYGEN__)
 #define STM32_TIMCLK1               STM32_HCLK
 #else
-#define STM32_TIMCLK1               (STM32_PCLK1 * 4)
+#define STM32_TIMCLK1               (AT32_PCLK1 * 4)
 #endif
 
 #if (STM32_PPRE2 == STM32_PPRE2_DIV1) ||                                    \
@@ -267,7 +267,7 @@
      (STM32_TIMPRE_PRESCALE4 == TRUE)) || defined(__DOXYGEN__)
 #define STM32_TIMCLK2               STM32_HCLK
 #else
-#define STM32_TIMCLK2               (STM32_PCLK2 * 4)
+#define STM32_TIMCLK2               (AT32_PCLK2 * 4)
 #endif
 #endif /* STM32_HAS_RCC_DCKCFGR && (STM32_TIMPRE == STM32_TIMPRE_HCLK) */
 

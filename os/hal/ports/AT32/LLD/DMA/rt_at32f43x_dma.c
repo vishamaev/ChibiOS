@@ -15,10 +15,10 @@
 */
 
 /**
- * @file    DMAv1/stm32_dma.c
+ * @file    DMAv1/stm32_dma.c  DMA/rt_at32f43x_dma.c
  * @brief   DMA helper driver code.
  *
- * @addtogroup STM32_DMA
+ * @addtogroup RT_AT32_DMA
  * @details DMA sharing helper driver. In the STM32 the DMA streams are a
  *          shared resource, this driver allows to allocate and free DMA
  *          streams at runtime in order to allow all the other device
@@ -33,7 +33,7 @@
 
 /* The following macro is only defined if some driver requiring DMA services
    has been enabled.*/
-#if defined(STM32_DMA_REQUIRED) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA_REQUIRED) || defined(__DOXYGEN__)
 
 /*===========================================================================*/
 /* Driver local definitions.                                                 */
@@ -42,26 +42,26 @@
 /**
  * @brief   Mask of the DMA1 streams in @p dma_streams_mask.
  */
-#define STM32_DMA1_STREAMS_MASK     ((1U << STM32_DMA1_NUM_CHANNELS) - 1U)
+#define RT_AT32_DMA1_STREAMS_MASK     ((1U << RT_AT32_DMA1_NUM_CHANNELS) - 1U)
 
 /**
  * @brief   Mask of the DMA2 streams in @p dma_streams_mask.
  */
-#define STM32_DMA2_STREAMS_MASK     (((1U << STM32_DMA2_NUM_CHANNELS) -     \
-                                      1U) << STM32_DMA1_NUM_CHANNELS)
+#define RT_AT32_DMA2_STREAMS_MASK     (((1U << RT_AT32_DMA2_NUM_CHANNELS) -     \
+                                      1U) << RT_AT32_DMA1_NUM_CHANNELS)
 
-#if STM32_DMA_SUPPORTS_CSELR == TRUE
+#if RT_AT32_DMA_SUPPORTS_CSELR == TRUE
 
 #if defined(DMA1_CSELR)
-#define __DMA1_CSELR                &DMA1_CSELR->CSELR
+# define __DMA1_CSELR                &DMA1_CSELR->CSELR
 #else
-#define __DMA1_CSELR                &DMA1->CSELR
+# define __DMA1_CSELR                &DMA1->CSELR
 #endif
 
 #if defined(DMA2_CSELR)
-#define __DMA2_CSELR                &DMA2_CSELR->CSELR
+# define __DMA2_CSELR                &DMA2_CSELR->CSELR
 #else
-#define __DMA2_CSELR                &DMA2->CSELR
+# define __DMA2_CSELR                &DMA2->CSELR
 #endif
 
 #define DMA1_CH1_VARIANT            __DMA1_CSELR
@@ -81,14 +81,14 @@
 #define DMA2_CH7_VARIANT            __DMA2_CSELR
 #define DMA2_CH8_VARIANT            __DMA2_CSELR
 
-#elif STM32_DMA_SUPPORTS_DMAMUX == TRUE
+#elif RT_AT32_DMA_SUPPORTS_DMAMUX == TRUE
 
-#define DMAMUX1_CHANNEL(id)         (DMAMUX1_BASE + ((id) * 4U))
-#ifdef DMAMUX2_BASE
-#define DMAMUX2_CHANNEL(id)         (DMAMUX2_BASE + ((id) * 4U))
-#else
-#define DMAMUX2_CHANNEL(id)         DMAMUX1_CHANNEL((id) + STM32_DMA1_NUM_CHANNELS)
-#endif
+# define DMAMUX1_CHANNEL(id)         (DMAMUX1_BASE + ((id) * 4U))
+# ifdef DMAMUX2_BASE
+#  define DMAMUX2_CHANNEL(id)         (DMAMUX2_BASE + ((id) * 4U))
+# else
+#  define DMAMUX2_CHANNEL(id)         DMAMUX1_CHANNEL((id) + RT_AT32_DMA1_NUM_CHANNELS)
+# endif
 
 #define DMA1_CH1_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(0))
 #define DMA1_CH2_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX1_CHANNEL(1))
@@ -107,7 +107,7 @@
 #define DMA2_CH7_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX2_CHANNEL(6))
 #define DMA2_CH8_VARIANT            ((DMAMUX_Channel_TypeDef *)DMAMUX2_CHANNEL(7))
 
-#else /* !(STM32_DMA_SUPPORTS_DMAMUX == TRUE) */
+#else /* !(RT_AT32_DMA_SUPPORTS_DMAMUX == TRUE) */
 
 #define DMA1_CH1_VARIANT            0
 #define DMA1_CH2_VARIANT            0
@@ -124,73 +124,73 @@
 #define DMA2_CH6_VARIANT            0
 #define DMA2_CH7_VARIANT            0
 
-#endif /* !(STM32_DMA_SUPPORTS_DMAMUX == TRUE) */
+#endif /* !(RT_AT32_DMA_SUPPORTS_DMAMUX == TRUE) */
 
 /*
  * Default ISR collision masks.
  */
-#if !defined(STM32_DMA1_CH1_CMASK)
-#define STM32_DMA1_CH1_CMASK        (1U << 0U)
+#if !defined(RT_AT32_DMA1_CH1_CMASK)
+#define RT_AT32_DMA1_CH1_CMASK        (1U << 0U)
 #endif
 
-#if !defined(STM32_DMA1_CH2_CMASK)
-#define STM32_DMA1_CH2_CMASK        (1U << 1U)
+#if !defined(RT_AT32_DMA1_CH2_CMASK)
+#define RT_AT32_DMA1_CH2_CMASK        (1U << 1U)
 #endif
 
-#if !defined(STM32_DMA1_CH3_CMASK)
-#define STM32_DMA1_CH3_CMASK        (1U << 2U)
+#if !defined(RT_AT32_DMA1_CH3_CMASK)
+#define RT_AT32_DMA1_CH3_CMASK        (1U << 2U)
 #endif
 
-#if !defined(STM32_DMA1_CH4_CMASK)
-#define STM32_DMA1_CH4_CMASK        (1U << 3U)
+#if !defined(RT_AT32_DMA1_CH4_CMASK)
+#define RT_AT32_DMA1_CH4_CMASK        (1U << 3U)
 #endif
 
-#if !defined(STM32_DMA1_CH5_CMASK)
-#define STM32_DMA1_CH5_CMASK        (1U << 4U)
+#if !defined(RT_AT32_DMA1_CH5_CMASK)
+#define RT_AT32_DMA1_CH5_CMASK        (1U << 4U)
 #endif
 
-#if !defined(STM32_DMA1_CH6_CMASK)
-#define STM32_DMA1_CH6_CMASK        (1U << 5U)
+#if !defined(RT_AT32_DMA1_CH6_CMASK)
+#define RT_AT32_DMA1_CH6_CMASK        (1U << 5U)
 #endif
 
-#if !defined(STM32_DMA1_CH7_CMASK)
-#define STM32_DMA1_CH7_CMASK        (1U << 6U)
+#if !defined(RT_AT32_DMA1_CH7_CMASK)
+#define RT_AT32_DMA1_CH7_CMASK        (1U << 6U)
 #endif
 
-#if !defined(STM32_DMA1_CH8_CMASK)
-#define STM32_DMA1_CH8_CMASK        (1U << 7U)
+#if !defined(RT_AT32_DMA1_CH8_CMASK)
+#define RT_AT32_DMA1_CH8_CMASK        (1U << 7U)
 #endif
 
-#if !defined(STM32_DMA2_CH1_CMASK)
-#define STM32_DMA2_CH1_CMASK        (1U << (STM32_DMA1_NUM_CHANNELS + 0U))
+#if !defined(RT_AT32_DMA2_CH1_CMASK)
+#define RT_AT32_DMA2_CH1_CMASK        (1U << (RT_AT32_DMA1_NUM_CHANNELS + 0U))
 #endif
 
-#if !defined(STM32_DMA2_CH2_CMASK)
-#define STM32_DMA2_CH2_CMASK        (1U << (STM32_DMA1_NUM_CHANNELS + 1U))
+#if !defined(RT_AT32_DMA2_CH2_CMASK)
+#define RT_AT32_DMA2_CH2_CMASK        (1U << (RT_AT32_DMA1_NUM_CHANNELS + 1U))
 #endif
 
-#if !defined(STM32_DMA2_CH3_CMASK)
-#define STM32_DMA2_CH3_CMASK        (1U << (STM32_DMA1_NUM_CHANNELS + 2U))
+#if !defined(RT_AT32_DMA2_CH3_CMASK)
+#define RT_AT32_DMA2_CH3_CMASK        (1U << (RT_AT32_DMA1_NUM_CHANNELS + 2U))
 #endif
 
-#if !defined(STM32_DMA2_CH4_CMASK)
-#define STM32_DMA2_CH4_CMASK        (1U << (STM32_DMA1_NUM_CHANNELS + 3U))
+#if !defined(RT_AT32_DMA2_CH4_CMASK)
+#define RT_AT32_DMA2_CH4_CMASK        (1U << (RT_AT32_DMA1_NUM_CHANNELS + 3U))
 #endif
 
-#if !defined(STM32_DMA2_CH5_CMASK)
-#define STM32_DMA2_CH5_CMASK        (1U << (STM32_DMA1_NUM_CHANNELS + 4U))
+#if !defined(RT_AT32_DMA2_CH5_CMASK)
+#define RT_AT32_DMA2_CH5_CMASK        (1U << (RT_AT32_DMA1_NUM_CHANNELS + 4U))
 #endif
 
-#if !defined(STM32_DMA2_CH6_CMASK)
-#define STM32_DMA2_CH6_CMASK        (1U << (STM32_DMA1_NUM_CHANNELS + 5U))
+#if !defined(RT_AT32_DMA2_CH6_CMASK)
+#define RT_AT32_DMA2_CH6_CMASK        (1U << (RT_AT32_DMA1_NUM_CHANNELS + 5U))
 #endif
 
-#if !defined(STM32_DMA2_CH7_CMASK)
-#define STM32_DMA2_CH7_CMASK        (1U << (STM32_DMA1_NUM_CHANNELS + 6U))
+#if !defined(RT_AT32_DMA2_CH7_CMASK)
+#define RT_AT32_DMA2_CH7_CMASK        (1U << (RT_AT32_DMA1_NUM_CHANNELS + 6U))
 #endif
 
-#if !defined(STM32_DMA2_CH8_CMASK)
-#define STM32_DMA2_CH8_CMASK        (1U << (STM32_DMA1_NUM_CHANNELS + 7U))
+#if !defined(RT_AT32_DMA2_CH8_CMASK)
+#define RT_AT32_DMA2_CH8_CMASK        (1U << (RT_AT32_DMA1_NUM_CHANNELS + 7U))
 #endif
 
 /*===========================================================================*/
@@ -202,56 +202,56 @@
  * @details This table keeps the association between an unique stream
  *          identifier and the involved physical registers.
  * @note    Don't use this array directly, use the appropriate wrapper macros
- *          instead: @p STM32_DMA1_STREAM1, @p STM32_DMA1_STREAM2 etc.
+ *          instead: @p RT_AT32_DMA1_STREAM1, @p RT_AT32_DMA1_STREAM2 etc.
  */
-const rt_at32_dma_stream_t _stm32_dma_streams[STM32_DMA_STREAMS] = {
-#if STM32_DMA1_NUM_CHANNELS > 0
-  {DMA1, DMA1_Channel1, STM32_DMA1_CH1_CMASK, DMA1_CH1_VARIANT,  0, 0, STM32_DMA1_CH1_NUMBER},
+const rt_at32_dma_stream_t _rt_at32_dma_streams[RT_AT32_DMA_STREAMS] = {
+#if RT_AT32_DMA1_NUM_CHANNELS > 0
+  {DMA1, DMA1_Channel1, RT_AT32_DMA1_CH1_CMASK, DMA1_CH1_VARIANT,  0, 0, RT_AT32_DMA1_CH1_NUMBER},
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 1
-  {DMA1, DMA1_Channel2, STM32_DMA1_CH2_CMASK, DMA1_CH2_VARIANT,  4, 1, STM32_DMA1_CH2_NUMBER},
+#if RT_AT32_DMA1_NUM_CHANNELS > 1
+  {DMA1, DMA1_Channel2, RT_AT32_DMA1_CH2_CMASK, DMA1_CH2_VARIANT,  4, 1, RT_AT32_DMA1_CH2_NUMBER},
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 2
-  {DMA1, DMA1_Channel3, STM32_DMA1_CH3_CMASK, DMA1_CH3_VARIANT,  8, 2, STM32_DMA1_CH3_NUMBER},
+#if RT_AT32_DMA1_NUM_CHANNELS > 2
+  {DMA1, DMA1_Channel3, RT_AT32_DMA1_CH3_CMASK, DMA1_CH3_VARIANT,  8, 2, RT_AT32_DMA1_CH3_NUMBER},
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 3
-  {DMA1, DMA1_Channel4, STM32_DMA1_CH4_CMASK, DMA1_CH4_VARIANT, 12, 3, STM32_DMA1_CH4_NUMBER},
+#if RT_AT32_DMA1_NUM_CHANNELS > 3
+  {DMA1, DMA1_Channel4, RT_AT32_DMA1_CH4_CMASK, DMA1_CH4_VARIANT, 12, 3, RT_AT32_DMA1_CH4_NUMBER},
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 4
-  {DMA1, DMA1_Channel5, STM32_DMA1_CH5_CMASK, DMA1_CH5_VARIANT, 16, 4, STM32_DMA1_CH5_NUMBER},
+#if RT_AT32_DMA1_NUM_CHANNELS > 4
+  {DMA1, DMA1_Channel5, RT_AT32_DMA1_CH5_CMASK, DMA1_CH5_VARIANT, 16, 4, RT_AT32_DMA1_CH5_NUMBER},
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 5
-  {DMA1, DMA1_Channel6, STM32_DMA1_CH6_CMASK, DMA1_CH6_VARIANT, 20, 5, STM32_DMA1_CH6_NUMBER},
+#if RT_AT32_DMA1_NUM_CHANNELS > 5
+  {DMA1, DMA1_Channel6, RT_AT32_DMA1_CH6_CMASK, DMA1_CH6_VARIANT, 20, 5, RT_AT32_DMA1_CH6_NUMBER},
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 6
-  {DMA1, DMA1_Channel7, STM32_DMA1_CH7_CMASK, DMA1_CH7_VARIANT, 24, 6, STM32_DMA1_CH7_NUMBER},
+#if RT_AT32_DMA1_NUM_CHANNELS > 6
+  {DMA1, DMA1_Channel7, RT_AT32_DMA1_CH7_CMASK, DMA1_CH7_VARIANT, 24, 6, RT_AT32_DMA1_CH7_NUMBER},
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 7
-  {DMA1, DMA1_Channel8, STM32_DMA1_CH8_CMASK, DMA1_CH8_VARIANT, 28, 7, STM32_DMA1_CH8_NUMBER},
+#if RT_AT32_DMA1_NUM_CHANNELS > 7
+  {DMA1, DMA1_Channel8, RT_AT32_DMA1_CH8_CMASK, DMA1_CH8_VARIANT, 28, 7, RT_AT32_DMA1_CH8_NUMBER},
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 0
-  {DMA2, DMA2_Channel1, STM32_DMA2_CH1_CMASK, DMA2_CH1_VARIANT,  0, 0 + STM32_DMA1_NUM_CHANNELS, STM32_DMA2_CH1_NUMBER},
+#if RT_AT32_DMA2_NUM_CHANNELS > 0
+  {DMA2, DMA2_Channel1, RT_AT32_DMA2_CH1_CMASK, DMA2_CH1_VARIANT,  0, 0 + RT_AT32_DMA1_NUM_CHANNELS, RT_AT32_DMA2_CH1_NUMBER},
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 1
-  {DMA2, DMA2_Channel2, STM32_DMA2_CH2_CMASK, DMA2_CH2_VARIANT,  4, 1 + STM32_DMA1_NUM_CHANNELS, STM32_DMA2_CH2_NUMBER},
+#if RT_AT32_DMA2_NUM_CHANNELS > 1
+  {DMA2, DMA2_Channel2, RT_AT32_DMA2_CH2_CMASK, DMA2_CH2_VARIANT,  4, 1 + RT_AT32_DMA1_NUM_CHANNELS, RT_AT32_DMA2_CH2_NUMBER},
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 2
-  {DMA2, DMA2_Channel3, STM32_DMA2_CH3_CMASK, DMA2_CH3_VARIANT,  8, 2 + STM32_DMA1_NUM_CHANNELS, STM32_DMA2_CH3_NUMBER},
+#if RT_AT32_DMA2_NUM_CHANNELS > 2
+  {DMA2, DMA2_Channel3, RT_AT32_DMA2_CH3_CMASK, DMA2_CH3_VARIANT,  8, 2 + RT_AT32_DMA1_NUM_CHANNELS, RT_AT32_DMA2_CH3_NUMBER},
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 3
-  {DMA2, DMA2_Channel4, STM32_DMA2_CH4_CMASK, DMA2_CH4_VARIANT, 12, 3 + STM32_DMA1_NUM_CHANNELS, STM32_DMA2_CH4_NUMBER},
+#if RT_AT32_DMA2_NUM_CHANNELS > 3
+  {DMA2, DMA2_Channel4, RT_AT32_DMA2_CH4_CMASK, DMA2_CH4_VARIANT, 12, 3 + RT_AT32_DMA1_NUM_CHANNELS, RT_AT32_DMA2_CH4_NUMBER},
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 4
-  {DMA2, DMA2_Channel5, STM32_DMA2_CH5_CMASK, DMA2_CH5_VARIANT, 16, 4 + STM32_DMA1_NUM_CHANNELS, STM32_DMA2_CH5_NUMBER},
+#if RT_AT32_DMA2_NUM_CHANNELS > 4
+  {DMA2, DMA2_Channel5, RT_AT32_DMA2_CH5_CMASK, DMA2_CH5_VARIANT, 16, 4 + RT_AT32_DMA1_NUM_CHANNELS, RT_AT32_DMA2_CH5_NUMBER},
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 5
-  {DMA2, DMA2_Channel6, STM32_DMA2_CH6_CMASK, DMA2_CH6_VARIANT, 20, 5 + STM32_DMA1_NUM_CHANNELS, STM32_DMA2_CH6_NUMBER},
+#if RT_AT32_DMA2_NUM_CHANNELS > 5
+  {DMA2, DMA2_Channel6, RT_AT32_DMA2_CH6_CMASK, DMA2_CH6_VARIANT, 20, 5 + RT_AT32_DMA1_NUM_CHANNELS, RT_AT32_DMA2_CH6_NUMBER},
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 6
-  {DMA2, DMA2_Channel7, STM32_DMA2_CH7_CMASK, DMA2_CH7_VARIANT, 24, 6 + STM32_DMA1_NUM_CHANNELS, STM32_DMA2_CH7_NUMBER},
+#if RT_AT32_DMA2_NUM_CHANNELS > 6
+  {DMA2, DMA2_Channel7, RT_AT32_DMA2_CH7_CMASK, DMA2_CH7_VARIANT, 24, 6 + RT_AT32_DMA1_NUM_CHANNELS, RT_AT32_DMA2_CH7_NUMBER},
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 7
-  {DMA2, DMA2_Channel8, STM32_DMA2_CH8_CMASK, DMA2_CH8_VARIANT, 28, 7 + STM32_DMA1_NUM_CHANNELS, STM32_DMA2_CH8_NUMBER},
+#if RT_AT32_DMA2_NUM_CHANNELS > 7
+  {DMA2, DMA2_Channel8, RT_AT32_DMA2_CH8_CMASK, DMA2_CH8_VARIANT, 28, 7 + RT_AT32_DMA1_NUM_CHANNELS, STM32_DMA2_CH8_NUMBER},
 #endif
 };
 
@@ -283,7 +283,7 @@ static struct {
      * @brief   DMA callback parameter.
      */
     void              *param;
-  } streams[STM32_DMA_STREAMS];
+  } streams[RT_AT32_DMA_STREAMS];
 } dma;
 
 /*===========================================================================*/
@@ -294,113 +294,113 @@ static struct {
 /* Driver interrupt handlers.                                                */
 /*===========================================================================*/
 
-#if defined(STM32_DMA1_CH1_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA1_CH1_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA1 stream 1 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH1_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA1_CH1_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM1);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM1);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA1_CH2_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA1_CH2_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA1 stream 2 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH2_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA1_CH2_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM2);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM2);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA1_CH3_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA1_CH3_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA1 stream 3 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH3_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA1_CH3_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM3);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM3);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA1_CH4_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA1_CH4_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA1 stream 4 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH4_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA1_CH4_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM4);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM4);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA1_CH5_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA1_CH5_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA1 stream 5 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH5_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA1_CH5_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM5);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM5);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA1_CH6_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA1_CH6_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA1 stream 6 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH6_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA1_CH6_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM6);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM6);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA1_CH7_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA1_CH7_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA1 stream 7 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA1_CH7_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA1_CH7_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM7);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM7);
 
   OSAL_IRQ_EPILOGUE();
 }
@@ -416,119 +416,119 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH8_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA1_STREAM8);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM8);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA2_CH1_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA2_CH1_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA2 stream 1 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA2_CH1_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA2_CH1_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA2_STREAM1);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM1);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA2_CH2_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA2_CH2_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA2 stream 2 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA2_CH2_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA2_CH2_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA2_STREAM2);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM2);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA2_CH3_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA2_CH3_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA2 stream 3 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA2_CH3_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA2_CH3_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA2_STREAM3);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM3);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA2_CH4_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA2_CH4_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA2 stream 4 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA2_CH4_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA2_CH4_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA2_STREAM4);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM4);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA2_CH5_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA2_CH5_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA2 stream 5 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA2_CH5_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA2_CH5_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA2_STREAM5);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM5);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA2_CH6_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA2_CH6_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA2 stream 6 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA2_CH6_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA2_CH6_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA2_STREAM6);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM6);
 
   OSAL_IRQ_EPILOGUE();
 }
 #endif
 
-#if defined(STM32_DMA2_CH7_HANDLER) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA2_CH7_HANDLER) || defined(__DOXYGEN__)
 /**
  * @brief   DMA2 stream 7 shared ISR.
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_DMA2_CH7_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_DMA2_CH7_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA2_STREAM7);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM7);
 
   OSAL_IRQ_EPILOGUE();
 }
@@ -544,7 +544,7 @@ OSAL_IRQ_HANDLER(STM32_DMA2_CH8_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  dmaServeInterrupt(STM32_DMA2_STREAM8);
+  dmaServeInterrupt(RT_AT32_DMA2_STREAM8);
 
   OSAL_IRQ_EPILOGUE();
 }
@@ -564,17 +564,17 @@ void dmaInit(void) {
 
   dma.allocated_mask = 0U;
   dma.isr_mask       = 0U;
-  for (i = 0; i < STM32_DMA_STREAMS; i++) {
-    _stm32_dma_streams[i].channel->CCR = STM32_DMA_CCR_RESET_VALUE;
+  for (i = 0; i < RT_AT32_DMA_STREAMS; i++) {
+    _rt_at32_dma_streams[i].channel->CCR = STM32_DMA_CCR_RESET_VALUE;
     dma.streams[i].func = NULL;
   }
   DMA1->IFCR = 0xFFFFFFFFU;
-#if STM32_DMA_HAS_DMAMUXSEL == TRUE
+#if RT_AT32_DMA_HAS_DMAMUXSEL == TRUE
   DMA1->MUXSEL = 0x1;
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 0
+#if RT_AT32_DMA2_NUM_CHANNELS > 0
   DMA2->IFCR = 0xFFFFFFFFU;
-#if STM32_DMA_HAS_DMAMUXSEL == TRUE
+#if RT_AT32_DMA_HAS_DMAMUXSEL == TRUE
   DMA2->MUXSEL = 0x1;
 #endif
 #endif
@@ -610,23 +610,23 @@ const rt_at32_dma_stream_t *dmaStreamAllocI(uint32_t id,
 
   osalDbgCheckClassI();
 
-  if (id < STM32_DMA_STREAMS) {
+  if (id < RT_AT32_DMA_STREAMS) {
     startid = id;
     endid   = id;
   }
-#if STM32_DMA_SUPPORTS_DMAMUX == TRUE
+#if RT_AT32_DMA_SUPPORTS_DMAMUX == TRUE
   else if (id == STM32_DMA_STREAM_ID_ANY) {
     startid = 0U;
-    endid   = STM32_DMA_STREAMS - 1U;
+    endid   = RT_AT32_DMA_STREAMS - 1U;
   }
   else if (id == STM32_DMA_STREAM_ID_ANY_DMA1) {
     startid = 0U;
-    endid   = STM32_DMA1_NUM_CHANNELS - 1U;
+    endid   = RT_AT32_DMA1_NUM_CHANNELS - 1U;
   }
-#if STM32_DMA2_NUM_CHANNELS > 0
+#if RT_AT32_DMA2_NUM_CHANNELS > 0
   else if (id == STM32_DMA_STREAM_ID_ANY_DMA2) {
-    startid = STM32_DMA1_NUM_CHANNELS;
-    endid   = STM32_DMA_STREAMS - 1U;
+    startid = RT_AT32_DMA1_NUM_CHANNELS;
+    endid   = RT_AT32_DMA_STREAMS - 1U;
   }
 #endif
 #endif
@@ -638,7 +638,7 @@ const rt_at32_dma_stream_t *dmaStreamAllocI(uint32_t id,
   for (i = startid; i <= endid; i++) {
     uint32_t mask = (1U << i);
     if ((dma.allocated_mask & mask) == 0U) {
-      const rt_at32_dma_stream_t *dmastp = STM32_DMA_STREAM(i);
+      const rt_at32_dma_stream_t *dmastp = RT_AT32_DMA_STREAM(i);
 
       /* Installs the DMA handler.*/
       dma.streams[i].func  = func;
@@ -646,16 +646,16 @@ const rt_at32_dma_stream_t *dmaStreamAllocI(uint32_t id,
       dma.allocated_mask  |= mask;
 
       /* Enabling DMA clocks required by the current streams set.*/
-      if ((STM32_DMA1_STREAMS_MASK & mask) != 0U) {
+      if ((RT_AT32_DMA1_STREAMS_MASK & mask) != 0U) {
         rccEnableDMA1(true);
       }
-#if STM32_DMA2_NUM_CHANNELS > 0
-      if ((STM32_DMA2_STREAMS_MASK & mask) != 0U) {
+#if RT_AT32_DMA2_NUM_CHANNELS > 0
+      if ((RT_AT32_DMA2_STREAMS_MASK & mask) != 0U) {
         rccEnableDMA2(true);
       }
 #endif
 
-#if (STM32_DMA_SUPPORTS_DMAMUX == TRUE) && defined(rccEnableDMAMUX)
+#if (RT_AT32_DMA_SUPPORTS_DMAMUX == TRUE) && defined(rccEnableDMAMUX)
       /* Enabling DMAMUX if present.*/
       if (dma.allocated_mask != 0U) {
         rccEnableDMAMUX(true);
@@ -750,16 +750,16 @@ void dmaStreamFreeI(const rt_at32_dma_stream_t *dmastp) {
   dma.streams[selfindex].param = NULL;
 
   /* Shutting down clocks that are no more required, if any.*/
-  if ((dma.allocated_mask & STM32_DMA1_STREAMS_MASK) == 0U) {
+  if ((dma.allocated_mask & RT_AT32_DMA1_STREAMS_MASK) == 0U) {
     rccDisableDMA1();
   }
-#if STM32_DMA2_NUM_CHANNELS > 0
-  if ((dma.allocated_mask & STM32_DMA2_STREAMS_MASK) == 0U) {
+#if RT_AT32_DMA2_NUM_CHANNELS > 0
+  if ((dma.allocated_mask & RT_AT32_DMA2_STREAMS_MASK) == 0U) {
     rccDisableDMA2();
   }
 #endif
 
-#if (STM32_DMA_SUPPORTS_DMAMUX == TRUE) && defined(rccDisableDMAMUX)
+#if (RT_AT32_DMA_SUPPORTS_DMAMUX == TRUE) && defined(rccDisableDMAMUX)
   /* Shutting down DMAMUX if present.*/
   if (dma.allocated_mask == 0U) {
     rccDisableDMAMUX();
@@ -804,7 +804,7 @@ void dmaServeInterrupt(const rt_at32_dma_stream_t *dmastp) {
   }
 }
 
-#if (STM32_DMA_SUPPORTS_DMAMUX == TRUE) || defined(__DOXYGEN__)
+#if (RT_AT32_DMA_SUPPORTS_DMAMUX == TRUE) || defined(__DOXYGEN__)
 /**
  * @brief   Associates a peripheral request to a DMA stream.
  * @note    This function can be invoked in both ISR or thread context.

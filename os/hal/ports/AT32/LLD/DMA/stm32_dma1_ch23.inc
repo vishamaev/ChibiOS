@@ -51,7 +51,7 @@
 /* Driver interrupt handlers.                                                */
 /*===========================================================================*/
 
-#if defined(STM32_DMA_REQUIRED) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA_REQUIRED) || defined(__DOXYGEN__)
 /**
  * @brief   DMA1 streams 2 and 3 shared ISR.
  *
@@ -62,10 +62,10 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH23_HANDLER) {
   OSAL_IRQ_PROLOGUE();
 
   /* Check on channel 2.*/
-  dmaServeInterrupt(STM32_DMA1_STREAM2);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM2);
 
   /* Check on channel 3.*/
-  dmaServeInterrupt(STM32_DMA1_STREAM3);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM3);
 
   OSAL_IRQ_EPILOGUE();
 }

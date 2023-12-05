@@ -51,7 +51,7 @@
 /* Driver interrupt handlers.                                                */
 /*===========================================================================*/
 
-#if defined(STM32_DMA_REQUIRED) || defined(__DOXYGEN__)
+#if defined(RT_AT32_DMA_REQUIRED) || defined(__DOXYGEN__)
 /**
  * @brief   DMA1 streams 4, 5, 6 and 7 shared ISR.
  *
@@ -62,21 +62,21 @@ OSAL_IRQ_HANDLER(STM32_DMA1_CH4567_HANDLER) {
   OSAL_IRQ_PROLOGUE();
 
   /* Check on channel 4.*/
-  dmaServeInterrupt(STM32_DMA1_STREAM4);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM4);
 
-#if STM32_DMA1_NUM_CHANNELS >= 5
+#if RT_AT32_DMA1_NUM_CHANNELS >= 5
   /* Check on channel 5.*/
-  dmaServeInterrupt(STM32_DMA1_STREAM5);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM5);
 #endif
 
-#if STM32_DMA1_NUM_CHANNELS >= 6
+#if RT_AT32_DMA1_NUM_CHANNELS >= 6
   /* Check on channel 6.*/
-  dmaServeInterrupt(STM32_DMA1_STREAM6);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM6);
 #endif
 
-#if STM32_DMA1_NUM_CHANNELS >= 7
+#if RT_AT32_DMA1_NUM_CHANNELS >= 7
   /* Check on channel 7.*/
-  dmaServeInterrupt(STM32_DMA1_STREAM7);
+  dmaServeInterrupt(RT_AT32_DMA1_STREAM7);
 #endif
 
   OSAL_IRQ_EPILOGUE();

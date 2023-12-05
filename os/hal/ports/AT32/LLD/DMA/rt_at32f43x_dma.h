@@ -49,8 +49,8 @@
  * @brief   Total number of DMA streams.
  * @details This is the total number of streams among all the DMA units.
  */
-#define STM32_DMA_STREAMS           (STM32_DMA1_NUM_CHANNELS +              \
-                                     STM32_DMA2_NUM_CHANNELS)
+#define RT_AT32_DMA_STREAMS           (RT_AT32_DMA1_NUM_CHANNELS +              \
+                                     RT_AT32_DMA2_NUM_CHANNELS)
 
 /**
  * @brief   Mask of the ISR bits passed to the DMA callback functions.
@@ -67,8 +67,8 @@
  *                      nibble
  * @return              Returns the request associated to the stream.
  */
-#define STM32_DMA_GETCHANNEL(id, c)                                         \
-  (((uint32_t)(c) >> (((uint32_t)(id) % (uint32_t)STM32_DMA1_NUM_CHANNELS) * 4U)) & 15U)
+#define RT_AT32_DMA_GETCHANNEL(id, c)                                         \
+  (((uint32_t)(c) >> (((uint32_t)(id) % (uint32_t)RT_AT32_DMA1_NUM_CHANNELS) * 4U)) & 15U)
 
 /**
  * @brief   Checks if a DMA priority is within the valid range.
@@ -80,7 +80,7 @@
  */
 #define STM32_DMA_IS_VALID_PRIORITY(prio) (((prio) >= 0U) && ((prio) <= 3U))
 
-#if (STM32_DMA_SUPPORTS_DMAMUX == FALSE) || defined(_DOXYGEN__)
+#if (RT_AT32_DMA_SUPPORTS_DMAMUX == FALSE) || defined(_DOXYGEN__)
 /**
  * @brief   Checks if a DMA stream id is within the valid range.
  *
@@ -90,14 +90,14 @@
  * @retval true         correct DMA channel.
  */
 #define STM32_DMA_IS_VALID_STREAM(id) (((id) >= 0U) &&                      \
-                                       ((id) < STM32_DMA_STREAMS))
+                                       ((id) < RT_AT32_DMA_STREAMS))
 #else /* STM32_DMA_SUPPORTS_DMAMUX == FALSE */
-#if STM32_DMA2_NUM_CHANNELS > 0
+#if RT_AT32_DMA2_NUM_CHANNELS > 0
 #define STM32_DMA_IS_VALID_STREAM(id) (((id) >= 0U) &&                      \
-                                       ((id) <= (STM32_DMA_STREAMS + 2)))
+                                       ((id) <= (RT_AT32_DMA_STREAMS + 2)))
 #else
 #define STM32_DMA_IS_VALID_STREAM(id) (((id) >= 0U) &&                      \
-                                       ((id) <= (STM32_DMA_STREAMS + 1)))
+                                       ((id) <= (RT_AT32_DMA_STREAMS + 1)))
 #endif
 #endif /* STM32_DMA_SUPPORTS_DMAMUX == FALSE */
 
@@ -109,7 +109,7 @@
  * @return              An unique numeric stream identifier.
  */
 #define RT_AT32_DMA_STREAM_ID(dma, stream)                                    \
-  ((((dma) - 1) * STM32_DMA1_NUM_CHANNELS) + ((stream) - 1))
+  ((((dma) - 1) * RT_AT32_DMA1_NUM_CHANNELS) + ((stream) - 1))
 
 /**
  * @brief   Returns a DMA stream identifier mask.
@@ -132,16 +132,16 @@
  * @retval false        id does not belong to the mask.
  * @retval true         id belongs to the mask.
  */
-#define STM32_DMA_IS_VALID_ID(id, mask) (((1U << (id)) & (mask)))
+#define RT_AT32_DMA_IS_VALID_ID(id, mask) (((1U << (id)) & (mask)))
 
-#if (STM32_DMA_SUPPORTS_DMAMUX == TRUE) || defined(_DOXYGEN__)
+#if (RT_AT32_DMA_SUPPORTS_DMAMUX == TRUE) || defined(_DOXYGEN__)
 /**
  * @name    Special stream identifiers
  * @{
  */
-#define STM32_DMA_STREAM_ID_ANY         STM32_DMA_STREAMS
+#define STM32_DMA_STREAM_ID_ANY         RT_AT32_DMA_STREAMS
 #define STM32_DMA_STREAM_ID_ANY_DMA1    (STM32_DMA_STREAM_ID_ANY + 1)
-#if STM32_DMA2_NUM_CHANNELS > 0
+#if RT_AT32_DMA2_NUM_CHANNELS > 0
 #define STM32_DMA_STREAM_ID_ANY_DMA2    (STM32_DMA_STREAM_ID_ANY_DMA1 + 1)
 #endif
 /** @} */
@@ -158,56 +158,85 @@
  * @return              A pointer to the stm32_dma_stream_t constant structure
  *                      associated to the DMA stream.
  */
-#define STM32_DMA_STREAM(id)        (&_stm32_dma_streams[id])
+#define RT_AT32_DMA_STREAM(id)        (&_rt_at32_dma_streams[id])
 
-#if STM32_DMA1_NUM_CHANNELS > 0
-#define STM32_DMA1_STREAM1          STM32_DMA_STREAM(0)
+#if RT_AT32_DMA1_NUM_CHANNELS > 0
+#define RT_AT32_DMA1_STREAM1        RT_AT32_DMA_STREAM(0)
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 1
-#define STM32_DMA1_STREAM2          STM32_DMA_STREAM(1)
+#if RT_AT32_DMA1_NUM_CHANNELS > 1
+#define RT_AT32_DMA1_STREAM2          RT_AT32_DMA_STREAM(1)
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 2
-#define STM32_DMA1_STREAM3          STM32_DMA_STREAM(2)
+#if RT_AT32_DMA1_NUM_CHANNELS > 2
+#define RT_AT32_DMA1_STREAM3          RT_AT32_DMA_STREAM(2)
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 3
-#define STM32_DMA1_STREAM4          STM32_DMA_STREAM(3)
+#if RT_AT32_DMA1_NUM_CHANNELS > 3
+#define RT_AT32_DMA1_STREAM4          RT_AT32_DMA_STREAM(3)
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 4
-#define STM32_DMA1_STREAM5          STM32_DMA_STREAM(4)
+#if RT_AT32_DMA1_NUM_CHANNELS > 4
+#define RT_AT32_DMA1_STREAM5          RT_AT32_DMA_STREAM(4)
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 5
-#define STM32_DMA1_STREAM6          STM32_DMA_STREAM(5)
+#if RT_AT32_DMA1_NUM_CHANNELS > 5
+#define RT_AT32_DMA1_STREAM6          RT_AT32_DMA_STREAM(5)
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 6
-#define STM32_DMA1_STREAM7          STM32_DMA_STREAM(6)
+#if RT_AT32_DMA1_NUM_CHANNELS > 6
+#define RT_AT32_DMA1_STREAM7          RT_AT32_DMA_STREAM(6)
 #endif
-#if STM32_DMA1_NUM_CHANNELS > 7
-#define STM32_DMA1_STREAM8          STM32_DMA_STREAM(7)
+#if RT_AT32_DMA1_NUM_CHANNELS > 7
+#define RT_AT32_DMA1_STREAM8          RT_AT32_DMA_STREAM(7)
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 0
-#define STM32_DMA2_STREAM1          STM32_DMA_STREAM(STM32_DMA1_NUM_CHANNELS + 0)
+#if RT_AT32_DMA2_NUM_CHANNELS > 0
+#define RT_AT32_DMA2_STREAM1          RT_AT32_DMA_STREAM(RT_AT32_DMA1_NUM_CHANNELS + 0)
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 1
-#define STM32_DMA2_STREAM2          STM32_DMA_STREAM(STM32_DMA1_NUM_CHANNELS + 1)
+#if RT_AT32_DMA2_NUM_CHANNELS > 1
+#define RT_AT32_DMA2_STREAM2          RT_AT32_DMA_STREAM(RT_AT32_DMA1_NUM_CHANNELS + 1)
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 2
-#define STM32_DMA2_STREAM3          STM32_DMA_STREAM(STM32_DMA1_NUM_CHANNELS + 2)
+#if RT_AT32_DMA2_NUM_CHANNELS > 2
+#define RT_AT32_DMA2_STREAM3          RT_AT32_DMA_STREAM(RT_AT32_DMA1_NUM_CHANNELS + 2)
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 3
-#define STM32_DMA2_STREAM4          STM32_DMA_STREAM(STM32_DMA1_NUM_CHANNELS + 3)
+#if RT_AT32_DMA2_NUM_CHANNELS > 3
+#define RT_AT32_DMA2_STREAM4          RT_AT32_DMA_STREAM(RT_AT32_DMA1_NUM_CHANNELS + 3)
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 4
-#define STM32_DMA2_STREAM5          STM32_DMA_STREAM(STM32_DMA1_NUM_CHANNELS + 4)
+#if RT_AT32_DMA2_NUM_CHANNELS > 4
+#define RT_AT32_DMA2_STREAM5          RT_AT32_DMA_STREAM(RT_AT32_DMA1_NUM_CHANNELS + 4)
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 5
-#define STM32_DMA2_STREAM6          STM32_DMA_STREAM(STM32_DMA1_NUM_CHANNELS + 5)
+#if RT_AT32_DMA2_NUM_CHANNELS > 5
+#define RT_AT32_DMA2_STREAM6          RT_AT32_DMA_STREAM(RT_AT32_DMA1_NUM_CHANNELS + 5)
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 6
-#define STM32_DMA2_STREAM7          STM32_DMA_STREAM(STM32_DMA1_NUM_CHANNELS + 6)
+#if RT_AT32_DMA2_NUM_CHANNELS > 6
+#define RT_AT32_DMA2_STREAM7          RT_AT32_DMA_STREAM(RT_AT32_DMA1_NUM_CHANNELS + 6)
 #endif
-#if STM32_DMA2_NUM_CHANNELS > 7
-#define STM32_DMA2_STREAM8          STM32_DMA_STREAM(STM32_DMA1_NUM_CHANNELS + 7)
+#if RT_AT32_DMA2_NUM_CHANNELS > 7
+#define RT_AT32_DMA2_STREAM8          RT_AT32_DMA_STREAM(RT_AT32_DMA1_NUM_CHANNELS + 7)
 #endif
+/** @} */
+
+/**
+ * @name    CR register constants common to all DMA types
+ * @{
+ */
+//#define STM32_DMA_CCR_RESET_VALUE   0x00000000U
+//#define STM32_DMA_CR_EN             DMA_CCR_EN
+//#define STM32_DMA_CR_TEIE           DMA_CCR_TEIE
+//#define STM32_DMA_CR_HTIE           DMA_CCR_HTIE
+//#define STM32_DMA_CR_TCIE           DMA_CCR_TCIE
+//#define STM32_DMA_CR_DIR_MASK       (DMA_CCR_DIR | DMA_CCR_MEM2MEM)
+//#define STM32_DMA_CR_DIR_P2M        0U
+//#define STM32_DMA_CR_DIR_M2P        DMA_CCR_DIR
+//#define STM32_DMA_CR_DIR_M2M        DMA_CCR_MEM2MEM
+//#define STM32_DMA_CR_CIRC           DMA_CCR_CIRC
+//#define STM32_DMA_CR_PINC           DMA_CCR_PINC
+//#define STM32_DMA_CR_MINC           DMA_CCR_MINC
+//#define STM32_DMA_CR_PSIZE_MASK     DMA_CCR_PSIZE
+//#define STM32_DMA_CR_PSIZE_BYTE     0U
+//#define STM32_DMA_CR_PSIZE_HWORD    DMA_CCR_PSIZE_0
+//#define STM32_DMA_CR_PSIZE_WORD     DMA_CCR_PSIZE_1
+//#define STM32_DMA_CR_MSIZE_MASK     DMA_CCR_MSIZE
+//#define STM32_DMA_CR_MSIZE_BYTE     0U
+//#define STM32_DMA_CR_MSIZE_HWORD    DMA_CCR_MSIZE_0
+//#define STM32_DMA_CR_MSIZE_WORD     DMA_CCR_MSIZE_1
+//#define STM32_DMA_CR_SIZE_MASK      (STM32_DMA_CR_PSIZE_MASK | \ STM32_DMA_CR_MSIZE_MASK)
+//#define STM32_DMA_CR_PL_MASK        DMA_CCR_PL
+//#define STM32_DMA_CR_PL(n)          ((n) << 12U)
 /** @} */
 
 /**
@@ -234,22 +263,23 @@
 #define STM32_DMA_CR_MSIZE_BYTE     0U
 #define STM32_DMA_CR_MSIZE_HWORD    DMA_CCR_MSIZE_0
 #define STM32_DMA_CR_MSIZE_WORD     DMA_CCR_MSIZE_1
-#define STM32_DMA_CR_SIZE_MASK      (STM32_DMA_CR_PSIZE_MASK |              \
+#define STM32_DMA_CR_SIZE_MASK      (STM32_DMA_CR_PSIZE_MASK | \
                                      STM32_DMA_CR_MSIZE_MASK)
 #define STM32_DMA_CR_PL_MASK        DMA_CCR_PL
 #define STM32_DMA_CR_PL(n)          ((n) << 12U)
 /** @} */
 
+
 /**
  * @name    Request line selector macro
  * @{
  */
-#if STM32_DMA_SUPPORTS_CSELR || defined(__DOXYGEN__)
-#define STM32_DMA_CR_CHSEL_MASK     (15U << 16U)
-#define STM32_DMA_CR_CHSEL(n)       ((n) << 16U)
+#if RT_AT32_DMA_SUPPORTS_CSELR || defined(__DOXYGEN__)
+# define RT_AT32_DMA_CR_CHSEL_MASK     (15U << 16U)
+# define RT_AT32_DMA_CR_CHSEL(n)       ((n) << 16U)
 #else
-#define STM32_DMA_CR_CHSEL_MASK     0U
-#define STM32_DMA_CR_CHSEL(n)       0U
+# define RT_AT32_DMA_CR_CHSEL_MASK     0U
+# define RT_AT32_DMA_CR_CHSEL(n)       0U
 #endif
 /** @} */
 
@@ -279,39 +309,39 @@
 /* Derived constants and error checks.                                       */
 /*===========================================================================*/
 
-#if !defined(STM32_DMA_SUPPORTS_DMAMUX)
+#if !defined(RT_AT32_DMA_SUPPORTS_DMAMUX)
 # error "STM32_DMA_SUPPORTS_DMAMUX not defined in registry"
 #endif
-#if !defined(STM32_DMA_HAS_DMAMUXSEL)
+#if !defined(RT_AT32_DMA_HAS_DMAMUXSEL)
 //#error "STM32_DMA_HAS_DMAMUXSEL not defined in registry"
-# define STM32_DMA_HAS_DMAMUXSEL FALSE
+# define RT_AT32_DMA_HAS_DMAMUXSEL FALSE
 #endif
 
-#if !defined(STM32_DMA_SUPPORTS_CSELR)
+#if !defined(RT_AT32_DMA_SUPPORTS_CSELR)
 # error "STM32_DMA_SUPPORTS_CSELR not defined in registry"
 #endif
 
-#if STM32_DMA_SUPPORTS_DMAMUX && STM32_DMA_SUPPORTS_CSELR
+#if RT_AT32_DMA_SUPPORTS_DMAMUX && RT_AT32_DMA_SUPPORTS_CSELR
 # error "STM32_DMA_SUPPORTS_DMAMUX and STM32_DMA_SUPPORTS_CSELR both TRUE"
 #endif
 
-#if !defined(STM32_DMA1_NUM_CHANNELS)
+#if !defined(RT_AT32_DMA1_NUM_CHANNELS)
 # error "STM32_DMA1_NUM_CHANNELS not defined in registry"
 #endif
 
-#if !defined(STM32_DMA2_NUM_CHANNELS)
+#if !defined(RT_AT32_DMA2_NUM_CHANNELS)
 # error "STM32_DMA2_NUM_CHANNELS not defined in registry"
 #endif
 
-#if (STM32_DMA1_NUM_CHANNELS < 0) || (STM32_DMA1_NUM_CHANNELS > 8)
+#if (RT_AT32_DMA1_NUM_CHANNELS < 0) || (RT_AT32_DMA1_NUM_CHANNELS > 8)
 # error "unsupported channels configuration"
 #endif
 
-#if (STM32_DMA2_NUM_CHANNELS < 0) || (STM32_DMA2_NUM_CHANNELS > 8)
+#if (RT_AT32_DMA2_NUM_CHANNELS < 0) || (RT_AT32_DMA2_NUM_CHANNELS > 8)
 # error "unsupported channels configuration"
 #endif
 
-#if (STM32_DMA_SUPPORTS_DMAMUX == TRUE) || defined(__DOXYGEN__)
+#if (RT_AT32_DMA_SUPPORTS_DMAMUX == TRUE) || defined(__DOXYGEN__)
 # include "rt_at32_dmamux.h"
 #endif
 
@@ -336,9 +366,9 @@ typedef struct {
   DMA_Channel_TypeDef   *channel;       /**< @brief Associated DMA channel. */
   uint32_t              cmask;          /**< @brief Mask of streams sharing
                                              the same ISR.                  */
-#if (STM32_DMA_SUPPORTS_CSELR == TRUE) || defined(__DOXYGEN__)
+#if (RT_AT32_DMA_SUPPORTS_CSELR == TRUE) || defined(__DOXYGEN__)
   volatile uint32_t     *cselr;         /**< @brief Associated CSELR reg.   */
-#elif STM32_DMA_SUPPORTS_DMAMUX == TRUE
+#elif RT_AT32_DMA_SUPPORTS_DMAMUX == TRUE
   DMAMUX_Channel_TypeDef *mux;          /**< @brief Associated DMA mux.     */
 #else
   uint8_t               dummy;          /**< @brief Filler.                 */
@@ -426,7 +456,7 @@ typedef struct {
  *
  * @special
  */
-#if STM32_DMA_SUPPORTS_CSELR || defined(__DOXYGEN__)
+#if RT_AT32_DMA_SUPPORTS_CSELR || defined(__DOXYGEN__)
 #define dmaStreamSetMode(dmastp, mode) {                                    \
   uint32_t cselr = *(dmastp)->cselr;                                        \
   cselr &= ~(0x0000000FU << (dmastp)->shift);                               \
@@ -535,7 +565,7 @@ typedef struct {
 /*===========================================================================*/
 
 #if !defined(__DOXYGEN__)
-extern const rt_at32_dma_stream_t _stm32_dma_streams[STM32_DMA_STREAMS];
+extern const rt_at32_dma_stream_t _rt_at32_dma_streams[RT_AT32_DMA_STREAMS];
 #endif
 
 #ifdef __cplusplus
@@ -554,7 +584,7 @@ extern "C" {
   void dmaStreamFreeI(const rt_at32_dma_stream_t *dmastp);
   void dmaStreamFree(const rt_at32_dma_stream_t *dmastp);
   void dmaServeInterrupt(const rt_at32_dma_stream_t *dmastp);
-#if STM32_DMA_SUPPORTS_DMAMUX == TRUE
+#if RT_AT32_DMA_SUPPORTS_DMAMUX == TRUE
   void dmaSetRequestSource(const rt_at32_dma_stream_t *dmastp, uint32_t per);
 #endif
 #ifdef __cplusplus
