@@ -443,13 +443,13 @@ typedef struct {
       __IO uint32_t rpen      : 1; /* [1]     Repetition mode enable */                                 /* ? CONT: Continuous conversion */
       __IO uint32_t adcal     : 1; /* [2]     A/D Calibration */                                        /* - Reserved */
       __IO uint32_t adcalinit : 1; /* [3]     Initialize A/D calibration */                             /* - Reserved */
-      __IO uint32_t adabrt    : 1; /* [4]      */                                                       /* - Reserved */
+      __IO uint32_t adabrt    : 1; /* [4]     Stop ADC conversions */                                   /* - Reserved */
       __IO uint32_t reserved1 : 3; /* [7:5]    */                                                       /* + Reserved */
       __IO uint32_t ocdmaen   : 1; /* [8]     DMA transfer enable of ordinary channels */               /* + DMA: Direct memory access mode (for single ADC mode) */
       __IO uint32_t ocdrcen   : 1; /* [9]     Ordinary channel DMA request continue */                  /* - DDS: DMA disable selection (for single ADC mode) */
       __IO uint32_t eocsfen   : 1; /* [10]    Each ordinary channel conversion OCCE */                  /* ? EOCS: End of conversion selection */
       __IO uint32_t dtalign   : 1; /* [11]    Data alignment */                                         /* + ALIGN: Data alignment */
-      __IO uint32_t reserved2 : 4; /* [15:12]  */  /*  */
+      __IO uint32_t reserved2 : 4; /* [15:12]  */                                                       /* + Reserved */
       __IO uint32_t pctesel_l : 4; /* [19:16] Preempted channel conversion trigger event select */      /* ? JEXTSEL[3:0]: External event select for injected group */
       __IO uint32_t pcete     : 2; /* [21:20] Preempted channel external trigger edge select */         /* ? JEXTEN: External trigger enable for injected channels */
       __IO uint32_t pcswtrg   : 1; /* [22]    Conversion of preempted channels triggered by software */ /* ? JSWSTART: Start conversion of injected channels */

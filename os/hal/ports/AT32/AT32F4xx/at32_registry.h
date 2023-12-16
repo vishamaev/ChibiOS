@@ -96,8 +96,8 @@
 #define STM32_TIMPRE_PRESCALE4              TRUE
 
 /* ADC attributes.*/
-#define STM32_ADC_HANDLER                   Vector88        // ADC1, ADC2 and ADC3 global interrupt
-#define STM32_ADC_NUMBER                    18
+#define RT_AT32_ADC_HANDLER                   Vector88        // ADC1, ADC2 and ADC3 global interrupt
+#define RT_AT32_ADC_NUMBER                    18
 
 #define RT_AT32_HAS_ADC1                    TRUE
 #if 0

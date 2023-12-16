@@ -63,24 +63,27 @@
  * @name    Triggers selection
  * @{
  */
-#define ADC_CR2_EXTEN_MASK      (3U << 28U)
-#define ADC_CR2_EXTEN_DISABLED  (0U << 28U)
-#define ADC_CR2_EXTEN_RISING    (1U << 28U)
-#define ADC_CR2_EXTEN_FALLING   (2U << 28U)
-#define ADC_CR2_EXTEN_BOTH      (3U << 28U)
+#define ADC_CTRL2_OCTESEL_H_MASK    (1U  << 31U)    //OCTESSEL BIT 31
+#define ADC_CTRL2_OCTESEL_H_SRC(n)  ((n) << 31U)
 
-#define ADC_CR2_EXTSEL_MASK     (15U << 24U)
-#define ADC_CR2_EXTSEL_SRC(n)   ((n) << 24U)
+#define ADC_CTRL2_OCETE_MASK      (3U << 28U)
+#define ADC_CTRL2_OCETE_FORBIDDEN (0U << 28U)
+#define ADC_CTRL2_OCETE_RISING    (1U << 28U)
+#define ADC_CTRL2_OCETE_FALLING   (2U << 28U)
+#define ADC_CTRL2_OCETE_ANY       (3U << 28U)
+
+#define ADC_CTRL2_OCTESEL_L_MASK    (15U << 24U)    //OCTESSEL BIT 24:27
+#define ADC_CTRL2_OCTESEL_L_SRC(n)  ((n) << 24U)
 /** @} */
 
 /**
  * @name    ADC clock divider settings
  * @{
  */
-#define ADC_CCR_ADCPRE_DIV2     0
-#define ADC_CCR_ADCPRE_DIV4     1
-#define ADC_CCR_ADCPRE_DIV6     2
-#define ADC_CCR_ADCPRE_DIV8     3
+#define ADC_CCTRL_ADCDIV_DIV2     0
+#define ADC_CCTRL_ADCDIV_DIV4     1
+#define ADC_CCTRL_ADCDIV_DIV6     2
+#define ADC_CCTRL_ADCDIV_DIV8     3
 /** @} */
 
 /**
@@ -125,6 +128,73 @@
 #define ADC_SAMPLE_480          7   /**< @brief 480 cycles sampling time.   */
 /** @} */
 
+
+#define  ADC_ORDINARY_TRIG_TMR1CH1_L           (0x0U) /*!<timer1 ch1 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR1CH2_L           (0x1U) /*!<timer1 ch2 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR1CH3_L           (0x2U) /*!<timer1 ch3 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR2CH2_L           (0x3U) /*!<timer2 ch2 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR2CH3_L           (0x4U) /*!<timer2 ch3 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR2CH4_L           (0x5U) /*!<timer2 ch4 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR2TRGOUT_L        (0x6U) /*!<timer2 trgout event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR3CH1_L           (0x7U) /*!<timer3 ch1 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR3TRGOUT_L        (0x8U) /*!<timer3 trgout event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR4CH4_L           (0x9U) /*!<timer4 ch4 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR5CH1_L           (0xAU) /*!<timer5 ch1 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR5CH2_L           (0xBU) /*!<timer5 ch2 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR5CH3_L           (0xCU) /*!<timer5 ch3 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR8CH1_L           (0xDU) /*!<timer8 ch1 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR8TRGOUT_L        (0xEU) /*!<timer8 trgout event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_EXINT11_L           (0xFU) /*!<exint line11 event as trigger source of ordinary sequence */
+
+#define  ADC_ORDINARY_TRIG_TMR1CH1_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR1CH2_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR1CH3_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR2CH2_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR2CH3_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR2CH4_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR2TRGOUT_H        (0U)
+#define  ADC_ORDINARY_TRIG_TMR3CH1_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR3TRGOUT_H        (0U)
+#define  ADC_ORDINARY_TRIG_TMR4CH4_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR5CH1_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR5CH2_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR5CH3_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR8CH1_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR8TRGOUT_H        (0U)
+#define  ADC_ORDINARY_TRIG_EXINT11_H           (0U)
+
+
+#define  ADC_ORDINARY_TRIG_TMR20TRGOUT_L       (0x0U) /*!<timer20 trgout event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR20TRGOUT2_L      (0x1U) /*!<timer20 trgout2 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR20CH1_L          (0x2U) /*!<timer20 ch1 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR20CH2_L          (0x3U) /*!<timer20 ch2 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR20CH3_L          (0x4U) /*!<timer20 ch3 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR8TRGOUT2_L       (0x5U) /*!<timer8 trgout2 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR1TRGOUT2_L       (0x6U) /*!<timer1 trgout2 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR4TRGOUT_L        (0x7U) /*!<timer4 trgout event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR6TRGOUT_L        (0x8U) /*!<timer6 trgout event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR3CH4_L           (0x9U) /*!<timer3 ch4 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR4CH1_L           (0xAU) /*!<timer4 ch1 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR1TRGOUT_L        (0xBU) /*!<timer1 trgout event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR2CH1_L           (0xCU) /*!<timer2 ch1 event as trigger source of ordinary sequence */
+#define  ADC_ORDINARY_TRIG_TMR7TRGOUT_L        (0xEU) /*!<timer7 trgout event as trigger source of ordinary sequence */
+
+#define  ADC_ORDINARY_TRIG_TMR20TRGOUT_H       (0U)
+#define  ADC_ORDINARY_TRIG_TMR20TRGOUT2_H      (0U)
+#define  ADC_ORDINARY_TRIG_TMR20CH1_H          (0U)
+#define  ADC_ORDINARY_TRIG_TMR20CH2_H          (0U)
+#define  ADC_ORDINARY_TRIG_TMR20CH3_H          (0U)
+#define  ADC_ORDINARY_TRIG_TMR8TRGOUT2_H       (0U)
+#define  ADC_ORDINARY_TRIG_TMR1TRGOUT2_H       (0U)
+#define  ADC_ORDINARY_TRIG_TMR4TRGOUT_H        (0U)
+#define  ADC_ORDINARY_TRIG_TMR6TRGOUT_H        (0U)
+#define  ADC_ORDINARY_TRIG_TMR3CH4_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR4CH1_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR1TRGOUT_H        (0U)
+#define  ADC_ORDINARY_TRIG_TMR2CH1_H           (0U)
+#define  ADC_ORDINARY_TRIG_TMR7TRGOUT_H        (0U)
+
+
 /*===========================================================================*/
 /* Driver pre-compile time settings.                                         */
 /*===========================================================================*/
@@ -141,7 +211,7 @@
  *          See section 5.3.20 "12-bit ADC characteristics".
  */
 #if !defined(AT32_ADC_ADCPRE) || defined(__DOXYGEN__)
-#define AT32_ADC_ADCPRE                    ADC_CCR_ADCPRE_DIV2
+#define AT32_ADC_ADCPRE                    ADC_CCTRL_ADCDIV_DIV2
 #endif
 
 /**
@@ -286,13 +356,13 @@
 #endif /* !RT_AT32_DMA_SUPPORTS_DMAMUX */
 
 /* ADC clock related settings and checks.*/
-#if AT32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV2
+#if AT32_ADC_ADCPRE == ADC_CCTRL_ADCDIV_DIV2
 # define AT32_ADCCLK                       (AT32_PCLK2 / 2)
-#elif AT32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV4
+#elif AT32_ADC_ADCPRE == ADC_CCTRL_ADCDIV_DIV4
 # define AT32_ADCCLK                       (AT32_PCLK2 / 4)
-#elif AT32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV6
+#elif AT32_ADC_ADCPRE == ADC_CCTRL_ADCDIV_DIV6
 # define AT32_ADCCLK                       (AT32_PCLK2 / 6)
-#elif AT32_ADC_ADCPRE == ADC_CCR_ADCPRE_DIV8
+#elif AT32_ADC_ADCPRE == ADC_CCTRL_ADCDIV_DIV8
 # define AT32_ADCCLK                       (AT32_PCLK2 / 8)
 #else
 # error "invalid STM32_ADC_ADCPRE value specified"
@@ -351,38 +421,38 @@ typedef uint32_t adcerror_t;
  * @brief   Low level fields of the ADC configuration structure.
  */
 #define adc_lld_configuration_group_fields                                  \
-  /* ADC CR1 register initialization data.                                  \
+  /* ADC CTRL1 register initialization data.                                \
      NOTE: All the required bits must be defined into this field except     \
-           @p ADC_CR1_SCAN that is enforced inside the driver.*/            \
-  uint32_t                  cr1;                                            \
-  /* ADC CR2 register initialization data.                                  \
+           @p ADC_CTRL1_SCAN that is enforced inside the driver.*/          \
+  uint32_t                  ctrl1;                                          \
+  /* ADC CTRL2 register initialization data.                                \
      NOTE: All the required bits must be defined into this field except     \
-           @p ADC_CR2_DMA, @p ADC_CR2_CONT and @p ADC_CR2_ADON that are     \
-           enforced inside the driver.*/                                    \
-  uint32_t                  cr2;                                            \
+           @p ADC_CTRL2_DMA, @p ADC_CTRL2_CONT and @p ADC_CTRL2_ADON that   \
+            are enforced inside the driver.*/                               \
+  uint32_t                  ctrl2;                                          \
   /* ADC SMPR1 register initialization data.                                \
      NOTE: In this field must be specified the sample times for channels    \
            10...18.*/                                                       \
-  uint32_t                  smpr1;                                          \
-  /* ADC SMPR2 register initialization data.                                \
+  uint32_t                  spt1;                                           \
+  /* ADC SPT2 register initialization data.                                 \
      NOTE: In this field must be specified the sample times for channels    \
            0...9.*/                                                         \
-  uint32_t                  smpr2;                                          \
+  uint32_t                  spt2;                                           \
   /* ADC watchdog high threshold register.                                  \
      NOTE: This field defines the high threshold of the analog watchdog.*/  \
-  uint16_t                  htr;                                            \
+  uint16_t                  vmhb;                                           \
   /* ADC watchdog low threshold register.                                   \
      NOTE: This field defines the low threshold of the analog watchdog.*/   \
-  uint16_t                  ltr;                                            \
+  uint16_t                  vmlb;                                           \
   /* ADC SQR1 register initialization data.                                 \
      NOTE: Conversion group sequence 13...16 + sequence length.*/           \
-  uint32_t                  sqr1;                                           \
+  uint32_t                  osq1;                                           \
   /* ADC SQR2 register initialization data.                                 \
      NOTE: Conversion group sequence 7...12.*/                              \
-  uint32_t                  sqr2;                                           \
+  uint32_t                  osq2;                                           \
   /* ADC SQR3 register initialization data.                                 \
      NOTE: Conversion group sequence 1...6.*/                               \
-  uint32_t                  sqr3
+  uint32_t                  osq3
 
 /**
  * @name    Sequences building helper macros
@@ -393,24 +463,24 @@ typedef uint32_t adcerror_t;
  */
 #define ADC_SQR1_NUM_CH(n)      (((n) - 1) << 20)
 
-#define ADC_SQR3_SQ1_N(n)       ((n) << 0)  /**< @brief 1st channel in seq. */
-#define ADC_SQR3_SQ2_N(n)       ((n) << 5)  /**< @brief 2nd channel in seq. */
-#define ADC_SQR3_SQ3_N(n)       ((n) << 10) /**< @brief 3rd channel in seq. */
-#define ADC_SQR3_SQ4_N(n)       ((n) << 15) /**< @brief 4th channel in seq. */
-#define ADC_SQR3_SQ5_N(n)       ((n) << 20) /**< @brief 5th channel in seq. */
-#define ADC_SQR3_SQ6_N(n)       ((n) << 25) /**< @brief 6th channel in seq. */
+#define ADC_OSQ3_OSN1_N(n)       ((n) << 0)  /**< @brief 1st channel in seq. */
+#define ADC_OSQ3_OSN2_N(n)       ((n) << 5)  /**< @brief 2nd channel in seq. */
+#define ADC_OSQ3_OSN3_N(n)       ((n) << 10) /**< @brief 3rd channel in seq. */
+#define ADC_OSQ3_OSN4_N(n)       ((n) << 15) /**< @brief 4th channel in seq. */
+#define ADC_OSQ3_OSN5_N(n)       ((n) << 20) /**< @brief 5th channel in seq. */
+#define ADC_OSQ3_OSN6_N(n)       ((n) << 25) /**< @brief 6th channel in seq. */
 
-#define ADC_SQR2_SQ7_N(n)       ((n) << 0)  /**< @brief 7th channel in seq. */
-#define ADC_SQR2_SQ8_N(n)       ((n) << 5)  /**< @brief 8th channel in seq. */
-#define ADC_SQR2_SQ9_N(n)       ((n) << 10) /**< @brief 9th channel in seq. */
-#define ADC_SQR2_SQ10_N(n)      ((n) << 15) /**< @brief 10th channel in seq.*/
-#define ADC_SQR2_SQ11_N(n)      ((n) << 20) /**< @brief 11th channel in seq.*/
-#define ADC_SQR2_SQ12_N(n)      ((n) << 25) /**< @brief 12th channel in seq.*/
+#define ADC_OSQ2_OSN7_N(n)       ((n) << 0)  /**< @brief 7th channel in seq. */
+#define ADC_OSQ2_OSN8_N(n)       ((n) << 5)  /**< @brief 8th channel in seq. */
+#define ADC_OSQ2_OSN9_N(n)       ((n) << 10) /**< @brief 9th channel in seq. */
+#define ADC_OSQ2_OSN10_N(n)      ((n) << 15) /**< @brief 10th channel in seq.*/
+#define ADC_OSQ2_OSN11_N(n)      ((n) << 20) /**< @brief 11th channel in seq.*/
+#define ADC_OSQ2_OSN12_N(n)      ((n) << 25) /**< @brief 12th channel in seq.*/
 
-#define ADC_SQR1_SQ13_N(n)      ((n) << 0)  /**< @brief 13th channel in seq.*/
-#define ADC_SQR1_SQ14_N(n)      ((n) << 5)  /**< @brief 14th channel in seq.*/
-#define ADC_SQR1_SQ15_N(n)      ((n) << 10) /**< @brief 15th channel in seq.*/
-#define ADC_SQR1_SQ16_N(n)      ((n) << 15) /**< @brief 16th channel in seq.*/
+#define ADC_OSQ1_OSN13_N(n)      ((n) << 0)  /**< @brief 13th channel in seq.*/
+#define ADC_OSQ1_OSN14_N(n)      ((n) << 5)  /**< @brief 14th channel in seq.*/
+#define ADC_OSQ1_OSN15_N(n)      ((n) << 10) /**< @brief 15th channel in seq.*/
+#define ADC_OSQ1_OSN16_N(n)      ((n) << 15) /**< @brief 16th channel in seq.*/
 /** @} */
 
 /**
@@ -448,11 +518,11 @@ typedef uint32_t adcerror_t;
 /**
  * @brief   High threshold limitation.
  */
-#define ADC_HTR(n)              ((n > ADC_HTR_HT) ? ADC_HTR_HT : n)
+#define ADC_VMHB(n)              ((n > ADC_VMHB_VMHB) ? ADC_VMHB_VMHB : n)
 /**
  * @brief   Low threshold limitation.
  */
-#define ADC_LTR(n)              ((n > ADC_LTR_LT) ? ADC_LTR_LT : n)
+#define ADC_VMLB(n)              ((n > ADC_VMLB_VMLB) ? ADC_VMLB_VMLB : n)
 /** @} */
 
 /*===========================================================================*/

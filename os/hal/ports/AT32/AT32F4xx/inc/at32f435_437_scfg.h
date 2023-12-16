@@ -139,7 +139,7 @@ typedef enum
 } scfg_emac_interface_type;
 
 /**
-  * @brief scfg ultra high sourcing/sinking strength pins type
+  * @brief scfg uvmlba high sourcing/sinking strength pins type
   */
 typedef enum
 {
@@ -152,7 +152,7 @@ typedef enum
   SCFG_ULTRA_DRIVEN_PD15                 = MAKE_VALUE(0x2C, 8),
   SCFG_ULTRA_DRIVEN_PF14                 = MAKE_VALUE(0x2C, 9),
   SCFG_ULTRA_DRIVEN_PF15                 = MAKE_VALUE(0x2C, 10)
-} scfg_ultra_driven_pins_type;
+} scfg_uvmlba_driven_pins_type;
 
 /**
   * @brief type define system config register all
@@ -300,7 +300,7 @@ void scfg_infrared_config(scfg_ir_source_type source, scfg_ir_polarity_type pola
 void scfg_mem_map_set(scfg_mem_map_type mem_map);
 void scfg_emac_interface_set(scfg_emac_interface_type mode);
 void scfg_exint_line_config(scfg_port_source_type port_source, scfg_pins_source_type pin_source);
-void scfg_pins_ultra_driven_enable(scfg_ultra_driven_pins_type value, confirm_state new_state);
+void scfg_pins_uvmlba_driven_enable(scfg_uvmlba_driven_pins_type value, confirm_state new_state);
 
 /**
   * @}

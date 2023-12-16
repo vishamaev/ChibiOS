@@ -38,7 +38,7 @@ static void dump_sumple(int n, adcsample_t* pb) {
   int i;
 
   for (i = 0; i < n; i++) {
-    chprintf(CHP, "0x%x", pb[i]);
+    chprintf(CHP, "0x%03.3x", pb[i]);
     if ((i+1)%8) {
       chprintf(CHP, ":");
     } else {
@@ -47,7 +47,19 @@ static void dump_sumple(int n, adcsample_t* pb) {
   }
   chprintf(CHP, "\r\n-------------------------\r\n");
 }
+#if 0
+static void dump_dev(uint32_t *pb,  int n) {
+  int i;
+  static int cnt = 0;
 
+  chprintf(CHP, "%02.2d-------------------------\r\n", cnt++);
+
+  for (i = 0; i < n; i++) {
+    chprintf(CHP, "0x%08.8x:  0x%08.8x\r\n", (uint32_t) pb, *pb);
+    pb++;
+  }
+}
+#endif
 
 /*
  * ADC streaming callback.
@@ -80,41 +92,22 @@ static void adcerrorcallback(ADCDriver *adcp, adcerror_t err) {
  * Mode:        Linear buffer, 8 samples of 1 channel, SW triggered.
  * Channels:    IN11.
  */
-#if 0
-static const ADCConversionGroup adcgrpcfg1 = {
-  FALSE,                            /* Enables the circular buffer mode for the group. */
-  ADC_GRP1_NUM_CHANNELS,            /* 1 Number of the analog channels belonging to the conversion group */
-  NULL,                             /*   Callback function associated to the group or NULL. */
-  adcerrorcallback,                 /* Error callback or NULL */
-  /* End of the mandatory fields.*/
-  /* --- adc_lld_configuration_group_fields --- */
-  0,                                /* CR1 */
-  ADC_CR2_SWSTART,                  /* CR2 */
-  ADC_SMPR1_SMP_AN11(ADC_SAMPLE_3),
-  0,                                /* SMPR2 */
-  0,                                /* HTR  */
-  0,                                /* LTR  */
-  0,                                /* SQR1 */
-  0,                                /* SQR2 */
-  ADC_SQR3_SQ1_N(ADC_CHANNEL_IN11)  /* SQR3 */
-};
-#else
 static const ADCConversionGroup adcgrpcfg1 = {
   .circular     = false,
   .num_channels = ADC_GRP1_NUM_CHANNELS,
   .end_cb       = NULL,
   .error_cb     = adcerrorcallback,
-  .cr1          = 0,
-  .cr2          = ADC_CR2_SWSTART,
-  .smpr1        = ADC_SMPR1_SMP_AN11(ADC_SAMPLE_3),
-  .smpr2        = 0,                                          
-  .htr          = 0,
-  .ltr          = 0,
-  .sqr1         = 0,
-  .sqr2         = 0,
-  .sqr3         = ADC_SQR3_SQ1_N(ADC_CHANNEL_IN11)
+ /* adc_lld_configuration_group_fields */
+  .ctrl1        = 0,
+  .ctrl2        = ADC_CTRL2_OCSWTRG,
+  .spt1         = ADC_SMPR1_SMP_AN11(ADC_SAMPLE_3),
+  .spt2         = 0,                                          
+  .vmhb         = 0,
+  .vmlb         = 0,
+  .osq1         = 0,
+  .osq2         = 0,
+  .osq3         = ADC_OSQ3_OSN1_N(ADC_CHANNEL_IN11)
 };
-#endif
 
 
 /*
@@ -122,50 +115,23 @@ static const ADCConversionGroup adcgrpcfg1 = {
  * Mode:        Continuous, 16 samples of 8 channels, SW triggered.
  * Channels:    IN11, IN12, IN11, IN12, IN11, IN12, Sensor, VRef.
  */
-#if 0
-static const ADCConversionGroup adcgrpcfg2 = {
-  TRUE,                                     // Enables the circular buffer mode for the group
-  ADC_GRP2_NUM_CHANNELS,                    // 8 - Number of the analog channels belonging to the conversion group.
-  adccallback,                              // Callback function associated to the group
-  adcerrorcallback,                         // Error callback.
-  0,                        /* CR1 */       // ADC CR1 register initialization data
-  ADC_CR2_SWSTART,          /* CR2 */       // 
-  ADC_SMPR1_SMP_AN12(ADC_SAMPLE_56)     |   
-  ADC_SMPR1_SMP_AN11(ADC_SAMPLE_56)     |
-  ADC_SMPR1_SMP_SENSOR(ADC_SAMPLE_144)  | 
-  ADC_SMPR1_SMP_VREF(ADC_SAMPLE_144),       /* SMPR1 */ //
-  0,                                        /* SMPR2 */     //
-  0,                                        /* HTR */       //
-  0,                                        /* LTR */       //
-  0,                                        /* SQR1 */      //
-  ADC_SQR2_SQ8_N(ADC_CHANNEL_SENSOR)  | 
-  ADC_SQR2_SQ7_N(ADC_CHANNEL_VREFINT),      /* SQR2 */ //
-  ADC_SQR3_SQ6_N(ADC_CHANNEL_IN12)    | 
-  ADC_SQR3_SQ5_N(ADC_CHANNEL_IN11)    |
-  ADC_SQR3_SQ4_N(ADC_CHANNEL_IN12)    | 
-  ADC_SQR3_SQ3_N(ADC_CHANNEL_IN11)    |
-  ADC_SQR3_SQ2_N(ADC_CHANNEL_IN12)    | 
-  ADC_SQR3_SQ1_N(ADC_CHANNEL_IN11)          /* SQR3 */  //    
-};
-#else
 static const ADCConversionGroup adcgrpcfg2 = {
   .circular     = TRUE,
   .num_channels = ADC_GRP2_NUM_CHANNELS,
   .end_cb       = adccallback,
   .error_cb     = adcerrorcallback,
-  .cr1          = 0,
-  .cr2          = ADC_CR2_SWSTART,
-  .smpr1        = ADC_SMPR1_SMP_AN12(ADC_SAMPLE_56) | ADC_SMPR1_SMP_AN11(ADC_SAMPLE_56) | ADC_SMPR1_SMP_SENSOR(ADC_SAMPLE_144) | ADC_SMPR1_SMP_VREF(ADC_SAMPLE_144),
-  .smpr2        = 0,                                          
-  .htr          = 0,
-  .ltr          = 0,
-  .sqr1         = 0,
-  .sqr2         = ADC_SQR2_SQ8_N(ADC_CHANNEL_SENSOR) | ADC_SQR2_SQ7_N(ADC_CHANNEL_VREFINT),
-  .sqr3         = ADC_SQR3_SQ6_N(ADC_CHANNEL_IN12)   | ADC_SQR3_SQ5_N(ADC_CHANNEL_IN11)    |
-                  ADC_SQR3_SQ4_N(ADC_CHANNEL_IN12)   | ADC_SQR3_SQ3_N(ADC_CHANNEL_IN11)    |
-                  ADC_SQR3_SQ2_N(ADC_CHANNEL_IN12)   | ADC_SQR3_SQ1_N(ADC_CHANNEL_IN11)
+  .ctrl1        = ADC_CTRL1_SQEN,
+  .ctrl2        = ADC_CTRL2_OCSWTRG,
+  .spt1         = ADC_SMPR1_SMP_AN12(ADC_SAMPLE_56) | ADC_SMPR1_SMP_AN11(ADC_SAMPLE_56) | ADC_SMPR1_SMP_SENSOR(ADC_SAMPLE_144) | ADC_SMPR1_SMP_VREF(ADC_SAMPLE_144),
+  .spt2         = 0,                                          
+  .vmhb         = 0,
+  .vmlb         = 0,
+  .osq1         = 0,
+  .osq2         = ADC_OSQ2_OSN8_N(ADC_CHANNEL_SENSOR) | ADC_OSQ2_OSN7_N(ADC_CHANNEL_VREFINT),
+  .osq3         = ADC_OSQ3_OSN6_N(ADC_CHANNEL_IN12)   | ADC_OSQ3_OSN5_N(ADC_CHANNEL_IN11)    |
+                  ADC_OSQ3_OSN4_N(ADC_CHANNEL_IN12)   | ADC_OSQ3_OSN3_N(ADC_CHANNEL_IN11)    |
+                  ADC_OSQ3_OSN2_N(ADC_CHANNEL_IN12)   | ADC_OSQ3_OSN1_N(ADC_CHANNEL_IN11)
 };
-#endif
 
 /*
  * Yellow LED blinker thread, times are in milliseconds.
@@ -212,7 +178,7 @@ int main(void) {
    * Creates the blinker thread.
    */
   chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO, Thread1, NULL);
-  chprintf(CHP, "ADC: test start\r\n");
+  chprintf(CHP, "GPT_ADC_AT: test start\r\n");
   chprintf(CHP, "nx: %d\r\nny: %d\r\n", nx, ny);
   dump_sumple(ADC_GRP1_NUM_CHANNELS * ADC_GRP1_BUF_DEPTH, samples1);
 
@@ -226,12 +192,15 @@ int main(void) {
    * Linear conversion.
    */
   adcConvert(&ADCD1, &adcgrpcfg1, samples1, ADC_GRP1_BUF_DEPTH);
+//  dump_dev((uint32_t*)ADC1, 20);
+
   chThdSleepMilliseconds(1000);
 
   /*
    * Starts an ADC continuous conversion.
    */
   adcStartConversion(&ADCD1, &adcgrpcfg2, samples2, ADC_GRP2_BUF_DEPTH);
+//  dump_dev((uint32_t*)ADC1, 20);
 
   /*
    * Normal main() thread activity, in this demo it does nothing.
@@ -241,7 +210,7 @@ int main(void) {
     if (palReadPad(GPIOA, GPIOA_BUTTON)) {
       adcStopConversion(&ADCD1);
       adcAT32DisableTSVREFE();
-      chprintf(CHP, "ADC: test stop\r\n");
+      chprintf(CHP, "GPT_ADC_AT: test stop\r\n");
       chprintf(CHP, "ERRS: %d\r\n", nerr);
       chprintf(CHP, "--- samples1 ---\r\n");
       dump_sumple(ADC_GRP1_NUM_CHANNELS * ADC_GRP1_BUF_DEPTH, samples1);

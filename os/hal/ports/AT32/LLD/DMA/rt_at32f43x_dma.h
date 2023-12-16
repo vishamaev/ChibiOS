@@ -245,28 +245,28 @@
  */
 #define STM32_DMA_CCR_RESET_VALUE   0x00000000U
 #define STM32_DMA_CR_EN             DMA_CCR_EN
-#define STM32_DMA_CR_TEIE           DMA_CCR_TEIE
+#define RT_AT32_DMA_CR_TEIE           DMA_CCR_TEIE
 #define STM32_DMA_CR_HTIE           DMA_CCR_HTIE
-#define STM32_DMA_CR_TCIE           DMA_CCR_TCIE
+#define RT_AT32_DMA_CR_TCIE           DMA_CCR_TCIE
 #define STM32_DMA_CR_DIR_MASK       (DMA_CCR_DIR | DMA_CCR_MEM2MEM)
-#define STM32_DMA_CR_DIR_P2M        0U
+#define RT_AT32_DMA_CR_DIR_P2M        0U
 #define STM32_DMA_CR_DIR_M2P        DMA_CCR_DIR
 #define STM32_DMA_CR_DIR_M2M        DMA_CCR_MEM2MEM
 #define STM32_DMA_CR_CIRC           DMA_CCR_CIRC
 #define STM32_DMA_CR_PINC           DMA_CCR_PINC
-#define STM32_DMA_CR_MINC           DMA_CCR_MINC
+#define RT_AT32_DMA_CR_MINC           DMA_CCR_MINC
 #define STM32_DMA_CR_PSIZE_MASK     DMA_CCR_PSIZE
 #define STM32_DMA_CR_PSIZE_BYTE     0U
-#define STM32_DMA_CR_PSIZE_HWORD    DMA_CCR_PSIZE_0
+#define RT_AT32_DMA_CR_PSIZE_HWORD    DMA_CCR_PSIZE_0
 #define STM32_DMA_CR_PSIZE_WORD     DMA_CCR_PSIZE_1
 #define STM32_DMA_CR_MSIZE_MASK     DMA_CCR_MSIZE
 #define STM32_DMA_CR_MSIZE_BYTE     0U
-#define STM32_DMA_CR_MSIZE_HWORD    DMA_CCR_MSIZE_0
+#define RT_AT32_DMA_CR_MSIZE_HWORD    DMA_CCR_MSIZE_0
 #define STM32_DMA_CR_MSIZE_WORD     DMA_CCR_MSIZE_1
 #define STM32_DMA_CR_SIZE_MASK      (STM32_DMA_CR_PSIZE_MASK | \
                                      STM32_DMA_CR_MSIZE_MASK)
 #define STM32_DMA_CR_PL_MASK        DMA_CCR_PL
-#define STM32_DMA_CR_PL(n)          ((n) << 12U)
+#define RT_AT32_DMA_CR_PL(n)          ((n) << 12U)
 /** @} */
 
 
@@ -287,7 +287,7 @@
  * @name    CR register constants only found in enhanced DMA
  * @{
  */
-#define STM32_DMA_CR_DMEIE          0U  /**< @brief Ignored by normal DMA.  */
+#define RT_AT32_DMA_CR_DMEIE          0U  /**< @brief Ignored by normal DMA.  */
 /** @} */
 
 /**
@@ -295,10 +295,10 @@
  * @{
  */
 #define STM32_DMA_ISR_FEIF          0U
-#define STM32_DMA_ISR_DMEIF         0U
-#define STM32_DMA_ISR_TEIF          DMA_ISR_TEIF1
-#define STM32_DMA_ISR_HTIF          DMA_ISR_HTIF1
-#define STM32_DMA_ISR_TCIF          DMA_ISR_TCIF1
+#define RT_AT32_DMA_ISR_DMEIF         0U
+#define RT_AT32_DMA_ISR_TEIF          DMA_ISR_TEIF1
+#define RT_AT32_DMA_ISR_HTIF          DMA_ISR_HTIF1
+#define RT_AT32_DMA_ISR_TCIF          DMA_ISR_TCIF1
 /** @} */
 
 /*===========================================================================*/
@@ -499,8 +499,8 @@ typedef struct {
  * @special
  */
 #define dmaStreamDisable(dmastp) {                                          \
-  (dmastp)->channel->CCR &= ~(STM32_DMA_CR_TCIE | STM32_DMA_CR_HTIE |       \
-                              STM32_DMA_CR_TEIE | STM32_DMA_CR_EN);         \
+  (dmastp)->channel->CCR &= ~(RT_AT32_DMA_CR_TCIE | STM32_DMA_CR_HTIE |       \
+                              RT_AT32_DMA_CR_TEIE | STM32_DMA_CR_EN);         \
   dmaStreamClearInterrupt(dmastp);                                          \
 }
 
@@ -542,7 +542,7 @@ typedef struct {
   dmaStreamSetMemory0(dmastp, dst);                                         \
   dmaStreamSetTransactionSize(dmastp, n);                                   \
   dmaStreamSetMode(dmastp, (mode) |                                         \
-                           STM32_DMA_CR_MINC | STM32_DMA_CR_PINC |          \
+                           RT_AT32_DMA_CR_MINC | STM32_DMA_CR_PINC |          \
                            STM32_DMA_CR_DIR_M2M | STM32_DMA_CR_EN);         \
 }
 

@@ -448,6 +448,7 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR} error_status;
 #define SCFG_BASE                        (APB2PERIPH_BASE + 0x3800U)
 #define SPI4_BASE                        (APB2PERIPH_BASE + 0x3400U)
 #define SPI1_BASE                        (APB2PERIPH_BASE + 0x3000U)
+
 #define ADC1_BASE                        (APB2PERIPH_BASE + 0x2000U)
 #define ADC2_BASE                        (APB2PERIPH_BASE + 0x2100U)
 #define ADC3_BASE                        (APB2PERIPH_BASE + 0x2200U)
@@ -636,38 +637,38 @@ typedef enum { ERROR = 0, SUCCESS = !ERROR} error_status;
   */
 
 typedef struct {
-  __IO uint32_t SR;     /*!< ADC status register,                         Address offset: 0x00 */
-  __IO uint32_t CR1;    /*!< ADC control register 1,                      Address offset: 0x04 */
-  __IO uint32_t CR2;    /*!< ADC control register 2,                      Address offset: 0x08 */
-  __IO uint32_t SMPR1;  /*!< ADC sample time register 1,                  Address offset: 0x0C */
-  __IO uint32_t SMPR2;  /*!< ADC sample time register 2,                  Address offset: 0x10 */
-  __IO uint32_t JOFR1;  /*!< ADC injected channel data offset register 1, Address offset: 0x14 */
-  __IO uint32_t JOFR2;  /*!< ADC injected channel data offset register 2, Address offset: 0x18 */
-  __IO uint32_t JOFR3;  /*!< ADC injected channel data offset register 3, Address offset: 0x1C */
-  __IO uint32_t JOFR4;  /*!< ADC injected channel data offset register 4, Address offset: 0x20 */
-  __IO uint32_t HTR;    /*!< ADC watchdog higher threshold register,      Address offset: 0x24 */
-  __IO uint32_t LTR;    /*!< ADC watchdog lower threshold register,       Address offset: 0x28 */
-  __IO uint32_t SQR1;   /*!< ADC regular sequence register 1,             Address offset: 0x2C */
-  __IO uint32_t SQR2;   /*!< ADC regular sequence register 2,             Address offset: 0x30 */
-  __IO uint32_t SQR3;   /*!< ADC regular sequence register 3,             Address offset: 0x34 */
-  __IO uint32_t JSQR;   /*!< ADC injected sequence register,              Address offset: 0x38*/
-  __IO uint32_t JDR1;   /*!< ADC injected data register 1,                Address offset: 0x3C */
-  __IO uint32_t JDR2;   /*!< ADC injected data register 2,                Address offset: 0x40 */
-  __IO uint32_t JDR3;   /*!< ADC injected data register 3,                Address offset: 0x44 */
-  __IO uint32_t JDR4;   /*!< ADC injected data register 4,                Address offset: 0x48 */
-  __IO uint32_t DR;     /*!< ADC regular data register,                   Address offset: 0x4C */
+  __IO uint32_t STS;    /*!< ADC status register,                           Address offset: 0x00 */
+  __IO uint32_t CTRL1;  /*!< ADC control register 1,                        Address offset: 0x04 */
+  __IO uint32_t CTRL2;  /*!< ADC control register 2,                        Address offset: 0x08 */
+  __IO uint32_t SMPR1;  /*!< ADC sample time register 1,                    Address offset: 0x0C */
+  __IO uint32_t SMPR2;  /*!< ADC sample time register 2,                    Address offset: 0x10 */
+  __IO uint32_t PCDTO1; /*!< ADC preempted channel data offset register 1,  Address offset: 0x14 */
+  __IO uint32_t PCDTO2; /*!< ADC preempted channel data offset register 2,  Address offset: 0x18 */
+  __IO uint32_t PCDTO3; /*!< ADC preempted channel data offset register 3,  Address offset: 0x1C */
+  __IO uint32_t PCDTO4; /*!< ADC preempted channel data offset register 4,  Address offset: 0x20 */
+  __IO uint32_t VMHB;   /*!< ADC voltage monitor high threshold register,   Address offset: 0x24 */
+  __IO uint32_t VMLB;   /*!< ADC voltage monitor low threshold register,    Address offset: 0x28 */
+  __IO uint32_t OSQ1;   /*!< ADC ordinary sequence register 1,              Address offset: 0x2C */
+  __IO uint32_t OSQ2;   /*!< ADC ordinary sequence register 2,              Address offset: 0x30 */
+  __IO uint32_t OSQ3;   /*!< ADC ordinary sequence register 3,              Address offset: 0x34 */
+  __IO uint32_t PSQ;    /*!< ADC preempted sequence register,               Address offset: 0x38*/
+  __IO uint32_t PDT1;   /*!< ADC preempted data register 1,                 Address offset: 0x3C */
+  __IO uint32_t PDT2;   /*!< ADC preempted data register 2,                 Address offset: 0x40 */
+  __IO uint32_t PDT3;   /*!< ADC preempted data register 3,                 Address offset: 0x44 */
+  __IO uint32_t PDT4;   /*!< ADC preempted data register 4,                 Address offset: 0x48 */
+  __IO uint32_t ODT;    /*!< ADC ordinary data register,                    Address offset: 0x4C */
 
   uint32_t RESERVED0[0x30 / 4];     /*!< Reserved,                        0x04c - 0x7F */         /* FixMe проверить!!*/
   __IO uint32_t OVSP;   /*!< ADC oversampling register,                   Address offset: 0x80 */ /* FixMe проверить!!*/
   uint32_t RESERVED1[0x30 / 4];     /*!< Reserved,                        0x084 - 0xB3 */         /* FixMe проверить!!*/
-  __IO uint32_t CALVAL; /*!< ADC calibration value register,              Address offset: 0x80 */ /* FixMe проверить!!*/
+  __IO uint32_t CALVAL; /*!< ADC calibration value register,              Address offset: 0xB4 */ /* FixMe проверить!!*/
 } ADC_TypeDef;
 
 
 typedef struct {
-  __IO uint32_t CSR;    /*!< ADC Common status register,                  Address offset: ADC1 base address + 0x300 */
-  __IO uint32_t CCR;    /*!< ADC common control register,                 Address offset: ADC1 base address + 0x304 */
-  __IO uint32_t CDR;    /*!< ADC common regular data register for dual
+  __IO uint32_t CSTS;   /*!< ADC Common status register,                  Address offset: ADC1 base address + 0x300 */
+  __IO uint32_t CCTRL;  /*!< ADC common control register,                 Address offset: ADC1 base address + 0x304 */
+  __IO uint32_t CODT;   /*!< ADC common regular data register for dual
                              AND triple modes,                            Address offset: ADC1 base address + 0x308 */
 } ADC_Common_TypeDef;
 
@@ -1860,6 +1861,7 @@ typedef struct {
 #define ADC2                ((ADC_TypeDef *) ADC2_BASE)
 #define ADC3                ((ADC_TypeDef *) ADC3_BASE)
 #define ADC123_COMMON       ((ADC_Common_TypeDef *) ADC123_COMMON_BASE)
+
 /* Legacy define */
 #define ADC                  ADC123_COMMON
 #define SDIO                ((SDIO_TypeDef *) SDIO_BASE)
@@ -1952,594 +1954,703 @@ typedef struct {
  */
 #define ADC_MULTIMODE_SUPPORT                                                  /*!<ADC Multimode feature available on specific devices */
 
-/********************  Bit definition for ADC_SR register  ********************/
-#define ADC_SR_AWD_Pos            (0U)
-#define ADC_SR_AWD_Msk            (0x1U << ADC_SR_AWD_Pos)                     /*!< 0x00000001 */
-#define ADC_SR_AWD                ADC_SR_AWD_Msk                               /*!<Analog watchdog flag */
-#define ADC_SR_EOC_Pos            (1U)
-#define ADC_SR_EOC_Msk            (0x1U << ADC_SR_EOC_Pos)                     /*!< 0x00000002 */
-#define ADC_SR_EOC                ADC_SR_EOC_Msk                               /*!<End of conversion */
-#define ADC_SR_JEOC_Pos           (2U)
-#define ADC_SR_JEOC_Msk           (0x1U << ADC_SR_JEOC_Pos)                    /*!< 0x00000004 */
-#define ADC_SR_JEOC               ADC_SR_JEOC_Msk                              /*!<Injected channel end of conversion */
-#define ADC_SR_JSTRT_Pos          (3U)
-#define ADC_SR_JSTRT_Msk          (0x1U << ADC_SR_JSTRT_Pos)                   /*!< 0x00000008 */
-#define ADC_SR_JSTRT              ADC_SR_JSTRT_Msk                             /*!<Injected channel Start flag */
-#define ADC_SR_STRT_Pos           (4U)
-#define ADC_SR_STRT_Msk           (0x1U << ADC_SR_STRT_Pos)                    /*!< 0x00000010 */
-#define ADC_SR_STRT               ADC_SR_STRT_Msk                              /*!<Regular channel Start flag */
-#define ADC_SR_OVR_Pos            (5U)
-#define ADC_SR_OVR_Msk            (0x1U << ADC_SR_OVR_Pos)                     /*!< 0x00000020 */
-#define ADC_SR_OVR                ADC_SR_OVR_Msk                               /*!<Overrun flag */
+/********************  Bit definition for ADC_STS register  ********************/
+#define ADC_STS_VMOR_Pos          (0U)
+#define ADC_STS_VMOR_Msk          (0x1U << ADC_STS_VMOR_Pos)                   /*!< 0x00000001 */
+#define ADC_STS_VMOR              ADC_STS_VMOR_Msk                             /*!<Voltage monitoring out of range flag */
+#define ADC_STS_OCCE_Pos          (1U)
+#define ADC_STS_OCCE_Msk          (0x1U << ADC_STS_OCCE_Pos)                   /*!< 0x00000002 */
+#define ADC_STS_OCCE              ADC_STS_OCCE_Msk                             /*!<End of conversion flag */
+#define ADC_STS_PCCE_Pos          (2U)
+#define ADC_STS_PCCE_Msk          (0x1U << ADC_STS_PCCE_Pos)                   /*!< 0x00000004 */
+#define ADC_STS_PCCE              ADC_STS_PCCE_Msk                             /*!<Preempted channel end of conversion flag */
+#define ADC_STS_PCCS_Pos          (3U)
+#define ADC_STS_PCCS_Msk          (0x1U << ADC_STS_PCCS_Pos)                   /*!< 0x00000008 */
+#define ADC_STS_PCCS              ADC_STS_PCCS_Msk                             /*!<Preempted channel conversion start flag */
+#define ADC_STS_OCCS_Pos          (4U)
+#define ADC_STS_OCCS_Msk          (0x1U << ADC_STS_OCCS_Pos)                   /*!< 0x00000010 */
+#define ADC_STS_OCCS              ADC_STS_OCCS_Msk                             /*!<Ordinary channel conversion start flag */
+#define ADC_STS_OCCO_Pos          (5U)
+#define ADC_STS_OCCO_Msk          (0x1U << ADC_STS_OCCO_Pos)                   /*!< 0x00000020 */
+#define ADC_STS_OCCO              ADC_STS_OCCO_Msk                             /*!<Ordinary channel conversion overflow flag */
+/* AT32 ONLY  */
+#define ADC_STS_RDY_Pos           (6U)
+#define ADC_STS_RDY_Msk           (0x1U << ADC_STS_RDY_Pos)                    /*!< 0x00000040 */
+#define ADC_STS_RDY               ADC_STS_RDY_Msk                              /*!<Ordinary channel conversion overflow flag */
+/* End AT32 ONLY  */
 
-/*******************  Bit definition for ADC_CR1 register  ********************/
-#define ADC_CR1_AWDCH_Pos         (0U)
-#define ADC_CR1_AWDCH_Msk         (0x1FU << ADC_CR1_AWDCH_Pos)                 /*!< 0x0000001F */
-#define ADC_CR1_AWDCH             ADC_CR1_AWDCH_Msk                            /*!<AWDCH[4:0] bits (Analog watchdog channel select bits) */
-#define ADC_CR1_AWDCH_0           (0x01U << ADC_CR1_AWDCH_Pos)                 /*!< 0x00000001 */
-#define ADC_CR1_AWDCH_1           (0x02U << ADC_CR1_AWDCH_Pos)                 /*!< 0x00000002 */
-#define ADC_CR1_AWDCH_2           (0x04U << ADC_CR1_AWDCH_Pos)                 /*!< 0x00000004 */
-#define ADC_CR1_AWDCH_3           (0x08U << ADC_CR1_AWDCH_Pos)                 /*!< 0x00000008 */
-#define ADC_CR1_AWDCH_4           (0x10U << ADC_CR1_AWDCH_Pos)                 /*!< 0x00000010 */
-#define ADC_CR1_EOCIE_Pos         (5U)
-#define ADC_CR1_EOCIE_Msk         (0x1U << ADC_CR1_EOCIE_Pos)                  /*!< 0x00000020 */
-#define ADC_CR1_EOCIE             ADC_CR1_EOCIE_Msk                            /*!<Interrupt enable for EOC */
-#define ADC_CR1_AWDIE_Pos         (6U)
-#define ADC_CR1_AWDIE_Msk         (0x1U << ADC_CR1_AWDIE_Pos)                  /*!< 0x00000040 */
-#define ADC_CR1_AWDIE             ADC_CR1_AWDIE_Msk                            /*!<AAnalog Watchdog interrupt enable */
-#define ADC_CR1_JEOCIE_Pos        (7U)
-#define ADC_CR1_JEOCIE_Msk        (0x1U << ADC_CR1_JEOCIE_Pos)                 /*!< 0x00000080 */
-#define ADC_CR1_JEOCIE            ADC_CR1_JEOCIE_Msk                           /*!<Interrupt enable for injected channels */
-#define ADC_CR1_SCAN_Pos          (8U)
-#define ADC_CR1_SCAN_Msk          (0x1U << ADC_CR1_SCAN_Pos)                   /*!< 0x00000100 */
-#define ADC_CR1_SCAN              ADC_CR1_SCAN_Msk                             /*!<Scan mode */
-#define ADC_CR1_AWDSGL_Pos        (9U)
-#define ADC_CR1_AWDSGL_Msk        (0x1U << ADC_CR1_AWDSGL_Pos)                 /*!< 0x00000200 */
-#define ADC_CR1_AWDSGL            ADC_CR1_AWDSGL_Msk                           /*!<Enable the watchdog on a single channel in scan mode */
-#define ADC_CR1_JAUTO_Pos         (10U)
-#define ADC_CR1_JAUTO_Msk         (0x1U << ADC_CR1_JAUTO_Pos)                  /*!< 0x00000400 */
-#define ADC_CR1_JAUTO             ADC_CR1_JAUTO_Msk                            /*!<Automatic injected group conversion */
-#define ADC_CR1_DISCEN_Pos        (11U)
-#define ADC_CR1_DISCEN_Msk        (0x1U << ADC_CR1_DISCEN_Pos)                 /*!< 0x00000800 */
-#define ADC_CR1_DISCEN            ADC_CR1_DISCEN_Msk                           /*!<Discontinuous mode on regular channels */
-#define ADC_CR1_JDISCEN_Pos       (12U)
-#define ADC_CR1_JDISCEN_Msk       (0x1U << ADC_CR1_JDISCEN_Pos)                /*!< 0x00001000 */
-#define ADC_CR1_JDISCEN           ADC_CR1_JDISCEN_Msk                          /*!<Discontinuous mode on injected channels */
-#define ADC_CR1_DISCNUM_Pos       (13U)
-#define ADC_CR1_DISCNUM_Msk       (0x7U << ADC_CR1_DISCNUM_Pos)                /*!< 0x0000E000 */
-#define ADC_CR1_DISCNUM           ADC_CR1_DISCNUM_Msk                          /*!<DISCNUM[2:0] bits (Discontinuous mode channel count) */
-#define ADC_CR1_DISCNUM_0         (0x1U << ADC_CR1_DISCNUM_Pos)                /*!< 0x00002000 */
-#define ADC_CR1_DISCNUM_1         (0x2U << ADC_CR1_DISCNUM_Pos)                /*!< 0x00004000 */
-#define ADC_CR1_DISCNUM_2         (0x4U << ADC_CR1_DISCNUM_Pos)                /*!< 0x00008000 */
-#define ADC_CR1_JAWDEN_Pos        (22U)
-#define ADC_CR1_JAWDEN_Msk        (0x1U << ADC_CR1_JAWDEN_Pos)                 /*!< 0x00400000 */
-#define ADC_CR1_JAWDEN            ADC_CR1_JAWDEN_Msk                           /*!<Analog watchdog enable on injected channels */
-#define ADC_CR1_AWDEN_Pos         (23U)
-#define ADC_CR1_AWDEN_Msk         (0x1U << ADC_CR1_AWDEN_Pos)                  /*!< 0x00800000 */
-#define ADC_CR1_AWDEN             ADC_CR1_AWDEN_Msk                            /*!<Analog watchdog enable on regular channels */
-#define ADC_CR1_RES_Pos           (24U)
-#define ADC_CR1_RES_Msk           (0x3U << ADC_CR1_RES_Pos)                    /*!< 0x03000000 */
-#define ADC_CR1_RES               ADC_CR1_RES_Msk                              /*!<RES[2:0] bits (Resolution) */
-#define ADC_CR1_RES_0             (0x1U << ADC_CR1_RES_Pos)                    /*!< 0x01000000 */
-#define ADC_CR1_RES_1             (0x2U << ADC_CR1_RES_Pos)                    /*!< 0x02000000 */
-#define ADC_CR1_OVRIE_Pos         (26U)
-#define ADC_CR1_OVRIE_Msk         (0x1U << ADC_CR1_OVRIE_Pos)                  /*!< 0x04000000 */
-#define ADC_CR1_OVRIE             ADC_CR1_OVRIE_Msk                            /*!<overrun interrupt enable */
+/*******************  Bit definition for ADC_CTRL1 register  ********************/
+#define ADC_CTRL1_VMCSEL_Pos      (0U)
+#define ADC_CTRL1_VMCSEL_Msk      (0x1FU << ADC_CTRL1_VMCSEL_Pos)              /*!< 0x0000001F */
+#define ADC_CTRL1_VMCSEL          ADC_CTRL1_VMCSEL_Msk                         /*!<VMCSEL[4:0] bits (Voltage monitoring channel select) */
+#define ADC_CTRL1_VMCSEL_0        (0x01U << ADC_CTRL1_VMCSEL_Pos)              /*!< 0x00000001 */
+#define ADC_CTRL1_VMCSEL_1        (0x02U << ADC_CTRL1_VMCSEL_Pos)              /*!< 0x00000002 */
+#define ADC_CTRL1_VMCSEL_2        (0x04U << ADC_CTRL1_VMCSEL_Pos)              /*!< 0x00000004 */
+#define ADC_CTRL1_VMCSEL_3        (0x08U << ADC_CTRL1_VMCSEL_Pos)              /*!< 0x00000008 */
+#define ADC_CTRL1_VMCSEL_4        (0x10U << ADC_CTRL1_VMCSEL_Pos)              /*!< 0x00000010 */
 
-/*******************  Bit definition for ADC_CR2 register  ********************/
-#define ADC_CR2_ADON_Pos          (0U)
-#define ADC_CR2_ADON_Msk          (0x1U << ADC_CR2_ADON_Pos)                   /*!< 0x00000001 */
-#define ADC_CR2_ADON              ADC_CR2_ADON_Msk                             /*!<A/D Converter ON / OFF */
-#define ADC_CR2_CONT_Pos          (1U)
-#define ADC_CR2_CONT_Msk          (0x1U << ADC_CR2_CONT_Pos)                   /*!< 0x00000002 */
-#define ADC_CR2_CONT              ADC_CR2_CONT_Msk                             /*!<Continuous Conversion */
-#define ADC_CR2_DMA_Pos           (8U)
-#define ADC_CR2_DMA_Msk           (0x1U << ADC_CR2_DMA_Pos)                    /*!< 0x00000100 */
-#define ADC_CR2_DMA               ADC_CR2_DMA_Msk                              /*!<Direct Memory access mode */
-#define ADC_CR2_DDS_Pos           (9U)
-#define ADC_CR2_DDS_Msk           (0x1U << ADC_CR2_DDS_Pos)                    /*!< 0x00000200 */
-#define ADC_CR2_DDS               ADC_CR2_DDS_Msk                              /*!<DMA disable selection (Single ADC) */
-#define ADC_CR2_EOCS_Pos          (10U)
-#define ADC_CR2_EOCS_Msk          (0x1U << ADC_CR2_EOCS_Pos)                   /*!< 0x00000400 */
-#define ADC_CR2_EOCS              ADC_CR2_EOCS_Msk                             /*!<End of conversion selection */
-#define ADC_CR2_ALIGN_Pos         (11U)
-#define ADC_CR2_ALIGN_Msk         (0x1U << ADC_CR2_ALIGN_Pos)                  /*!< 0x00000800 */
-#define ADC_CR2_ALIGN             ADC_CR2_ALIGN_Msk                            /*!<Data Alignment */
-#define ADC_CR2_JEXTSEL_Pos       (16U)
-#define ADC_CR2_JEXTSEL_Msk       (0xFU << ADC_CR2_JEXTSEL_Pos)                /*!< 0x000F0000 */
-#define ADC_CR2_JEXTSEL           ADC_CR2_JEXTSEL_Msk                          /*!<JEXTSEL[3:0] bits (External event select for injected group) */
-#define ADC_CR2_JEXTSEL_0         (0x1U << ADC_CR2_JEXTSEL_Pos)                /*!< 0x00010000 */
-#define ADC_CR2_JEXTSEL_1         (0x2U << ADC_CR2_JEXTSEL_Pos)                /*!< 0x00020000 */
-#define ADC_CR2_JEXTSEL_2         (0x4U << ADC_CR2_JEXTSEL_Pos)                /*!< 0x00040000 */
-#define ADC_CR2_JEXTSEL_3         (0x8U << ADC_CR2_JEXTSEL_Pos)                /*!< 0x00080000 */
-#define ADC_CR2_JEXTEN_Pos        (20U)
-#define ADC_CR2_JEXTEN_Msk        (0x3U << ADC_CR2_JEXTEN_Pos)                 /*!< 0x00300000 */
-#define ADC_CR2_JEXTEN            ADC_CR2_JEXTEN_Msk                           /*!<JEXTEN[1:0] bits (External Trigger Conversion mode for injected channelsp) */
-#define ADC_CR2_JEXTEN_0          (0x1U << ADC_CR2_JEXTEN_Pos)                 /*!< 0x00100000 */
-#define ADC_CR2_JEXTEN_1          (0x2U << ADC_CR2_JEXTEN_Pos)                 /*!< 0x00200000 */
-#define ADC_CR2_JSWSTART_Pos      (22U)
-#define ADC_CR2_JSWSTART_Msk      (0x1U << ADC_CR2_JSWSTART_Pos)               /*!< 0x00400000 */
-#define ADC_CR2_JSWSTART          ADC_CR2_JSWSTART_Msk                         /*!<Start Conversion of injected channels */
-#define ADC_CR2_EXTSEL_Pos        (24U)
-#define ADC_CR2_EXTSEL_Msk        (0xFU << ADC_CR2_EXTSEL_Pos)                 /*!< 0x0F000000 */
-#define ADC_CR2_EXTSEL            ADC_CR2_EXTSEL_Msk                           /*!<EXTSEL[3:0] bits (External Event Select for regular group) */
-#define ADC_CR2_EXTSEL_0          (0x1U << ADC_CR2_EXTSEL_Pos)                 /*!< 0x01000000 */
-#define ADC_CR2_EXTSEL_1          (0x2U << ADC_CR2_EXTSEL_Pos)                 /*!< 0x02000000 */
-#define ADC_CR2_EXTSEL_2          (0x4U << ADC_CR2_EXTSEL_Pos)                 /*!< 0x04000000 */
-#define ADC_CR2_EXTSEL_3          (0x8U << ADC_CR2_EXTSEL_Pos)                 /*!< 0x08000000 */
-#define ADC_CR2_EXTEN_Pos         (28U)
-#define ADC_CR2_EXTEN_Msk         (0x3U << ADC_CR2_EXTEN_Pos)                  /*!< 0x30000000 */
-#define ADC_CR2_EXTEN             ADC_CR2_EXTEN_Msk                            /*!<EXTEN[1:0] bits (External Trigger Conversion mode for regular channelsp) */
-#define ADC_CR2_EXTEN_0           (0x1U << ADC_CR2_EXTEN_Pos)                  /*!< 0x10000000 */
-#define ADC_CR2_EXTEN_1           (0x2U << ADC_CR2_EXTEN_Pos)                  /*!< 0x20000000 */
-#define ADC_CR2_SWSTART_Pos       (30U)
-#define ADC_CR2_SWSTART_Msk       (0x1U << ADC_CR2_SWSTART_Pos)                /*!< 0x40000000 */
-#define ADC_CR2_SWSTART           ADC_CR2_SWSTART_Msk                          /*!<Start Conversion of regular channels */
+#define ADC_CTRL1_CCEIEN_Pos      (5U)
+#define ADC_CTRL1_CCEIEN_Msk      (0x1U << ADC_CTRL1_CCEIEN_Pos)               /*!< 0x00000020 */
+#define ADC_CTRL1_CCEIEN          ADC_CTRL1_CCEIEN_Msk                         /*!<Channel conversion end interrupt enable */
 
-/******************  Bit definition for ADC_SMPR1 register  *******************/
-#define ADC_SMPR1_SMP10_Pos       (0U)
-#define ADC_SMPR1_SMP10_Msk       (0x7U << ADC_SMPR1_SMP10_Pos)                /*!< 0x00000007 */
-#define ADC_SMPR1_SMP10           ADC_SMPR1_SMP10_Msk                          /*!<SMP10[2:0] bits (Channel 10 Sample time selection) */
-#define ADC_SMPR1_SMP10_0         (0x1U << ADC_SMPR1_SMP10_Pos)                /*!< 0x00000001 */
-#define ADC_SMPR1_SMP10_1         (0x2U << ADC_SMPR1_SMP10_Pos)                /*!< 0x00000002 */
-#define ADC_SMPR1_SMP10_2         (0x4U << ADC_SMPR1_SMP10_Pos)                /*!< 0x00000004 */
-#define ADC_SMPR1_SMP11_Pos       (3U)
-#define ADC_SMPR1_SMP11_Msk       (0x7U << ADC_SMPR1_SMP11_Pos)                /*!< 0x00000038 */
-#define ADC_SMPR1_SMP11           ADC_SMPR1_SMP11_Msk                          /*!<SMP11[2:0] bits (Channel 11 Sample time selection) */
-#define ADC_SMPR1_SMP11_0         (0x1U << ADC_SMPR1_SMP11_Pos)                /*!< 0x00000008 */
-#define ADC_SMPR1_SMP11_1         (0x2U << ADC_SMPR1_SMP11_Pos)                /*!< 0x00000010 */
-#define ADC_SMPR1_SMP11_2         (0x4U << ADC_SMPR1_SMP11_Pos)                /*!< 0x00000020 */
-#define ADC_SMPR1_SMP12_Pos       (6U)
-#define ADC_SMPR1_SMP12_Msk       (0x7U << ADC_SMPR1_SMP12_Pos)                /*!< 0x000001C0 */
-#define ADC_SMPR1_SMP12           ADC_SMPR1_SMP12_Msk                          /*!<SMP12[2:0] bits (Channel 12 Sample time selection) */
-#define ADC_SMPR1_SMP12_0         (0x1U << ADC_SMPR1_SMP12_Pos)                /*!< 0x00000040 */
-#define ADC_SMPR1_SMP12_1         (0x2U << ADC_SMPR1_SMP12_Pos)                /*!< 0x00000080 */
-#define ADC_SMPR1_SMP12_2         (0x4U << ADC_SMPR1_SMP12_Pos)                /*!< 0x00000100 */
-#define ADC_SMPR1_SMP13_Pos       (9U)
-#define ADC_SMPR1_SMP13_Msk       (0x7U << ADC_SMPR1_SMP13_Pos)                /*!< 0x00000E00 */
-#define ADC_SMPR1_SMP13           ADC_SMPR1_SMP13_Msk                          /*!<SMP13[2:0] bits (Channel 13 Sample time selection) */
-#define ADC_SMPR1_SMP13_0         (0x1U << ADC_SMPR1_SMP13_Pos)                /*!< 0x00000200 */
-#define ADC_SMPR1_SMP13_1         (0x2U << ADC_SMPR1_SMP13_Pos)                /*!< 0x00000400 */
-#define ADC_SMPR1_SMP13_2         (0x4U << ADC_SMPR1_SMP13_Pos)                /*!< 0x00000800 */
-#define ADC_SMPR1_SMP14_Pos       (12U)
-#define ADC_SMPR1_SMP14_Msk       (0x7U << ADC_SMPR1_SMP14_Pos)                /*!< 0x00007000 */
-#define ADC_SMPR1_SMP14           ADC_SMPR1_SMP14_Msk                          /*!<SMP14[2:0] bits (Channel 14 Sample time selection) */
-#define ADC_SMPR1_SMP14_0         (0x1U << ADC_SMPR1_SMP14_Pos)                /*!< 0x00001000 */
-#define ADC_SMPR1_SMP14_1         (0x2U << ADC_SMPR1_SMP14_Pos)                /*!< 0x00002000 */
-#define ADC_SMPR1_SMP14_2         (0x4U << ADC_SMPR1_SMP14_Pos)                /*!< 0x00004000 */
-#define ADC_SMPR1_SMP15_Pos       (15U)
-#define ADC_SMPR1_SMP15_Msk       (0x7U << ADC_SMPR1_SMP15_Pos)                /*!< 0x00038000 */
-#define ADC_SMPR1_SMP15           ADC_SMPR1_SMP15_Msk                          /*!<SMP15[2:0] bits (Channel 15 Sample time selection) */
-#define ADC_SMPR1_SMP15_0         (0x1U << ADC_SMPR1_SMP15_Pos)                /*!< 0x00008000 */
-#define ADC_SMPR1_SMP15_1         (0x2U << ADC_SMPR1_SMP15_Pos)                /*!< 0x00010000 */
-#define ADC_SMPR1_SMP15_2         (0x4U << ADC_SMPR1_SMP15_Pos)                /*!< 0x00020000 */
-#define ADC_SMPR1_SMP16_Pos       (18U)
-#define ADC_SMPR1_SMP16_Msk       (0x7U << ADC_SMPR1_SMP16_Pos)                /*!< 0x001C0000 */
-#define ADC_SMPR1_SMP16           ADC_SMPR1_SMP16_Msk                          /*!<SMP16[2:0] bits (Channel 16 Sample time selection) */
-#define ADC_SMPR1_SMP16_0         (0x1U << ADC_SMPR1_SMP16_Pos)                /*!< 0x00040000 */
-#define ADC_SMPR1_SMP16_1         (0x2U << ADC_SMPR1_SMP16_Pos)                /*!< 0x00080000 */
-#define ADC_SMPR1_SMP16_2         (0x4U << ADC_SMPR1_SMP16_Pos)                /*!< 0x00100000 */
-#define ADC_SMPR1_SMP17_Pos       (21U)
-#define ADC_SMPR1_SMP17_Msk       (0x7U << ADC_SMPR1_SMP17_Pos)                /*!< 0x00E00000 */
-#define ADC_SMPR1_SMP17           ADC_SMPR1_SMP17_Msk                          /*!<SMP17[2:0] bits (Channel 17 Sample time selection) */
-#define ADC_SMPR1_SMP17_0         (0x1U << ADC_SMPR1_SMP17_Pos)                /*!< 0x00200000 */
-#define ADC_SMPR1_SMP17_1         (0x2U << ADC_SMPR1_SMP17_Pos)                /*!< 0x00400000 */
-#define ADC_SMPR1_SMP17_2         (0x4U << ADC_SMPR1_SMP17_Pos)                /*!< 0x00800000 */
-#define ADC_SMPR1_SMP18_Pos       (24U)
-#define ADC_SMPR1_SMP18_Msk       (0x7U << ADC_SMPR1_SMP18_Pos)                /*!< 0x07000000 */
-#define ADC_SMPR1_SMP18           ADC_SMPR1_SMP18_Msk                          /*!<SMP18[2:0] bits (Channel 18 Sample time selection) */
-#define ADC_SMPR1_SMP18_0         (0x1U << ADC_SMPR1_SMP18_Pos)                /*!< 0x01000000 */
-#define ADC_SMPR1_SMP18_1         (0x2U << ADC_SMPR1_SMP18_Pos)                /*!< 0x02000000 */
-#define ADC_SMPR1_SMP18_2         (0x4U << ADC_SMPR1_SMP18_Pos)                /*!< 0x04000000 */
+#define ADC_CTRL1_VMORIEN_Pos     (6U)
+#define ADC_CTRL1_VMORIEN_Msk     (0x1U << ADC_CTRL1_VMORIEN_Pos)              /*!< 0x00000040 */
+#define ADC_CTRL1_VMORIEN         ADC_CTRL1_VMORIEN_Msk                        /*!<Voltage monitoring out of range interrupt enable */
 
-/******************  Bit definition for ADC_SMPR2 register  *******************/
-#define ADC_SMPR2_SMP0_Pos        (0U)
-#define ADC_SMPR2_SMP0_Msk        (0x7U << ADC_SMPR2_SMP0_Pos)                 /*!< 0x00000007 */
-#define ADC_SMPR2_SMP0            ADC_SMPR2_SMP0_Msk                           /*!<SMP0[2:0] bits (Channel 0 Sample time selection) */
-#define ADC_SMPR2_SMP0_0          (0x1U << ADC_SMPR2_SMP0_Pos)                 /*!< 0x00000001 */
-#define ADC_SMPR2_SMP0_1          (0x2U << ADC_SMPR2_SMP0_Pos)                 /*!< 0x00000002 */
-#define ADC_SMPR2_SMP0_2          (0x4U << ADC_SMPR2_SMP0_Pos)                 /*!< 0x00000004 */
-#define ADC_SMPR2_SMP1_Pos        (3U)
-#define ADC_SMPR2_SMP1_Msk        (0x7U << ADC_SMPR2_SMP1_Pos)                 /*!< 0x00000038 */
-#define ADC_SMPR2_SMP1            ADC_SMPR2_SMP1_Msk                           /*!<SMP1[2:0] bits (Channel 1 Sample time selection) */
-#define ADC_SMPR2_SMP1_0          (0x1U << ADC_SMPR2_SMP1_Pos)                 /*!< 0x00000008 */
-#define ADC_SMPR2_SMP1_1          (0x2U << ADC_SMPR2_SMP1_Pos)                 /*!< 0x00000010 */
-#define ADC_SMPR2_SMP1_2          (0x4U << ADC_SMPR2_SMP1_Pos)                 /*!< 0x00000020 */
-#define ADC_SMPR2_SMP2_Pos        (6U)
-#define ADC_SMPR2_SMP2_Msk        (0x7U << ADC_SMPR2_SMP2_Pos)                 /*!< 0x000001C0 */
-#define ADC_SMPR2_SMP2            ADC_SMPR2_SMP2_Msk                           /*!<SMP2[2:0] bits (Channel 2 Sample time selection) */
-#define ADC_SMPR2_SMP2_0          (0x1U << ADC_SMPR2_SMP2_Pos)                 /*!< 0x00000040 */
-#define ADC_SMPR2_SMP2_1          (0x2U << ADC_SMPR2_SMP2_Pos)                 /*!< 0x00000080 */
-#define ADC_SMPR2_SMP2_2          (0x4U << ADC_SMPR2_SMP2_Pos)                 /*!< 0x00000100 */
-#define ADC_SMPR2_SMP3_Pos        (9U)
-#define ADC_SMPR2_SMP3_Msk        (0x7U << ADC_SMPR2_SMP3_Pos)                 /*!< 0x00000E00 */
-#define ADC_SMPR2_SMP3            ADC_SMPR2_SMP3_Msk                           /*!<SMP3[2:0] bits (Channel 3 Sample time selection) */
-#define ADC_SMPR2_SMP3_0          (0x1U << ADC_SMPR2_SMP3_Pos)                 /*!< 0x00000200 */
-#define ADC_SMPR2_SMP3_1          (0x2U << ADC_SMPR2_SMP3_Pos)                 /*!< 0x00000400 */
-#define ADC_SMPR2_SMP3_2          (0x4U << ADC_SMPR2_SMP3_Pos)                 /*!< 0x00000800 */
-#define ADC_SMPR2_SMP4_Pos        (12U)
-#define ADC_SMPR2_SMP4_Msk        (0x7U << ADC_SMPR2_SMP4_Pos)                 /*!< 0x00007000 */
-#define ADC_SMPR2_SMP4            ADC_SMPR2_SMP4_Msk                           /*!<SMP4[2:0] bits (Channel 4 Sample time selection) */
-#define ADC_SMPR2_SMP4_0          (0x1U << ADC_SMPR2_SMP4_Pos)                 /*!< 0x00001000 */
-#define ADC_SMPR2_SMP4_1          (0x2U << ADC_SMPR2_SMP4_Pos)                 /*!< 0x00002000 */
-#define ADC_SMPR2_SMP4_2          (0x4U << ADC_SMPR2_SMP4_Pos)                 /*!< 0x00004000 */
-#define ADC_SMPR2_SMP5_Pos        (15U)
-#define ADC_SMPR2_SMP5_Msk        (0x7U << ADC_SMPR2_SMP5_Pos)                 /*!< 0x00038000 */
-#define ADC_SMPR2_SMP5            ADC_SMPR2_SMP5_Msk                           /*!<SMP5[2:0] bits (Channel 5 Sample time selection) */
-#define ADC_SMPR2_SMP5_0          (0x1U << ADC_SMPR2_SMP5_Pos)                 /*!< 0x00008000 */
-#define ADC_SMPR2_SMP5_1          (0x2U << ADC_SMPR2_SMP5_Pos)                 /*!< 0x00010000 */
-#define ADC_SMPR2_SMP5_2          (0x4U << ADC_SMPR2_SMP5_Pos)                 /*!< 0x00020000 */
-#define ADC_SMPR2_SMP6_Pos        (18U)
-#define ADC_SMPR2_SMP6_Msk        (0x7U << ADC_SMPR2_SMP6_Pos)                 /*!< 0x001C0000 */
-#define ADC_SMPR2_SMP6            ADC_SMPR2_SMP6_Msk                           /*!<SMP6[2:0] bits (Channel 6 Sample time selection) */
-#define ADC_SMPR2_SMP6_0          (0x1U << ADC_SMPR2_SMP6_Pos)                 /*!< 0x00040000 */
-#define ADC_SMPR2_SMP6_1          (0x2U << ADC_SMPR2_SMP6_Pos)                 /*!< 0x00080000 */
-#define ADC_SMPR2_SMP6_2          (0x4U << ADC_SMPR2_SMP6_Pos)                 /*!< 0x00100000 */
-#define ADC_SMPR2_SMP7_Pos        (21U)
-#define ADC_SMPR2_SMP7_Msk        (0x7U << ADC_SMPR2_SMP7_Pos)                 /*!< 0x00E00000 */
-#define ADC_SMPR2_SMP7            ADC_SMPR2_SMP7_Msk                           /*!<SMP7[2:0] bits (Channel 7 Sample time selection) */
-#define ADC_SMPR2_SMP7_0          (0x1U << ADC_SMPR2_SMP7_Pos)                 /*!< 0x00200000 */
-#define ADC_SMPR2_SMP7_1          (0x2U << ADC_SMPR2_SMP7_Pos)                 /*!< 0x00400000 */
-#define ADC_SMPR2_SMP7_2          (0x4U << ADC_SMPR2_SMP7_Pos)                 /*!< 0x00800000 */
-#define ADC_SMPR2_SMP8_Pos        (24U)
-#define ADC_SMPR2_SMP8_Msk        (0x7U << ADC_SMPR2_SMP8_Pos)                 /*!< 0x07000000 */
-#define ADC_SMPR2_SMP8            ADC_SMPR2_SMP8_Msk                           /*!<SMP8[2:0] bits (Channel 8 Sample time selection) */
-#define ADC_SMPR2_SMP8_0          (0x1U << ADC_SMPR2_SMP8_Pos)                 /*!< 0x01000000 */
-#define ADC_SMPR2_SMP8_1          (0x2U << ADC_SMPR2_SMP8_Pos)                 /*!< 0x02000000 */
-#define ADC_SMPR2_SMP8_2          (0x4U << ADC_SMPR2_SMP8_Pos)                 /*!< 0x04000000 */
-#define ADC_SMPR2_SMP9_Pos        (27U)
-#define ADC_SMPR2_SMP9_Msk        (0x7U << ADC_SMPR2_SMP9_Pos)                 /*!< 0x38000000 */
-#define ADC_SMPR2_SMP9            ADC_SMPR2_SMP9_Msk                           /*!<SMP9[2:0] bits (Channel 9 Sample time selection) */
-#define ADC_SMPR2_SMP9_0          (0x1U << ADC_SMPR2_SMP9_Pos)                 /*!< 0x08000000 */
-#define ADC_SMPR2_SMP9_1          (0x2U << ADC_SMPR2_SMP9_Pos)                 /*!< 0x10000000 */
-#define ADC_SMPR2_SMP9_2          (0x4U << ADC_SMPR2_SMP9_Pos)                 /*!< 0x20000000 */
+#define ADC_CTRL1_PCCEIEN_Pos     (7U)
+#define ADC_CTRL1_PCCEIEN_Msk     (0x1U << ADC_CTRL1_PCCEIEN_Pos)              /*!< 0x00000080 */
+#define ADC_CTRL1_PCCEIEN         ADC_CTRL1_PCCEIEN_Msk                        /*!<Conversion end interrupt enable on Preempted channels */
 
-/******************  Bit definition for ADC_JOFR1 register  *******************/
-#define ADC_JOFR1_JOFFSET1_Pos    (0U)
-#define ADC_JOFR1_JOFFSET1_Msk    (0xFFFU << ADC_JOFR1_JOFFSET1_Pos)           /*!< 0x00000FFF */
-#define ADC_JOFR1_JOFFSET1        ADC_JOFR1_JOFFSET1_Msk                       /*!<Data offset for injected channel 1 */
+#define ADC_CTRL1_SQEN_Pos        (8U)
+#define ADC_CTRL1_SQEN_Msk        (0x1U << ADC_CTRL1_SQEN_Pos)                 /*!< 0x00000100 */
+#define ADC_CTRL1_SQEN            ADC_CTRL1_SQEN_Msk                           /*!<Sequence mode enable */
 
-/******************  Bit definition for ADC_JOFR2 register  *******************/
-#define ADC_JOFR2_JOFFSET2_Pos    (0U)
-#define ADC_JOFR2_JOFFSET2_Msk    (0xFFFU << ADC_JOFR2_JOFFSET2_Pos)           /*!< 0x00000FFF */
-#define ADC_JOFR2_JOFFSET2        ADC_JOFR2_JOFFSET2_Msk                       /*!<Data offset for injected channel 2 */
+#define ADC_CTRL1_VMSGEN_Pos      (9U)
+#define ADC_CTRL1_VMSGEN_Msk      (0x1U << ADC_CTRL1_VMSGEN_Pos)               /*!< 0x00000200 */
+#define ADC_CTRL1_VMSGEN          ADC_CTRL1_VMSGEN_Msk                         /*!<Voltage monitoring enable on a single channel */
 
-/******************  Bit definition for ADC_JOFR3 register  *******************/
-#define ADC_JOFR3_JOFFSET3_Pos    (0U)
-#define ADC_JOFR3_JOFFSET3_Msk    (0xFFFU << ADC_JOFR3_JOFFSET3_Pos)           /*!< 0x00000FFF */
-#define ADC_JOFR3_JOFFSET3        ADC_JOFR3_JOFFSET3_Msk                       /*!<Data offset for injected channel 3 */
+#define ADC_CTRL1_PCAUTOEN_Pos    (10U)
+#define ADC_CTRL1_PCAUTOEN_Msk    (0x1U << ADC_CTRL1_PCAUTOEN_Pos)             /*!< 0x00000400 */
+#define ADC_CTRL1_PCAUTOEN        ADC_CTRL1_PCAUTOEN_Msk                       /*!<Preempted group automatic conversion enable after ordinary group*/
 
-/******************  Bit definition for ADC_JOFR4 register  *******************/
-#define ADC_JOFR4_JOFFSET4_Pos    (0U)
-#define ADC_JOFR4_JOFFSET4_Msk    (0xFFFU << ADC_JOFR4_JOFFSET4_Pos)           /*!< 0x00000FFF */
-#define ADC_JOFR4_JOFFSET4        ADC_JOFR4_JOFFSET4_Msk                       /*!<Data offset for injected channel 4 */
+#define ADC_CTRL1_OCPEN_Pos       (11U)
+#define ADC_CTRL1_OCPEN_Msk       (0x1U << ADC_CTRL1_OCPEN_Pos)                /*!< 0x00000800 */
+#define ADC_CTRL1_OCPEN           ADC_CTRL1_OCPEN_Msk                          /*!<Partitioned mode enable on ordinary channels */
 
-/*******************  Bit definition for ADC_HTR register  ********************/
-#define ADC_HTR_HT_Pos            (0U)
-#define ADC_HTR_HT_Msk            (0xFFFU << ADC_HTR_HT_Pos)                   /*!< 0x00000FFF */
-#define ADC_HTR_HT                ADC_HTR_HT_Msk                               /*!<Analog watchdog high threshold */
+#define ADC_CTRL1_PCPEN_Pos       (12U)
+#define ADC_CTRL1_PCPEN_Msk       (0x1U << ADC_CTRL1_PCPEN_Pos)                /*!< 0x00001000 */
+#define ADC_CTRL1_PCPEN           ADC_CTRL1_PCPEN_Msk                          /*!<Partitioned mode enable on preempted channels */
 
-/*******************  Bit definition for ADC_LTR register  ********************/
-#define ADC_LTR_LT_Pos            (0U)
-#define ADC_LTR_LT_Msk            (0xFFFU << ADC_LTR_LT_Pos)                   /*!< 0x00000FFF */
-#define ADC_LTR_LT                ADC_LTR_LT_Msk                               /*!<Analog watchdog low threshold */
+#define ADC_CTRL1_OCPCNT_Pos      (13U)
+#define ADC_CTRL1_OCPCNT_Msk      (0x7U << ADC_CTRL1_OCPCNT_Pos)               /*!< 0x0000E000 */
+#define ADC_CTRL1_OCPCNT          ADC_CTRL1_OCPCNT_Msk                         /*!<OCPCNT[2:0] bits (Partitioned mode conversion count of ordinary channels) */
+#define ADC_CTRL1_OCPCNT_0        (0x1U << ADC_CTRL1_OCPCNT_Pos)               /*!< 0x00002000 */
+#define ADC_CTRL1_OCPCNT_1        (0x2U << ADC_CTRL1_OCPCNT_Pos)               /*!< 0x00004000 */
+#define ADC_CTRL1_OCPCNT_2        (0x4U << ADC_CTRL1_OCPCNT_Pos)               /*!< 0x00008000 */
 
-/*******************  Bit definition for ADC_SQR1 register  *******************/
-#define ADC_SQR1_SQ13_Pos         (0U)
-#define ADC_SQR1_SQ13_Msk         (0x1FU << ADC_SQR1_SQ13_Pos)                 /*!< 0x0000001F */
-#define ADC_SQR1_SQ13             ADC_SQR1_SQ13_Msk                            /*!<SQ13[4:0] bits (13th conversion in regular sequence) */
-#define ADC_SQR1_SQ13_0           (0x01U << ADC_SQR1_SQ13_Pos)                 /*!< 0x00000001 */
-#define ADC_SQR1_SQ13_1           (0x02U << ADC_SQR1_SQ13_Pos)                 /*!< 0x00000002 */
-#define ADC_SQR1_SQ13_2           (0x04U << ADC_SQR1_SQ13_Pos)                 /*!< 0x00000004 */
-#define ADC_SQR1_SQ13_3           (0x08U << ADC_SQR1_SQ13_Pos)                 /*!< 0x00000008 */
-#define ADC_SQR1_SQ13_4           (0x10U << ADC_SQR1_SQ13_Pos)                 /*!< 0x00000010 */
-#define ADC_SQR1_SQ14_Pos         (5U)
-#define ADC_SQR1_SQ14_Msk         (0x1FU << ADC_SQR1_SQ14_Pos)                 /*!< 0x000003E0 */
-#define ADC_SQR1_SQ14             ADC_SQR1_SQ14_Msk                            /*!<SQ14[4:0] bits (14th conversion in regular sequence) */
-#define ADC_SQR1_SQ14_0           (0x01U << ADC_SQR1_SQ14_Pos)                 /*!< 0x00000020 */
-#define ADC_SQR1_SQ14_1           (0x02U << ADC_SQR1_SQ14_Pos)                 /*!< 0x00000040 */
-#define ADC_SQR1_SQ14_2           (0x04U << ADC_SQR1_SQ14_Pos)                 /*!< 0x00000080 */
-#define ADC_SQR1_SQ14_3           (0x08U << ADC_SQR1_SQ14_Pos)                 /*!< 0x00000100 */
-#define ADC_SQR1_SQ14_4           (0x10U << ADC_SQR1_SQ14_Pos)                 /*!< 0x00000200 */
-#define ADC_SQR1_SQ15_Pos         (10U)
-#define ADC_SQR1_SQ15_Msk         (0x1FU << ADC_SQR1_SQ15_Pos)                 /*!< 0x00007C00 */
-#define ADC_SQR1_SQ15             ADC_SQR1_SQ15_Msk                            /*!<SQ15[4:0] bits (15th conversion in regular sequence) */
-#define ADC_SQR1_SQ15_0           (0x01U << ADC_SQR1_SQ15_Pos)                 /*!< 0x00000400 */
-#define ADC_SQR1_SQ15_1           (0x02U << ADC_SQR1_SQ15_Pos)                 /*!< 0x00000800 */
-#define ADC_SQR1_SQ15_2           (0x04U << ADC_SQR1_SQ15_Pos)                 /*!< 0x00001000 */
-#define ADC_SQR1_SQ15_3           (0x08U << ADC_SQR1_SQ15_Pos)                 /*!< 0x00002000 */
-#define ADC_SQR1_SQ15_4           (0x10U << ADC_SQR1_SQ15_Pos)                 /*!< 0x00004000 */
-#define ADC_SQR1_SQ16_Pos         (15U)
-#define ADC_SQR1_SQ16_Msk         (0x1FU << ADC_SQR1_SQ16_Pos)                 /*!< 0x000F8000 */
-#define ADC_SQR1_SQ16             ADC_SQR1_SQ16_Msk                            /*!<SQ16[4:0] bits (16th conversion in regular sequence) */
-#define ADC_SQR1_SQ16_0           (0x01U << ADC_SQR1_SQ16_Pos)                 /*!< 0x00008000 */
-#define ADC_SQR1_SQ16_1           (0x02U << ADC_SQR1_SQ16_Pos)                 /*!< 0x00010000 */
-#define ADC_SQR1_SQ16_2           (0x04U << ADC_SQR1_SQ16_Pos)                 /*!< 0x00020000 */
-#define ADC_SQR1_SQ16_3           (0x08U << ADC_SQR1_SQ16_Pos)                 /*!< 0x00040000 */
-#define ADC_SQR1_SQ16_4           (0x10U << ADC_SQR1_SQ16_Pos)                 /*!< 0x00080000 */
-#define ADC_SQR1_L_Pos            (20U)
-#define ADC_SQR1_L_Msk            (0xFU << ADC_SQR1_L_Pos)                     /*!< 0x00F00000 */
-#define ADC_SQR1_L                ADC_SQR1_L_Msk                               /*!<L[3:0] bits (Regular channel sequence length) */
-#define ADC_SQR1_L_0              (0x1U << ADC_SQR1_L_Pos)                     /*!< 0x00100000 */
-#define ADC_SQR1_L_1              (0x2U << ADC_SQR1_L_Pos)                     /*!< 0x00200000 */
-#define ADC_SQR1_L_2              (0x4U << ADC_SQR1_L_Pos)                     /*!< 0x00400000 */
-#define ADC_SQR1_L_3              (0x8U << ADC_SQR1_L_Pos)                     /*!< 0x00800000 */
+#define ADC_CTRL1_PCVMEN_Pos      (22U)
+#define ADC_CTRL1_PCVMEN_Msk      (0x1U << ADC_CTRL1_PCVMEN_Pos)               /*!< 0x00400000 */
+#define ADC_CTRL1_PCVMEN          ADC_CTRL1_PCVMEN_Msk                         /*!<Voltage monitoring enable on preempted channels */
 
-/*******************  Bit definition for ADC_SQR2 register  *******************/
-#define ADC_SQR2_SQ7_Pos          (0U)
-#define ADC_SQR2_SQ7_Msk          (0x1FU << ADC_SQR2_SQ7_Pos)                  /*!< 0x0000001F */
-#define ADC_SQR2_SQ7              ADC_SQR2_SQ7_Msk                             /*!<SQ7[4:0] bits (7th conversion in regular sequence) */
-#define ADC_SQR2_SQ7_0            (0x01U << ADC_SQR2_SQ7_Pos)                  /*!< 0x00000001 */
-#define ADC_SQR2_SQ7_1            (0x02U << ADC_SQR2_SQ7_Pos)                  /*!< 0x00000002 */
-#define ADC_SQR2_SQ7_2            (0x04U << ADC_SQR2_SQ7_Pos)                  /*!< 0x00000004 */
-#define ADC_SQR2_SQ7_3            (0x08U << ADC_SQR2_SQ7_Pos)                  /*!< 0x00000008 */
-#define ADC_SQR2_SQ7_4            (0x10U << ADC_SQR2_SQ7_Pos)                  /*!< 0x00000010 */
-#define ADC_SQR2_SQ8_Pos          (5U)
-#define ADC_SQR2_SQ8_Msk          (0x1FU << ADC_SQR2_SQ8_Pos)                  /*!< 0x000003E0 */
-#define ADC_SQR2_SQ8              ADC_SQR2_SQ8_Msk                             /*!<SQ8[4:0] bits (8th conversion in regular sequence) */
-#define ADC_SQR2_SQ8_0            (0x01U << ADC_SQR2_SQ8_Pos)                  /*!< 0x00000020 */
-#define ADC_SQR2_SQ8_1            (0x02U << ADC_SQR2_SQ8_Pos)                  /*!< 0x00000040 */
-#define ADC_SQR2_SQ8_2            (0x04U << ADC_SQR2_SQ8_Pos)                  /*!< 0x00000080 */
-#define ADC_SQR2_SQ8_3            (0x08U << ADC_SQR2_SQ8_Pos)                  /*!< 0x00000100 */
-#define ADC_SQR2_SQ8_4            (0x10U << ADC_SQR2_SQ8_Pos)                  /*!< 0x00000200 */
-#define ADC_SQR2_SQ9_Pos          (10U)
-#define ADC_SQR2_SQ9_Msk          (0x1FU << ADC_SQR2_SQ9_Pos)                  /*!< 0x00007C00 */
-#define ADC_SQR2_SQ9              ADC_SQR2_SQ9_Msk                             /*!<SQ9[4:0] bits (9th conversion in regular sequence) */
-#define ADC_SQR2_SQ9_0            (0x01U << ADC_SQR2_SQ9_Pos)                  /*!< 0x00000400 */
-#define ADC_SQR2_SQ9_1            (0x02U << ADC_SQR2_SQ9_Pos)                  /*!< 0x00000800 */
-#define ADC_SQR2_SQ9_2            (0x04U << ADC_SQR2_SQ9_Pos)                  /*!< 0x00001000 */
-#define ADC_SQR2_SQ9_3            (0x08U << ADC_SQR2_SQ9_Pos)                  /*!< 0x00002000 */
-#define ADC_SQR2_SQ9_4            (0x10U << ADC_SQR2_SQ9_Pos)                  /*!< 0x00004000 */
-#define ADC_SQR2_SQ10_Pos         (15U)
-#define ADC_SQR2_SQ10_Msk         (0x1FU << ADC_SQR2_SQ10_Pos)                 /*!< 0x000F8000 */
-#define ADC_SQR2_SQ10             ADC_SQR2_SQ10_Msk                            /*!<SQ10[4:0] bits (10th conversion in regular sequence) */
-#define ADC_SQR2_SQ10_0           (0x01U << ADC_SQR2_SQ10_Pos)                 /*!< 0x00008000 */
-#define ADC_SQR2_SQ10_1           (0x02U << ADC_SQR2_SQ10_Pos)                 /*!< 0x00010000 */
-#define ADC_SQR2_SQ10_2           (0x04U << ADC_SQR2_SQ10_Pos)                 /*!< 0x00020000 */
-#define ADC_SQR2_SQ10_3           (0x08U << ADC_SQR2_SQ10_Pos)                 /*!< 0x00040000 */
-#define ADC_SQR2_SQ10_4           (0x10U << ADC_SQR2_SQ10_Pos)                 /*!< 0x00080000 */
-#define ADC_SQR2_SQ11_Pos         (20U)
-#define ADC_SQR2_SQ11_Msk         (0x1FU << ADC_SQR2_SQ11_Pos)                 /*!< 0x01F00000 */
-#define ADC_SQR2_SQ11             ADC_SQR2_SQ11_Msk                            /*!<SQ11[4:0] bits (11th conversion in regular sequence) */
-#define ADC_SQR2_SQ11_0           (0x01U << ADC_SQR2_SQ11_Pos)                 /*!< 0x00100000 */
-#define ADC_SQR2_SQ11_1           (0x02U << ADC_SQR2_SQ11_Pos)                 /*!< 0x00200000 */
-#define ADC_SQR2_SQ11_2           (0x04U << ADC_SQR2_SQ11_Pos)                 /*!< 0x00400000 */
-#define ADC_SQR2_SQ11_3           (0x08U << ADC_SQR2_SQ11_Pos)                 /*!< 0x00800000 */
-#define ADC_SQR2_SQ11_4           (0x10U << ADC_SQR2_SQ11_Pos)                 /*!< 0x01000000 */
-#define ADC_SQR2_SQ12_Pos         (25U)
-#define ADC_SQR2_SQ12_Msk         (0x1FU << ADC_SQR2_SQ12_Pos)                 /*!< 0x3E000000 */
-#define ADC_SQR2_SQ12             ADC_SQR2_SQ12_Msk                            /*!<SQ12[4:0] bits (12th conversion in regular sequence) */
-#define ADC_SQR2_SQ12_0           (0x01U << ADC_SQR2_SQ12_Pos)                 /*!< 0x02000000 */
-#define ADC_SQR2_SQ12_1           (0x02U << ADC_SQR2_SQ12_Pos)                 /*!< 0x04000000 */
-#define ADC_SQR2_SQ12_2           (0x04U << ADC_SQR2_SQ12_Pos)                 /*!< 0x08000000 */
-#define ADC_SQR2_SQ12_3           (0x08U << ADC_SQR2_SQ12_Pos)                 /*!< 0x10000000 */
-#define ADC_SQR2_SQ12_4           (0x10U << ADC_SQR2_SQ12_Pos)                 /*!< 0x20000000 */
+#define ADC_CTRL1_OCVMEN_Pos      (23U)
+#define ADC_CTRL1_OCVMEN_Msk      (0x1U << ADC_CTRL1_OCVMEN_Pos)               /*!< 0x00800000 */
+#define ADC_CTRL1_OCVMEN          ADC_CTRL1_OCVMEN_Msk                         /*!<Voltage monitoring enable on ordinary channels */
 
-/*******************  Bit definition for ADC_SQR3 register  *******************/
-#define ADC_SQR3_SQ1_Pos          (0U)
-#define ADC_SQR3_SQ1_Msk          (0x1FU << ADC_SQR3_SQ1_Pos)                  /*!< 0x0000001F */
-#define ADC_SQR3_SQ1              ADC_SQR3_SQ1_Msk                             /*!<SQ1[4:0] bits (1st conversion in regular sequence) */
-#define ADC_SQR3_SQ1_0            (0x01U << ADC_SQR3_SQ1_Pos)                  /*!< 0x00000001 */
-#define ADC_SQR3_SQ1_1            (0x02U << ADC_SQR3_SQ1_Pos)                  /*!< 0x00000002 */
-#define ADC_SQR3_SQ1_2            (0x04U << ADC_SQR3_SQ1_Pos)                  /*!< 0x00000004 */
-#define ADC_SQR3_SQ1_3            (0x08U << ADC_SQR3_SQ1_Pos)                  /*!< 0x00000008 */
-#define ADC_SQR3_SQ1_4            (0x10U << ADC_SQR3_SQ1_Pos)                  /*!< 0x00000010 */
-#define ADC_SQR3_SQ2_Pos          (5U)
-#define ADC_SQR3_SQ2_Msk          (0x1FU << ADC_SQR3_SQ2_Pos)                  /*!< 0x000003E0 */
-#define ADC_SQR3_SQ2              ADC_SQR3_SQ2_Msk                             /*!<SQ2[4:0] bits (2nd conversion in regular sequence) */
-#define ADC_SQR3_SQ2_0            (0x01U << ADC_SQR3_SQ2_Pos)                  /*!< 0x00000020 */
-#define ADC_SQR3_SQ2_1            (0x02U << ADC_SQR3_SQ2_Pos)                  /*!< 0x00000040 */
-#define ADC_SQR3_SQ2_2            (0x04U << ADC_SQR3_SQ2_Pos)                  /*!< 0x00000080 */
-#define ADC_SQR3_SQ2_3            (0x08U << ADC_SQR3_SQ2_Pos)                  /*!< 0x00000100 */
-#define ADC_SQR3_SQ2_4            (0x10U << ADC_SQR3_SQ2_Pos)                  /*!< 0x00000200 */
-#define ADC_SQR3_SQ3_Pos          (10U)
-#define ADC_SQR3_SQ3_Msk          (0x1FU << ADC_SQR3_SQ3_Pos)                  /*!< 0x00007C00 */
-#define ADC_SQR3_SQ3              ADC_SQR3_SQ3_Msk                             /*!<SQ3[4:0] bits (3rd conversion in regular sequence) */
-#define ADC_SQR3_SQ3_0            (0x01U << ADC_SQR3_SQ3_Pos)                  /*!< 0x00000400 */
-#define ADC_SQR3_SQ3_1            (0x02U << ADC_SQR3_SQ3_Pos)                  /*!< 0x00000800 */
-#define ADC_SQR3_SQ3_2            (0x04U << ADC_SQR3_SQ3_Pos)                  /*!< 0x00001000 */
-#define ADC_SQR3_SQ3_3            (0x08U << ADC_SQR3_SQ3_Pos)                  /*!< 0x00002000 */
-#define ADC_SQR3_SQ3_4            (0x10U << ADC_SQR3_SQ3_Pos)                  /*!< 0x00004000 */
-#define ADC_SQR3_SQ4_Pos          (15U)
-#define ADC_SQR3_SQ4_Msk          (0x1FU << ADC_SQR3_SQ4_Pos)                  /*!< 0x000F8000 */
-#define ADC_SQR3_SQ4              ADC_SQR3_SQ4_Msk                             /*!<SQ4[4:0] bits (4th conversion in regular sequence) */
-#define ADC_SQR3_SQ4_0            (0x01U << ADC_SQR3_SQ4_Pos)                  /*!< 0x00008000 */
-#define ADC_SQR3_SQ4_1            (0x02U << ADC_SQR3_SQ4_Pos)                  /*!< 0x00010000 */
-#define ADC_SQR3_SQ4_2            (0x04U << ADC_SQR3_SQ4_Pos)                  /*!< 0x00020000 */
-#define ADC_SQR3_SQ4_3            (0x08U << ADC_SQR3_SQ4_Pos)                  /*!< 0x00040000 */
-#define ADC_SQR3_SQ4_4            (0x10U << ADC_SQR3_SQ4_Pos)                  /*!< 0x00080000 */
-#define ADC_SQR3_SQ5_Pos          (20U)
-#define ADC_SQR3_SQ5_Msk          (0x1FU << ADC_SQR3_SQ5_Pos)                  /*!< 0x01F00000 */
-#define ADC_SQR3_SQ5              ADC_SQR3_SQ5_Msk                             /*!<SQ5[4:0] bits (5th conversion in regular sequence) */
-#define ADC_SQR3_SQ5_0            (0x01U << ADC_SQR3_SQ5_Pos)                  /*!< 0x00100000 */
-#define ADC_SQR3_SQ5_1            (0x02U << ADC_SQR3_SQ5_Pos)                  /*!< 0x00200000 */
-#define ADC_SQR3_SQ5_2            (0x04U << ADC_SQR3_SQ5_Pos)                  /*!< 0x00400000 */
-#define ADC_SQR3_SQ5_3            (0x08U << ADC_SQR3_SQ5_Pos)                  /*!< 0x00800000 */
-#define ADC_SQR3_SQ5_4            (0x10U << ADC_SQR3_SQ5_Pos)                  /*!< 0x01000000 */
-#define ADC_SQR3_SQ6_Pos          (25U)
-#define ADC_SQR3_SQ6_Msk          (0x1FU << ADC_SQR3_SQ6_Pos)                  /*!< 0x3E000000 */
-#define ADC_SQR3_SQ6              ADC_SQR3_SQ6_Msk                             /*!<SQ6[4:0] bits (6th conversion in regular sequence) */
-#define ADC_SQR3_SQ6_0            (0x01U << ADC_SQR3_SQ6_Pos)                  /*!< 0x02000000 */
-#define ADC_SQR3_SQ6_1            (0x02U << ADC_SQR3_SQ6_Pos)                  /*!< 0x04000000 */
-#define ADC_SQR3_SQ6_2            (0x04U << ADC_SQR3_SQ6_Pos)                  /*!< 0x08000000 */
-#define ADC_SQR3_SQ6_3            (0x08U << ADC_SQR3_SQ6_Pos)                  /*!< 0x10000000 */
-#define ADC_SQR3_SQ6_4            (0x10U << ADC_SQR3_SQ6_Pos)                  /*!< 0x20000000 */
+#define ADC_CTRL1_CRSEL_Pos       (24U)
+#define ADC_CTRL1_CRSEL_Msk       (0x3U << ADC_CTRL1_CRSEL_Pos)                /*!< 0x03000000 */
+#define ADC_CTRL1_CRSEL           ADC_CTRL1_CRSEL_Msk                          /*!<CRSEL[2:0] bits (Conversion resolution select) */
+#define ADC_CTRL1_CRSEL_0         (0x1U << ADC_CTRL1_CRSEL_Pos)                /*!< 0x01000000 */
+#define ADC_CTRL1_CRSEL_1         (0x2U << ADC_CTRL1_CRSEL_Pos)                /*!< 0x02000000 */
 
-/*******************  Bit definition for ADC_JSQR register  *******************/
-#define ADC_JSQR_JSQ1_Pos         (0U)
-#define ADC_JSQR_JSQ1_Msk         (0x1FU << ADC_JSQR_JSQ1_Pos)                 /*!< 0x0000001F */
-#define ADC_JSQR_JSQ1             ADC_JSQR_JSQ1_Msk                            /*!<JSQ1[4:0] bits (1st conversion in injected sequence) */
-#define ADC_JSQR_JSQ1_0           (0x01U << ADC_JSQR_JSQ1_Pos)                 /*!< 0x00000001 */
-#define ADC_JSQR_JSQ1_1           (0x02U << ADC_JSQR_JSQ1_Pos)                 /*!< 0x00000002 */
-#define ADC_JSQR_JSQ1_2           (0x04U << ADC_JSQR_JSQ1_Pos)                 /*!< 0x00000004 */
-#define ADC_JSQR_JSQ1_3           (0x08U << ADC_JSQR_JSQ1_Pos)                 /*!< 0x00000008 */
-#define ADC_JSQR_JSQ1_4           (0x10U << ADC_JSQR_JSQ1_Pos)                 /*!< 0x00000010 */
-#define ADC_JSQR_JSQ2_Pos         (5U)
-#define ADC_JSQR_JSQ2_Msk         (0x1FU << ADC_JSQR_JSQ2_Pos)                 /*!< 0x000003E0 */
-#define ADC_JSQR_JSQ2             ADC_JSQR_JSQ2_Msk                            /*!<JSQ2[4:0] bits (2nd conversion in injected sequence) */
-#define ADC_JSQR_JSQ2_0           (0x01U << ADC_JSQR_JSQ2_Pos)                 /*!< 0x00000020 */
-#define ADC_JSQR_JSQ2_1           (0x02U << ADC_JSQR_JSQ2_Pos)                 /*!< 0x00000040 */
-#define ADC_JSQR_JSQ2_2           (0x04U << ADC_JSQR_JSQ2_Pos)                 /*!< 0x00000080 */
-#define ADC_JSQR_JSQ2_3           (0x08U << ADC_JSQR_JSQ2_Pos)                 /*!< 0x00000100 */
-#define ADC_JSQR_JSQ2_4           (0x10U << ADC_JSQR_JSQ2_Pos)                 /*!< 0x00000200 */
-#define ADC_JSQR_JSQ3_Pos         (10U)
-#define ADC_JSQR_JSQ3_Msk         (0x1FU << ADC_JSQR_JSQ3_Pos)                 /*!< 0x00007C00 */
-#define ADC_JSQR_JSQ3             ADC_JSQR_JSQ3_Msk                            /*!<JSQ3[4:0] bits (3rd conversion in injected sequence) */
-#define ADC_JSQR_JSQ3_0           (0x01U << ADC_JSQR_JSQ3_Pos)                 /*!< 0x00000400 */
-#define ADC_JSQR_JSQ3_1           (0x02U << ADC_JSQR_JSQ3_Pos)                 /*!< 0x00000800 */
-#define ADC_JSQR_JSQ3_2           (0x04U << ADC_JSQR_JSQ3_Pos)                 /*!< 0x00001000 */
-#define ADC_JSQR_JSQ3_3           (0x08U << ADC_JSQR_JSQ3_Pos)                 /*!< 0x00002000 */
-#define ADC_JSQR_JSQ3_4           (0x10U << ADC_JSQR_JSQ3_Pos)                 /*!< 0x00004000 */
-#define ADC_JSQR_JSQ4_Pos         (15U)
-#define ADC_JSQR_JSQ4_Msk         (0x1FU << ADC_JSQR_JSQ4_Pos)                 /*!< 0x000F8000 */
-#define ADC_JSQR_JSQ4             ADC_JSQR_JSQ4_Msk                            /*!<JSQ4[4:0] bits (4th conversion in injected sequence) */
-#define ADC_JSQR_JSQ4_0           (0x01U << ADC_JSQR_JSQ4_Pos)                 /*!< 0x00008000 */
-#define ADC_JSQR_JSQ4_1           (0x02U << ADC_JSQR_JSQ4_Pos)                 /*!< 0x00010000 */
-#define ADC_JSQR_JSQ4_2           (0x04U << ADC_JSQR_JSQ4_Pos)                 /*!< 0x00020000 */
-#define ADC_JSQR_JSQ4_3           (0x08U << ADC_JSQR_JSQ4_Pos)                 /*!< 0x00040000 */
-#define ADC_JSQR_JSQ4_4           (0x10U << ADC_JSQR_JSQ4_Pos)                 /*!< 0x00080000 */
-#define ADC_JSQR_JL_Pos           (20U)
-#define ADC_JSQR_JL_Msk           (0x3U << ADC_JSQR_JL_Pos)                    /*!< 0x00300000 */
-#define ADC_JSQR_JL               ADC_JSQR_JL_Msk                              /*!<JL[1:0] bits (Injected Sequence length) */
-#define ADC_JSQR_JL_0             (0x1U << ADC_JSQR_JL_Pos)                    /*!< 0x00100000 */
-#define ADC_JSQR_JL_1             (0x2U << ADC_JSQR_JL_Pos)                    /*!< 0x00200000 */
+#define ADC_CTRL1_OCCOIE_Pos      (26U)
+#define ADC_CTRL1_OCCOIE_Msk      (0x1U << ADC_CTRL1_OCCOIE_Pos)               /*!< 0x04000000 */
+#define ADC_CTRL1_OCCOIE          ADC_CTRL1_OCCOIE_Msk                         /*!<Ordinary channel conversion overflow interrupt enable*/
 
-/*******************  Bit definition for ADC_JDR1 register  *******************/
-#define ADC_JDR1_JDATA_Pos        (0U)
-#define ADC_JDR1_JDATA_Msk        (0xFFFFU << ADC_JDR1_JDATA_Pos)              /*!< 0x0000FFFF */
-#define ADC_JDR1_JDATA            ADC_JDR1_JDATA_Msk                           /*!<Injected data */
+/*******************  Bit definition for ADC_CTRL2 register  ********************/
+#define ADC_CTRL2_ADCEN_Pos       (0U)
+#define ADC_CTRL2_ADCEN_Msk       (0x1U << ADC_CTRL2_ADCEN_Pos)                /*!< 0x00000001 */
+#define ADC_CTRL2_ADCEN           ADC_CTRL2_ADCEN_Msk                          /*!<A/D converter enable */
 
-/*******************  Bit definition for ADC_JDR2 register  *******************/
-#define ADC_JDR2_JDATA_Pos        (0U)
-#define ADC_JDR2_JDATA_Msk        (0xFFFFU << ADC_JDR2_JDATA_Pos)              /*!< 0x0000FFFF */
-#define ADC_JDR2_JDATA            ADC_JDR2_JDATA_Msk                           /*!<Injected data */
+#define ADC_CTRL2_RPEN_Pos        (1U)
+#define ADC_CTRL2_RPEN_Msk        (0x1U << ADC_CTRL2_RPEN_Pos)                 /*!< 0x00000002 */
+#define ADC_CTRL2_RPEN            ADC_CTRL2_RPEN_Msk                           /*!<Repetition mode enable */
 
-/*******************  Bit definition for ADC_JDR3 register  *******************/
-#define ADC_JDR3_JDATA_Pos        (0U)
-#define ADC_JDR3_JDATA_Msk        (0xFFFFU << ADC_JDR3_JDATA_Pos)              /*!< 0x0000FFFF */
-#define ADC_JDR3_JDATA            ADC_JDR3_JDATA_Msk                           /*!<Injected data */
+/* AT32 ONLY  */
+#define ADC_CTRL2_ADCAL_Pos       (2U)
+#define ADC_CTRL2_ADCAL_Msk       (0x1U << ADC_CTRL2_ADCAL_Pos)                /*!< 0x00000004 */
+#define ADC_CTRL2_ADCAL           ADC_CTRL2_ADCAL_Msk                          /*!<A/D Calibration */
 
-/*******************  Bit definition for ADC_JDR4 register  *******************/
-#define ADC_JDR4_JDATA_Pos        (0U)
-#define ADC_JDR4_JDATA_Msk        (0xFFFFU << ADC_JDR4_JDATA_Pos)              /*!< 0x0000FFFF */
-#define ADC_JDR4_JDATA            ADC_JDR4_JDATA_Msk                           /*!<Injected data */
+#define ADC_CTRL2_ADCALINIT_Pos   (3U)
+#define ADC_CTRL2_ADCALINIT_Msk   (0x1U << ADC_CTRL2_ADCALINIT_Pos)            /*!< 0x00000008 */
+#define ADC_CTRL2_ADCALINIT       ADC_CTRL2_ADCALINIT_Msk                      /*!<Initialize A/D calibration */
 
-/********************  Bit definition for ADC_DR register  ********************/
-#define ADC_DR_DATA_Pos           (0U)
-#define ADC_DR_DATA_Msk           (0xFFFFU << ADC_DR_DATA_Pos)                 /*!< 0x0000FFFF */
-#define ADC_DR_DATA               ADC_DR_DATA_Msk                              /*!<Regular data */
-#define ADC_DR_ADC2DATA_Pos       (16U)
-#define ADC_DR_ADC2DATA_Msk       (0xFFFFU << ADC_DR_ADC2DATA_Pos)             /*!< 0xFFFF0000 */
-#define ADC_DR_ADC2DATA           ADC_DR_ADC2DATA_Msk                          /*!<ADC2 data */
+#define ADC_CTRL2_ADABRT_Pos      (4U)
+#define ADC_CTRL2_ADABRT_Msk      (0x1U << ADC_CTRL2_ADABRT_Pos)               /*!< 0x00000010 */
+#define ADC_CTRL2_ADABRT          ADC_CTRL2_ADABRT_Msk                         /*!<Stop ADC conversions */
+/* End AT32 ONLY  */
 
-/*******************  Bit definition for ADC_CSR register  ********************/
-#define ADC_CSR_AWD1_Pos          (0U)
-#define ADC_CSR_AWD1_Msk          (0x1U << ADC_CSR_AWD1_Pos)                   /*!< 0x00000001 */
-#define ADC_CSR_AWD1              ADC_CSR_AWD1_Msk                             /*!<ADC1 Analog watchdog flag */
-#define ADC_CSR_EOC1_Pos          (1U)
-#define ADC_CSR_EOC1_Msk          (0x1U << ADC_CSR_EOC1_Pos)                   /*!< 0x00000002 */
-#define ADC_CSR_EOC1              ADC_CSR_EOC1_Msk                             /*!<ADC1 End of conversion */
-#define ADC_CSR_JEOC1_Pos         (2U)
-#define ADC_CSR_JEOC1_Msk         (0x1U << ADC_CSR_JEOC1_Pos)                  /*!< 0x00000004 */
-#define ADC_CSR_JEOC1             ADC_CSR_JEOC1_Msk                            /*!<ADC1 Injected channel end of conversion */
-#define ADC_CSR_JSTRT1_Pos        (3U)
-#define ADC_CSR_JSTRT1_Msk        (0x1U << ADC_CSR_JSTRT1_Pos)                 /*!< 0x00000008 */
-#define ADC_CSR_JSTRT1            ADC_CSR_JSTRT1_Msk                           /*!<ADC1 Injected channel Start flag */
-#define ADC_CSR_STRT1_Pos         (4U)
-#define ADC_CSR_STRT1_Msk         (0x1U << ADC_CSR_STRT1_Pos)                  /*!< 0x00000010 */
-#define ADC_CSR_STRT1             ADC_CSR_STRT1_Msk                            /*!<ADC1 Regular channel Start flag */
-#define ADC_CSR_OVR1_Pos          (5U)
-#define ADC_CSR_OVR1_Msk          (0x1U << ADC_CSR_OVR1_Pos)                   /*!< 0x00000020 */
-#define ADC_CSR_OVR1              ADC_CSR_OVR1_Msk                             /*!<ADC1 DMA overrun  flag */
-#define ADC_CSR_AWD2_Pos          (8U)
-#define ADC_CSR_AWD2_Msk          (0x1U << ADC_CSR_AWD2_Pos)                   /*!< 0x00000100 */
-#define ADC_CSR_AWD2              ADC_CSR_AWD2_Msk                             /*!<ADC2 Analog watchdog flag */
-#define ADC_CSR_EOC2_Pos          (9U)
-#define ADC_CSR_EOC2_Msk          (0x1U << ADC_CSR_EOC2_Pos)                   /*!< 0x00000200 */
-#define ADC_CSR_EOC2              ADC_CSR_EOC2_Msk                             /*!<ADC2 End of conversion */
-#define ADC_CSR_JEOC2_Pos         (10U)
-#define ADC_CSR_JEOC2_Msk         (0x1U << ADC_CSR_JEOC2_Pos)                  /*!< 0x00000400 */
-#define ADC_CSR_JEOC2             ADC_CSR_JEOC2_Msk                            /*!<ADC2 Injected channel end of conversion */
-#define ADC_CSR_JSTRT2_Pos        (11U)
-#define ADC_CSR_JSTRT2_Msk        (0x1U << ADC_CSR_JSTRT2_Pos)                 /*!< 0x00000800 */
-#define ADC_CSR_JSTRT2            ADC_CSR_JSTRT2_Msk                           /*!<ADC2 Injected channel Start flag */
-#define ADC_CSR_STRT2_Pos         (12U)
-#define ADC_CSR_STRT2_Msk         (0x1U << ADC_CSR_STRT2_Pos)                  /*!< 0x00001000 */
-#define ADC_CSR_STRT2             ADC_CSR_STRT2_Msk                            /*!<ADC2 Regular channel Start flag */
-#define ADC_CSR_OVR2_Pos          (13U)
-#define ADC_CSR_OVR2_Msk          (0x1U << ADC_CSR_OVR2_Pos)                   /*!< 0x00002000 */
-#define ADC_CSR_OVR2              ADC_CSR_OVR2_Msk                             /*!<ADC2 DMA overrun  flag */
-#define ADC_CSR_AWD3_Pos          (16U)
-#define ADC_CSR_AWD3_Msk          (0x1U << ADC_CSR_AWD3_Pos)                   /*!< 0x00010000 */
-#define ADC_CSR_AWD3              ADC_CSR_AWD3_Msk                             /*!<ADC3 Analog watchdog flag */
-#define ADC_CSR_EOC3_Pos          (17U)
-#define ADC_CSR_EOC3_Msk          (0x1U << ADC_CSR_EOC3_Pos)                   /*!< 0x00020000 */
-#define ADC_CSR_EOC3              ADC_CSR_EOC3_Msk                             /*!<ADC3 End of conversion */
-#define ADC_CSR_JEOC3_Pos         (18U)
-#define ADC_CSR_JEOC3_Msk         (0x1U << ADC_CSR_JEOC3_Pos)                  /*!< 0x00040000 */
-#define ADC_CSR_JEOC3             ADC_CSR_JEOC3_Msk                            /*!<ADC3 Injected channel end of conversion */
-#define ADC_CSR_JSTRT3_Pos        (19U)
-#define ADC_CSR_JSTRT3_Msk        (0x1U << ADC_CSR_JSTRT3_Pos)                 /*!< 0x00080000 */
-#define ADC_CSR_JSTRT3            ADC_CSR_JSTRT3_Msk                           /*!<ADC3 Injected channel Start flag */
-#define ADC_CSR_STRT3_Pos         (20U)
-#define ADC_CSR_STRT3_Msk         (0x1U << ADC_CSR_STRT3_Pos)                  /*!< 0x00100000 */
-#define ADC_CSR_STRT3             ADC_CSR_STRT3_Msk                            /*!<ADC3 Regular channel Start flag */
-#define ADC_CSR_OVR3_Pos          (21U)
-#define ADC_CSR_OVR3_Msk          (0x1U << ADC_CSR_OVR3_Pos)                   /*!< 0x00200000 */
-#define ADC_CSR_OVR3              ADC_CSR_OVR3_Msk                             /*!<ADC3 DMA overrun  flag */
+#define ADC_CTRL2_OCDMAEN_Pos     (8U)
+#define ADC_CTRL2_OCDMAEN_Msk     (0x1U << ADC_CTRL2_OCDMAEN_Pos)              /*!< 0x00000100 */
+#define ADC_CTRL2_OCDMAEN         ADC_CTRL2_OCDMAEN_Msk                        /*!<DMA transfer enable of ordinary channels */
+
+#define ADC_CTRL2_OCDRCEN_Pos     (9U)
+#define ADC_CTRL2_OCDRCEN_Msk     (0x1U << ADC_CTRL2_OCDRCEN_Pos)              /*!< 0x00000200 */
+#define ADC_CTRL2_OCDRCEN         ADC_CTRL2_OCDRCEN_Msk                        /*!<Ordinary channel DMA request continue enable for independent mode */
+
+#define ADC_CTRL2_EOCSFEN_Pos     (10U)
+#define ADC_CTRL2_EOCSFEN_Msk     (0x1U << ADC_CTRL2_EOCSFEN_Pos)              /*!< 0x00000400 */
+#define ADC_CTRL2_EOCSFEN         ADC_CTRL2_EOCSFEN_Msk                        /*!<Each ordinary channel conversion OCCE flag enable */
+
+#define ADC_CTRL2_DTALIGN_Pos     (11U)
+#define ADC_CTRL2_DTALIGN_Msk     (0x1U << ADC_CTRL2_DTALIGN_Pos)              /*!< 0x00000800 */
+#define ADC_CTRL2_DTALIGN         ADC_CTRL2_DTALIGN_Msk                        /*!<Data Alignment */
+
+#define ADC_CTRL2_PCTESEL_L_Pos   (16U)
+#define ADC_CTRL2_PCTESEL_L_Msk   (0xFU << ADC_CTRL2_PCTESEL_L_Pos)            /*!< 0x000F0000 */
+#define ADC_CTRL2_PCTESEL_L       ADC_CTRL2_PCTESEL_L_Msk                      /*!<PCTESEL[3:0] bits (Preempted channel conversion trigger event select) */
+#define ADC_CTRL2_PCTESEL_L_0     (0x1U << ADC_CTRL2_PCTESEL_L_Pos)            /*!< 0x00010000 */
+#define ADC_CTRL2_PCTESEL_L_1     (0x2U << ADC_CTRL2_PCTESEL_L_Pos)            /*!< 0x00020000 */
+#define ADC_CTRL2_PCTESEL_L_2     (0x4U << ADC_CTRL2_PCTESEL_L_Pos)            /*!< 0x00040000 */
+#define ADC_CTRL2_PCTESEL_L_3     (0x8U << ADC_CTRL2_PCTESEL_L_Pos)            /*!< 0x00080000 */
+
+#define ADC_CTRL2_PCETE_Pos       (20U)
+#define ADC_CTRL2_PCETE_Msk       (0x3U << ADC_CTRL2_PCETE_Pos)                /*!< 0x00300000 */
+#define ADC_CTRL2_PCETE           ADC_CTRL2_PCETE_Msk                          /*!<PCETE[1:0] bits (Preempted channel external trigger edge select) */
+#define ADC_CTRL2_PCETE_0         (0x1U << ADC_CTRL2_PCETE_Pos)                /*!< 0x00100000 */
+#define ADC_CTRL2_PCETE_1         (0x2U << ADC_CTRL2_PCETE_Pos)                /*!< 0x00200000 */
+
+#define ADC_CTRL2_PCSWTRG_Pos     (22U)
+#define ADC_CTRL2_PCSWTRG_Msk     (0x1U << ADC_CTRL2_PCSWTRG_Pos)              /*!< 0x00400000 */
+#define ADC_CTRL2_PCSWTRG         ADC_CTRL2_PCSWTRG_Msk                        /*!<Conversion of preempted channels triggered by software */
+
+/* AT32 ONLY  */
+#define ADC_CTRL2_PCTESEL_H_Pos   (23U)
+#define ADC_CTRL2_PCTESEL_H_Msk   (0x1U << ADC_CTRL2_PCTESEL_H_Pos)            /*!< 0x00100000 */
+#define ADC_CTRL2_PCTESEL_H       ADC_CTRL2_PCTESEL_L_Msk                      /*!<PCTESEL bit (Preempted channel conversion trigger event select) */
+/* End AT32 ONLY  */
+
+#define ADC_CTRL2_OCTESEL_L_Pos   (24U)
+#define ADC_CTRL2_OCTESEL_L_Msk   (0xFU << ADC_CTRL2_OCTESEL_L_Pos)            /*!< 0x0F000000 */
+#define ADC_CTRL2_OCTESEL_L       ADC_CTRL2_OCTESEL_L_Msk                      /*!<OCTESEL[3:0] bits (Ordinary channel conversion trigger event select) */
+#define ADC_CTRL2_OCTESEL_L_0     (0x1U << ADC_CTRL2_OCTESEL_L_Pos)            /*!< 0x01000000 */
+#define ADC_CTRL2_OCTESEL_L_1     (0x2U << ADC_CTRL2_OCTESEL_L_Pos)            /*!< 0x02000000 */
+#define ADC_CTRL2_OCTESEL_L_2     (0x4U << ADC_CTRL2_OCTESEL_L_Pos)            /*!< 0x04000000 */
+#define ADC_CTRL2_OCTESEL_L_3     (0x8U << ADC_CTRL2_OCTESEL_L_Pos)            /*!< 0x08000000 */
+
+#define ADC_CTRL2_OCETE_Pos       (28U)
+#define ADC_CTRL2_OCETE_Msk       (0x3U << ADC_CTRL2_OCETE_Pos)                /*!< 0x30000000 */
+#define ADC_CTRL2_OCETE           ADC_CTRL2_OCETE_Msk                          /*!<EXTEN[1:0] bits (Ordinary channel external trigger edge select) */
+#define ADC_CTRL2_OCETE_0         (0x1U << ADC_CTRL2_OCETE_Pos)                /*!< 0x10000000 */
+#define ADC_CTRL2_OCETE_1         (0x2U << ADC_CTRL2_OCETE_Pos)                /*!< 0x20000000 */
+
+#define ADC_CTRL2_OCSWTRG_Pos     (30U)
+#define ADC_CTRL2_OCSWTRG_Msk     (0x1U << ADC_CTRL2_OCSWTRG_Pos)              /*!< 0x40000000 */
+#define ADC_CTRL2_OCSWTRG         ADC_CTRL2_OCSWTRG_Msk                        /*!<Conversion of ordinary channels triggered by software */
+
+/* AT32 ONLY  */
+#define ADC_CTRL2_OCTESEL_H_Pos   (31U)
+#define ADC_CTRL2_OCTESEL_H_Msk   (0x1U << ADC_CTRL2_OCTESEL_H_Pos)            /*!< 0x80000000 */
+#define ADC_CTRL2_OCTESEL_H       ADC_CTRL2_OCTESEL_H_Msk                      /*!<OCTESEL[4] bit (Ordinary channel conversion trigger event select) */
+/* End AT32 ONLY  */
+
+/******************  Bit definition for ADC_SPT1 register  *******************/
+#define ADC_SPT1_CSPT10_Pos       (0U)
+#define ADC_SPT1_CSPT10_Msk       (0x7U << ADC_SPT1_CSPT10_Pos)                /*!< 0x00000007 */
+#define ADC_SPT1_CSPT10           ADC_SPT1_CSPT10_Msk                          /*!<CSPT10[2:0] bits (Sample time selection of channel ADC_IN10) */
+#define ADC_SPT1_CSPT10_0         (0x1U << ADC_SPT1_CSPT10_Pos)                /*!< 0x00000001 */
+#define ADC_SPT1_CSPT10_1         (0x2U << ADC_SPT1_CSPT10_Pos)                /*!< 0x00000002 */
+#define ADC_SPT1_CSPT10_2         (0x4U << ADC_SPT1_CSPT10_Pos)                /*!< 0x00000004 */
+#define ADC_SPT1_CSPT11_Pos       (3U)
+#define ADC_SPT1_CSPT11_Msk       (0x7U << ADC_SPT1_CSPT11_Pos)                /*!< 0x00000038 */
+#define ADC_SPT1_CSPT11           ADC_SPT1_CSPT11_Msk                          /*!<CSPT11[2:0] bits (Sample time selection of channel ADC_IN11) */
+#define ADC_SPT1_CSPT11_0         (0x1U << ADC_SPT1_CSPT11_Pos)                /*!< 0x00000008 */
+#define ADC_SPT1_CSPT11_1         (0x2U << ADC_SPT1_CSPT11_Pos)                /*!< 0x00000010 */
+#define ADC_SPT1_CSPT11_2         (0x4U << ADC_SPT1_CSPT11_Pos)                /*!< 0x00000020 */
+#define ADC_SPT1_CSPT12_Pos       (6U)
+#define ADC_SPT1_CSPT12_Msk       (0x7U << ADC_SPT1_CSPT12_Pos)                /*!< 0x000001C0 */
+#define ADC_SPT1_CSPT12           ADC_SPT1_CSPT12_Msk                          /*!<CSPT12[2:0] bits (Sample time selection of channel ADC_IN12) */
+#define ADC_SPT1_CSPT12_0         (0x1U << ADC_SPT1_CSPT12_Pos)                /*!< 0x00000040 */
+#define ADC_SPT1_CSPT12_1         (0x2U << ADC_SPT1_CSPT12_Pos)                /*!< 0x00000080 */
+#define ADC_SPT1_CSPT12_2         (0x4U << ADC_SPT1_CSPT12_Pos)                /*!< 0x00000100 */
+#define ADC_SPT1_CSPT13_Pos       (9U)
+#define ADC_SPT1_CSPT13_Msk       (0x7U << ADC_SPT1_CSPT13_Pos)                /*!< 0x00000E00 */
+#define ADC_SPT1_CSPT13           ADC_SPT1_CSPT13_Msk                          /*!<CSPT13[2:0] bits (Sample time selection of channel ADC_IN13) */
+#define ADC_SPT1_CSPT13_0         (0x1U << ADC_SPT1_CSPT13_Pos)                /*!< 0x00000200 */
+#define ADC_SPT1_CSPT13_1         (0x2U << ADC_SPT1_CSPT13_Pos)                /*!< 0x00000400 */
+#define ADC_SPT1_CSPT13_2         (0x4U << ADC_SPT1_CSPT13_Pos)                /*!< 0x00000800 */
+#define ADC_SPT1_CSPT14_Pos       (12U)
+#define ADC_SPT1_CSPT14_Msk       (0x7U << ADC_SPT1_CSPT14_Pos)                /*!< 0x00007000 */
+#define ADC_SPT1_CSPT14           ADC_SPT1_CSPT14_Msk                          /*!<CSPT14[2:0] bits (Sample time selection of channel ADC_IN14) */
+#define ADC_SPT1_CSPT14_0         (0x1U << ADC_SPT1_CSPT14_Pos)                /*!< 0x00001000 */
+#define ADC_SPT1_CSPT14_1         (0x2U << ADC_SPT1_CSPT14_Pos)                /*!< 0x00002000 */
+#define ADC_SPT1_CSPT14_2         (0x4U << ADC_SPT1_CSPT14_Pos)                /*!< 0x00004000 */
+#define ADC_SPT1_CSPT15_Pos       (15U)
+#define ADC_SPT1_CSPT15_Msk       (0x7U << ADC_SPT1_CSPT15_Pos)                /*!< 0x00038000 */
+#define ADC_SPT1_CSPT15           ADC_SPT1_CSPT15_Msk                          /*!<CSPT15[2:0] bits (Sample time selection of channel ADC_IN15) */
+#define ADC_SPT1_CSPT15_0         (0x1U << ADC_SPT1_CSPT15_Pos)                /*!< 0x00008000 */
+#define ADC_SPT1_CSPT15_1         (0x2U << ADC_SPT1_CSPT15_Pos)                /*!< 0x00010000 */
+#define ADC_SPT1_CSPT15_2         (0x4U << ADC_SPT1_CSPT15_Pos)                /*!< 0x00020000 */
+#define ADC_SPT1_CSPT16_Pos       (18U)
+#define ADC_SPT1_CSPT16_Msk       (0x7U << ADC_SPT1_CSPT16_Pos)                /*!< 0x001C0000 */
+#define ADC_SPT1_CSPT16           ADC_SPT1_CSPT16_Msk                          /*!<CSPT16[2:0] bits (Sample time selection of channel ADC_IN16) */
+#define ADC_SPT1_CSPT16_0         (0x1U << ADC_SPT1_CSPT16_Pos)                /*!< 0x00040000 */
+#define ADC_SPT1_CSPT16_1         (0x2U << ADC_SPT1_CSPT16_Pos)                /*!< 0x00080000 */
+#define ADC_SPT1_CSPT16_2         (0x4U << ADC_SPT1_CSPT16_Pos)                /*!< 0x00100000 */
+#define ADC_SPT1_CSPT17_Pos       (21U)
+#define ADC_SPT1_CSPT17_Msk       (0x7U << ADC_SPT1_CSPT17_Pos)                /*!< 0x00E00000 */
+#define ADC_SPT1_CSPT17           ADC_SPT1_CSPT17_Msk                          /*!<CSPT17[2:0] bits (Sample time selection of channel ADC_IN17) */
+#define ADC_SPT1_CSPT17_0         (0x1U << ADC_SPT1_CSPT17_Pos)                /*!< 0x00200000 */
+#define ADC_SPT1_CSPT17_1         (0x2U << ADC_SPT1_CSPT17_Pos)                /*!< 0x00400000 */
+#define ADC_SPT1_CSPT17_2         (0x4U << ADC_SPT1_CSPT17_Pos)                /*!< 0x00800000 */
+#define ADC_SPT1_CSPT18_Pos       (24U)
+#define ADC_SPT1_CSPT18_Msk       (0x7U << ADC_SPT1_CSPT18_Pos)                /*!< 0x07000000 */
+#define ADC_SPT1_CSPT18           ADC_SPT1_CSPT18_Msk                          /*!<CSPT18[2:0] bits (Sample time selection of channel ADC_IN18) */
+#define ADC_SPT1_CSPT18_0         (0x1U << ADC_SPT1_CSPT18_Pos)                /*!< 0x01000000 */
+#define ADC_SPT1_CSPT18_1         (0x2U << ADC_SPT1_CSPT18_Pos)                /*!< 0x02000000 */
+#define ADC_SPT1_CSPT18_2         (0x4U << ADC_SPT1_CSPT18_Pos)                /*!< 0x04000000 */
+
+/******************  Bit definition for ADC_SPT2 register  *******************/
+#define ADC_SPT2_CSPT0_Pos        (0U)
+#define ADC_SPT2_CSPT0_Msk        (0x7U << ADC_SPT2_CSPT0_Pos)                 /*!< 0x00000007 */
+#define ADC_SPT2_CSPT0            ADC_SPT2_CSPT0_Msk                           /*!<CSPT0[2:0] bits (Sample time selection of channel ADC_IN0) */
+#define ADC_SPT2_CSPT0_0          (0x1U << ADC_SPT2_CSPT0_Pos)                 /*!< 0x00000001 */
+#define ADC_SPT2_CSPT0_1          (0x2U << ADC_SPT2_CSPT0_Pos)                 /*!< 0x00000002 */
+#define ADC_SPT2_CSPT0_2          (0x4U << ADC_SPT2_CSPT0_Pos)                 /*!< 0x00000004 */
+#define ADC_SPT2_CSPT1_Pos        (3U)
+#define ADC_SPT2_CSPT1_Msk        (0x7U << ADC_SPT2_CSPT1_Pos)                 /*!< 0x00000038 */
+#define ADC_SPT2_CSPT1            ADC_SPT2_CSPT1_Msk                           /*!<CSPT1[2:0] bits (Sample time selection of channel ADC_IN1) */
+#define ADC_SPT2_CSPT1_0          (0x1U << ADC_SPT2_CSPT1_Pos)                 /*!< 0x00000008 */
+#define ADC_SPT2_CSPT1_1          (0x2U << ADC_SPT2_CSPT1_Pos)                 /*!< 0x00000010 */
+#define ADC_SPT2_CSPT1_2          (0x4U << ADC_SPT2_CSPT1_Pos)                 /*!< 0x00000020 */
+#define ADC_SPT2_CSPT2_Pos        (6U)
+#define ADC_SPT2_CSPT2_Msk        (0x7U << ADC_SPT2_CSPT2_Pos)                 /*!< 0x000001C0 */
+#define ADC_SPT2_CSPT2            ADC_SPT2_CSPT2_Msk                           /*!<CSPT2[2:0] bits (Sample time selection of channel ADC_IN2) */
+#define ADC_SPT2_CSPT2_0          (0x1U << ADC_SPT2_CSPT2_Pos)                 /*!< 0x00000040 */
+#define ADC_SPT2_CSPT2_1          (0x2U << ADC_SPT2_CSPT2_Pos)                 /*!< 0x00000080 */
+#define ADC_SPT2_CSPT2_2          (0x4U << ADC_SPT2_CSPT2_Pos)                 /*!< 0x00000100 */
+#define ADC_SPT2_CSPT3_Pos        (9U)
+#define ADC_SPT2_CSPT3_Msk        (0x7U << ADC_SPT2_CSPT3_Pos)                 /*!< 0x00000E00 */
+#define ADC_SPT2_CSPT3            ADC_SPT2_CSPT3_Msk                           /*!<CSPT3[2:0] bits (Sample time selection of channel ADC_IN3) */
+#define ADC_SPT2_CSPT3_0          (0x1U << ADC_SPT2_CSPT3_Pos)                 /*!< 0x00000200 */
+#define ADC_SPT2_CSPT3_1          (0x2U << ADC_SPT2_CSPT3_Pos)                 /*!< 0x00000400 */
+#define ADC_SPT2_CSPT3_2          (0x4U << ADC_SPT2_CSPT3_Pos)                 /*!< 0x00000800 */
+#define ADC_SPT2_CSPT4_Pos        (12U)
+#define ADC_SPT2_CSPT4_Msk        (0x7U << ADC_SPT2_CSPT4_Pos)                 /*!< 0x00007000 */
+#define ADC_SPT2_CSPT4            ADC_SPT2_CSPT4_Msk                           /*!<CSPT4[2:0] bits (Sample time selection of channel ADC_IN4) */
+#define ADC_SPT2_CSPT4_0          (0x1U << ADC_SPT2_CSPT4_Pos)                 /*!< 0x00001000 */
+#define ADC_SPT2_CSPT4_1          (0x2U << ADC_SPT2_CSPT4_Pos)                 /*!< 0x00002000 */
+#define ADC_SPT2_CSPT4_2          (0x4U << ADC_SPT2_CSPT4_Pos)                 /*!< 0x00004000 */
+#define ADC_SPT2_CSPT5_Pos        (15U)
+#define ADC_SPT2_CSPT5_Msk        (0x7U << ADC_SPT2_CSPT5_Pos)                 /*!< 0x00038000 */
+#define ADC_SPT2_CSPT5            ADC_SPT2_CSPT5_Msk                           /*!<CSPT5[2:0] bits (Sample time selection of channel ADC_IN5) */
+#define ADC_SPT2_CSPT5_0          (0x1U << ADC_SPT2_CSPT5_Pos)                 /*!< 0x00008000 */
+#define ADC_SPT2_CSPT5_1          (0x2U << ADC_SPT2_CSPT5_Pos)                 /*!< 0x00010000 */
+#define ADC_SPT2_CSPT5_2          (0x4U << ADC_SPT2_CSPT5_Pos)                 /*!< 0x00020000 */
+#define ADC_SPT2_CSPT6_Pos        (18U)
+#define ADC_SPT2_CSPT6_Msk        (0x7U << ADC_SPT2_CSPT6_Pos)                 /*!< 0x001C0000 */
+#define ADC_SPT2_CSPT6            ADC_SPT2_CSPT6_Msk                           /*!<CSPT6[2:0] bits (Sample time selection of channel ADC_IN6) */
+#define ADC_SPT2_CSPT6_0          (0x1U << ADC_SPT2_CSPT6_Pos)                 /*!< 0x00040000 */
+#define ADC_SPT2_CSPT6_1          (0x2U << ADC_SPT2_CSPT6_Pos)                 /*!< 0x00080000 */
+#define ADC_SPT2_CSPT6_2          (0x4U << ADC_SPT2_CSPT6_Pos)                 /*!< 0x00100000 */
+#define ADC_SPT2_CSPT7_Pos        (21U)
+#define ADC_SPT2_CSPT7_Msk        (0x7U << ADC_SPT2_CSPT7_Pos)                 /*!< 0x00E00000 */
+#define ADC_SPT2_CSPT7            ADC_SPT2_CSPT7_Msk                           /*!<CSPT7[2:0] bits (Sample time selection of channel ADC_IN7) */
+#define ADC_SPT2_CSPT7_0          (0x1U << ADC_SPT2_CSPT7_Pos)                 /*!< 0x00200000 */
+#define ADC_SPT2_CSPT7_1          (0x2U << ADC_SPT2_CSPT7_Pos)                 /*!< 0x00400000 */
+#define ADC_SPT2_CSPT7_2          (0x4U << ADC_SPT2_CSPT7_Pos)                 /*!< 0x00800000 */
+#define ADC_SPT2_CSPT8_Pos        (24U)
+#define ADC_SPT2_CSPT8_Msk        (0x7U << ADC_SPT2_CSPT8_Pos)                 /*!< 0x07000000 */
+#define ADC_SPT2_CSPT8            ADC_SPT2_CSPT8_Msk                           /*!<CSPT8[2:0] bits (Sample time selection of channel ADC_IN8) */
+#define ADC_SPT2_CSPT8_0          (0x1U << ADC_SPT2_CSPT8_Pos)                 /*!< 0x01000000 */
+#define ADC_SPT2_CSPT8_1          (0x2U << ADC_SPT2_CSPT8_Pos)                 /*!< 0x02000000 */
+#define ADC_SPT2_CSPT8_2          (0x4U << ADC_SPT2_CSPT8_Pos)                 /*!< 0x04000000 */
+#define ADC_SPT2_CSPT9_Pos        (27U)
+#define ADC_SPT2_CSPT9_Msk        (0x7U << ADC_SPT2_CSPT9_Pos)                 /*!< 0x38000000 */
+#define ADC_SPT2_CSPT9            ADC_SPT2_CSPT9_Msk                           /*!<CSPT9[2:0] bits (Sample time selection of channel ADC_IN9) */
+#define ADC_SPT2_CSPT9_0          (0x1U << ADC_SPT2_CSPT9_Pos)                 /*!< 0x08000000 */
+#define ADC_SPT2_CSPT9_1          (0x2U << ADC_SPT2_CSPT9_Pos)                 /*!< 0x10000000 */
+#define ADC_SPT2_CSPT9_2          (0x4U << ADC_SPT2_CSPT9_Pos)                 /*!< 0x20000000 */
+
+/******************  Bit definition for ADC_PCDT1 register  *******************/
+#define ADC_PCDTO1_PCDTO1_Pos     (0U)
+#define ADC_PCDTO1_PCDTO1_Msk     (0xFFFU << ADC_PCDTO1_PCDTO1_Pos)            /*!< 0x00000FFF */
+#define ADC_PCDTO1_PCDTO1         ADC_PCDTO1_PCDTO1_Msk                        /*!<Data offset for Preempted channe 1 */
+
+/******************  Bit definition for ADC_PCDTO2 register  *******************/
+#define ADC_PCDTO2_PCDTO2_Pos     (0U)                                   
+#define ADC_PCDTO2_PCDTO2_Msk     (0xFFFU << ADC_PCDTO2_PCDTO2_Pos)            /*!< 0x00000FFF */
+#define ADC_PCDTO2_PCDTO2         ADC_PCDTO2_PCDTO2_Msk                        /*!<Data offset for Preempted channe 2 */
+
+/******************  Bit definition for ADC_PCDTO3 register  *******************/
+#define ADC_PCDTO3_PCDTO3_Pos     (0U)                                   
+#define ADC_PCDTO3_PCDTO3_Msk     (0xFFFU << ADC_PCDTO3_PCDTO3_Pos)            /*!< 0x00000FFF */
+#define ADC_PCDTO3_PCDTO3         ADC_PCDTO3_PCDTO3_Msk                        /*!<Data offset for Preempted channe 3 */
+
+/******************  Bit definition for ADC_PCDTO4 register  *******************/
+#define ADC_PCDTO4_PCDTO4_Pos     (0U)                                   
+#define ADC_PCDTO4_PCDTO4_Msk     (0xFFFU << ADC_PCDTO4_PCDTO4_Pos)            /*!< 0x00000FFF */
+#define ADC_PCDTO4_PCDTO4         ADC_PCDTO4_PCDTO4_Msk                        /*!<Data offset for Preempted channe 4 */
+
+/*******************  Bit definition for ADC_VMHB register  ********************/
+#define ADC_VMHB_VMHB_Pos         (0U)
+#define ADC_VMHB_VMHB_Msk         (0xFFFU << ADC_VMHB_VMHB_Pos)                /*!< 0x00000FFF */
+#define ADC_VMHB_VMHB             ADC_VMHB_VMHB_Msk                            /*!<Voltage monitoring high boundary */
+
+/*******************  Bit definition for ADC_VMLB register  ********************/
+#define ADC_VMLB_VMLB_Pos         (0U)
+#define ADC_VMLB_VMLB_Msk         (0xFFFU << ADC_VMLB_VMLB_Pos)                /*!< 0x00000FFF */
+#define ADC_VMLB_VMLB             ADC_VMLB_VMLB_Msk                            /*!<Voltage monitoring low boundary */
+
+/*******************  Bit definition for ADC_OSQ1 register  *******************/
+#define ADC_OSQ1_OSN13_Pos        (0U)
+#define ADC_OSQ1_OSN13_Msk        (0x1FU << ADC_OSQ1_OSN13_Pos)                /*!< 0x0000001F */
+#define ADC_OSQ1_OSN13            ADC_OSQ1_OSN13_Msk                           /*!<SQ13[4:0] bits (Number of 13th conversion in ordinary sequence) */
+#define ADC_OSQ1_OSN13_0          (0x01U << ADC_OSQ1_OSN13_Pos)                /*!< 0x00000001 */
+#define ADC_OSQ1_OSN13_1          (0x02U << ADC_OSQ1_OSN13_Pos)                /*!< 0x00000002 */
+#define ADC_OSQ1_OSN13_2          (0x04U << ADC_OSQ1_OSN13_Pos)                /*!< 0x00000004 */
+#define ADC_OSQ1_OSN13_3          (0x08U << ADC_OSQ1_OSN13_Pos)                /*!< 0x00000008 */
+#define ADC_OSQ1_OSN13_4          (0x10U << ADC_OSQ1_OSN13_Pos)                /*!< 0x00000010 */
+#define ADC_OSQ1_OSN14_Pos        (5U)
+#define ADC_OSQ1_OSN14_Msk        (0x1FU << ADC_OSQ1_OSN14_Pos)                /*!< 0x000003E0 */
+#define ADC_OSQ1_OSN14            ADC_OSQ1_OSN14_Msk                           /*!<SQ14[4:0] bits (Number of 14th conversion in ordinary sequence) */
+#define ADC_OSQ1_OSN14_0          (0x01U << ADC_OSQ1_OSN14_Pos)                /*!< 0x00000020 */
+#define ADC_OSQ1_OSN14_1          (0x02U << ADC_OSQ1_OSN14_Pos)                /*!< 0x00000040 */
+#define ADC_OSQ1_OSN14_2          (0x04U << ADC_OSQ1_OSN14_Pos)                /*!< 0x00000080 */
+#define ADC_OSQ1_OSN14_3          (0x08U << ADC_OSQ1_OSN14_Pos)                /*!< 0x00000100 */
+#define ADC_OSQ1_OSN14_4          (0x10U << ADC_OSQ1_OSN14_Pos)                /*!< 0x00000200 */
+#define ADC_OSQ1_OSN15_Pos        (10U)
+#define ADC_OSQ1_OSN15_Msk        (0x1FU << ADC_OSQ1_OSN15_Pos)                /*!< 0x00007C00 */
+#define ADC_OSQ1_OSN15            ADC_OSQ1_OSN15_Msk                           /*!<SQ15[4:0] bits (Number of 15th conversion in ordinary sequence ) */
+#define ADC_OSQ1_OSN15_0          (0x01U << ADC_OSQ1_OSN15_Pos)                /*!< 0x00000400 */
+#define ADC_OSQ1_OSN15_1          (0x02U << ADC_OSQ1_OSN15_Pos)                /*!< 0x00000800 */
+#define ADC_OSQ1_OSN15_2          (0x04U << ADC_OSQ1_OSN15_Pos)                /*!< 0x00001000 */
+#define ADC_OSQ1_OSN15_3          (0x08U << ADC_OSQ1_OSN15_Pos)                /*!< 0x00002000 */
+#define ADC_OSQ1_OSN15_4          (0x10U << ADC_OSQ1_OSN15_Pos)                /*!< 0x00004000 */
+#define ADC_OSQ1_OSN16_Pos        (15U)
+#define ADC_OSQ1_OSN16_Msk        (0x1FU << ADC_OSQ1_OSN16_Pos)                /*!< 0x000F8000 */
+#define ADC_OSQ1_OSN16            ADC_OSQ1_OSN16_Msk                           /*!<SQ16[4:0] bits (Number of 16th conversion in ordinary sequence ) */
+#define ADC_OSQ1_OSN16_0          (0x01U << ADC_OSQ1_OSN16_Pos)                /*!< 0x00008000 */
+#define ADC_OSQ1_OSN16_1          (0x02U << ADC_OSQ1_OSN16_Pos)                /*!< 0x00010000 */
+#define ADC_OSQ1_OSN16_2          (0x04U << ADC_OSQ1_OSN16_Pos)                /*!< 0x00020000 */
+#define ADC_OSQ1_OSN16_3          (0x08U << ADC_OSQ1_OSN16_Pos)                /*!< 0x00040000 */
+#define ADC_OSQ1_OSN16_4          (0x10U << ADC_OSQ1_OSN16_Pos)                /*!< 0x00080000 */
+#define ADC_OSQ1_OCLEN_Pos        (20U)
+#define ADC_OSQ1_OCLEN_Msk        (0xFU << ADC_OSQ1_OCLEN_Pos)                 /*!< 0x00F00000 */
+#define ADC_OSQ1_OCLEN            ADC_OSQ1_OCLEN_Msk                           /*!<L[3:0] bits (Ordinary conversion sequence length) */
+#define ADC_OSQ1_OCLEN_0          (0x1U << ADC_OSQ1_OCLEN_Pos)                 /*!< 0x00100000 */
+#define ADC_OSQ1_OCLEN_1          (0x2U << ADC_OSQ1_OCLEN_Pos)                 /*!< 0x00200000 */
+#define ADC_OSQ1_OCLEN_2          (0x4U << ADC_OSQ1_OCLEN_Pos)                 /*!< 0x00400000 */
+#define ADC_OSQ1_OCLEN_3          (0x8U << ADC_OSQ1_OCLEN_Pos)                 /*!< 0x00800000 */
+
+/*******************  Bit definition for ADC_OSQ2 register  *******************/
+#define ADC_OSQ2_OSN7_Pos         (0U)
+#define ADC_OSQ2_OSN7_Msk         (0x1FU << ADC_OSQ2_OSN7_Pos)                 /*!< 0x0000001F */
+#define ADC_OSQ2_OSN7             ADC_OSQ2_OSN7_Msk                            /*!<SQ7[4:0] bits (Number of 7th conversion in ordinary sequence) */
+#define ADC_OSQ2_OSN7_0           (0x01U << ADC_OSQ2_OSN7_Pos)                 /*!< 0x00000001 */
+#define ADC_OSQ2_OSN7_1           (0x02U << ADC_OSQ2_OSN7_Pos)                 /*!< 0x00000002 */
+#define ADC_OSQ2_OSN7_2           (0x04U << ADC_OSQ2_OSN7_Pos)                 /*!< 0x00000004 */
+#define ADC_OSQ2_OSN7_3           (0x08U << ADC_OSQ2_OSN7_Pos)                 /*!< 0x00000008 */
+#define ADC_OSQ2_OSN7_4           (0x10U << ADC_OSQ2_OSN7_Pos)                 /*!< 0x00000010 */
+#define ADC_OSQ2_OSN8_Pos         (5U)
+#define ADC_OSQ2_OSN8_Msk         (0x1FU << ADC_OSQ2_OSN8_Pos)                 /*!< 0x000003E0 */
+#define ADC_OSQ2_OSN8             ADC_OSQ2_OSN8_Msk                            /*!<SQ8[4:0] bits (Number of 8th conversion in ordinary sequence) */
+#define ADC_OSQ2_OSN8_0           (0x01U << ADC_OSQ2_OSN8_Pos)                 /*!< 0x00000020 */
+#define ADC_OSQ2_OSN8_1           (0x02U << ADC_OSQ2_OSN8_Pos)                 /*!< 0x00000040 */
+#define ADC_OSQ2_OSN8_2           (0x04U << ADC_OSQ2_OSN8_Pos)                 /*!< 0x00000080 */
+#define ADC_OSQ2_OSN8_3           (0x08U << ADC_OSQ2_OSN8_Pos)                 /*!< 0x00000100 */
+#define ADC_OSQ2_OSN8_4           (0x10U << ADC_OSQ2_OSN8_Pos)                 /*!< 0x00000200 */
+#define ADC_OSQ2_OSN9_Pos         (10U)
+#define ADC_OSQ2_OSN9_Msk         (0x1FU << ADC_OSQ2_OSN9_Pos)                 /*!< 0x00007C00 */
+#define ADC_OSQ2_OSN9             ADC_OSQ2_OSN9_Msk                            /*!<SQ9[4:0] bits (Number of 9th conversion in ordinary sequence) */
+#define ADC_OSQ2_OSN9_0           (0x01U << ADC_OSQ2_OSN9_Pos)                 /*!< 0x00000400 */
+#define ADC_OSQ2_OSN9_1           (0x02U << ADC_OSQ2_OSN9_Pos)                 /*!< 0x00000800 */
+#define ADC_OSQ2_OSN9_2           (0x04U << ADC_OSQ2_OSN9_Pos)                 /*!< 0x00001000 */
+#define ADC_OSQ2_OSN9_3           (0x08U << ADC_OSQ2_OSN9_Pos)                 /*!< 0x00002000 */
+#define ADC_OSQ2_OSN9_4           (0x10U << ADC_OSQ2_OSN9_Pos)                 /*!< 0x00004000 */
+#define ADC_OSQ2_OSN10_Pos        (15U)
+#define ADC_OSQ2_OSN10_Msk        (0x1FU << ADC_OSQ2_OSN10_Pos)                /*!< 0x000F8000 */
+#define ADC_OSQ2_OSN10            ADC_OSQ2_OSN10_Msk                           /*!<SQ10[4:0] bits (Number of 10th conversion in ordinary sequence) */
+#define ADC_OSQ2_OSN10_0          (0x01U << ADC_OSQ2_OSN10_Pos)                /*!< 0x00008000 */
+#define ADC_OSQ2_OSN10_1          (0x02U << ADC_OSQ2_OSN10_Pos)                /*!< 0x00010000 */
+#define ADC_OSQ2_OSN10_2          (0x04U << ADC_OSQ2_OSN10_Pos)                /*!< 0x00020000 */
+#define ADC_OSQ2_OSN10_3          (0x08U << ADC_OSQ2_OSN10_Pos)                /*!< 0x00040000 */
+#define ADC_OSQ2_OSN10_4          (0x10U << ADC_OSQ2_OSN10_Pos)                /*!< 0x00080000 */
+#define ADC_OSQ2_OSN11_Pos        (20U)
+#define ADC_OSQ2_OSN11_Msk        (0x1FU << ADC_OSQ2_OSN11_Pos)                /*!< 0x01F00000 */
+#define ADC_OSQ2_OSN11            ADC_OSQ2_OSN11_Msk                           /*!<SQ11[4:0] bits (Number of 11th conversion in ordinary sequence) */
+#define ADC_OSQ2_OSN11_0          (0x01U << ADC_OSQ2_OSN11_Pos)                /*!< 0x00100000 */
+#define ADC_OSQ2_OSN11_1          (0x02U << ADC_OSQ2_OSN11_Pos)                /*!< 0x00200000 */
+#define ADC_OSQ2_OSN11_2          (0x04U << ADC_OSQ2_OSN11_Pos)                /*!< 0x00400000 */
+#define ADC_OSQ2_OSN11_3          (0x08U << ADC_OSQ2_OSN11_Pos)                /*!< 0x00800000 */
+#define ADC_OSQ2_OSN11_4          (0x10U << ADC_OSQ2_OSN11_Pos)                /*!< 0x01000000 */
+#define ADC_OSQ2_OSN12_Pos        (25U)
+#define ADC_OSQ2_OSN12_Msk        (0x1FU << ADC_OSQ2_OSN12_Pos)                /*!< 0x3E000000 */
+#define ADC_OSQ2_OSN12            ADC_OSQ2_OSN12_Msk                           /*!<SQ12[4:0] bits (Number of 12th conversion in ordinary sequence) */
+#define ADC_OSQ2_OSN12_0          (0x01U << ADC_OSQ2_OSN12_Pos)                /*!< 0x02000000 */
+#define ADC_OSQ2_OSN12_1          (0x02U << ADC_OSQ2_OSN12_Pos)                /*!< 0x04000000 */
+#define ADC_OSQ2_OSN12_2          (0x04U << ADC_OSQ2_OSN12_Pos)                /*!< 0x08000000 */
+#define ADC_OSQ2_OSN12_3          (0x08U << ADC_OSQ2_OSN12_Pos)                /*!< 0x10000000 */
+#define ADC_OSQ2_OSN12_4          (0x10U << ADC_OSQ2_OSN12_Pos)                /*!< 0x20000000 */
+
+/*******************  Bit definition for ADC_OSQ3 register  *******************/
+#define ADC_OSQ3_OSN1_Pos         (0U)
+#define ADC_OSQ3_OSN1_Msk         (0x1FU << ADC_OSQ3_OSN1_Pos)                 /*!< 0x0000001F */
+#define ADC_OSQ3_OSN1             ADC_OSQ3_OSN1_Msk                            /*!<SQ1[4:0] bits (Number of 1st conversion in ordinary sequence) */
+#define ADC_OSQ3_OSN1_0           (0x01U << ADC_OSQ3_OSN1_Pos)                 /*!< 0x00000001 */
+#define ADC_OSQ3_OSN1_1           (0x02U << ADC_OSQ3_OSN1_Pos)                 /*!< 0x00000002 */
+#define ADC_OSQ3_OSN1_2           (0x04U << ADC_OSQ3_OSN1_Pos)                 /*!< 0x00000004 */
+#define ADC_OSQ3_OSN1_3           (0x08U << ADC_OSQ3_OSN1_Pos)                 /*!< 0x00000008 */
+#define ADC_OSQ3_OSN1_4           (0x10U << ADC_OSQ3_OSN1_Pos)                 /*!< 0x00000010 */
+#define ADC_OSQ3_OSN2_Pos         (5U)
+#define ADC_OSQ3_OSN2_Msk         (0x1FU << ADC_OSQ3_OSN2_Pos)                 /*!< 0x000003E0 */
+#define ADC_OSQ3_OSN2             ADC_OSQ3_OSN2_Msk                            /*!<SQ2[4:0] bits (Number of 2nd conversion in ordinary sequence) */
+#define ADC_OSQ3_OSN2_0           (0x01U << ADC_OSQ3_OSN2_Pos)                 /*!< 0x00000020 */
+#define ADC_OSQ3_OSN2_1           (0x02U << ADC_OSQ3_OSN2_Pos)                 /*!< 0x00000040 */
+#define ADC_OSQ3_OSN2_2           (0x04U << ADC_OSQ3_OSN2_Pos)                 /*!< 0x00000080 */
+#define ADC_OSQ3_OSN2_3           (0x08U << ADC_OSQ3_OSN2_Pos)                 /*!< 0x00000100 */
+#define ADC_OSQ3_OSN2_4           (0x10U << ADC_OSQ3_OSN2_Pos)                 /*!< 0x00000200 */
+#define ADC_OSQ3_OSN3_Pos         (10U)
+#define ADC_OSQ3_OSN3_Msk         (0x1FU << ADC_OSQ3_OSN3_Pos)                 /*!< 0x00007C00 */
+#define ADC_OSQ3_OSN3             ADC_OSQ3_OSN3_Msk                            /*!<SQ3[4:0] bits (Number of 3rd conversion in ordinary sequence) */
+#define ADC_OSQ3_OSN3_0           (0x01U << ADC_OSQ3_OSN3_Pos)                 /*!< 0x00000400 */
+#define ADC_OSQ3_OSN3_1           (0x02U << ADC_OSQ3_OSN3_Pos)                 /*!< 0x00000800 */
+#define ADC_OSQ3_OSN3_2           (0x04U << ADC_OSQ3_OSN3_Pos)                 /*!< 0x00001000 */
+#define ADC_OSQ3_OSN3_3           (0x08U << ADC_OSQ3_OSN3_Pos)                 /*!< 0x00002000 */
+#define ADC_OSQ3_OSN3_4           (0x10U << ADC_OSQ3_OSN3_Pos)                 /*!< 0x00004000 */
+#define ADC_OSQ3_OSN4_Pos         (15U)
+#define ADC_OSQ3_OSN4_Msk         (0x1FU << ADC_OSQ3_OSN4_Pos)                 /*!< 0x000F8000 */
+#define ADC_OSQ3_OSN4             ADC_OSQ3_OSN4_Msk                            /*!<SQ4[4:0] bits (Number of 4th conversion in ordinary sequence) */
+#define ADC_OSQ3_OSN4_0           (0x01U << ADC_OSQ3_OSN4_Pos)                 /*!< 0x00008000 */
+#define ADC_OSQ3_OSN4_1           (0x02U << ADC_OSQ3_OSN4_Pos)                 /*!< 0x00010000 */
+#define ADC_OSQ3_OSN4_2           (0x04U << ADC_OSQ3_OSN4_Pos)                 /*!< 0x00020000 */
+#define ADC_OSQ3_OSN4_3           (0x08U << ADC_OSQ3_OSN4_Pos)                 /*!< 0x00040000 */
+#define ADC_OSQ3_OSN4_4           (0x10U << ADC_OSQ3_OSN4_Pos)                 /*!< 0x00080000 */
+#define ADC_OSQ3_OSN5_Pos         (20U)
+#define ADC_OSQ3_OSN5_Msk         (0x1FU << ADC_OSQ3_OSN5_Pos)                 /*!< 0x01F00000 */
+#define ADC_OSQ3_OSN5             ADC_OSQ3_OSN5_Msk                            /*!<SQ5[4:0] bits (Number of 5th conversion in ordinary sequence) */
+#define ADC_OSQ3_OSN5_0           (0x01U << ADC_OSQ3_OSN5_Pos)                 /*!< 0x00100000 */
+#define ADC_OSQ3_OSN5_1           (0x02U << ADC_OSQ3_OSN5_Pos)                 /*!< 0x00200000 */
+#define ADC_OSQ3_OSN5_2           (0x04U << ADC_OSQ3_OSN5_Pos)                 /*!< 0x00400000 */
+#define ADC_OSQ3_OSN5_3           (0x08U << ADC_OSQ3_OSN5_Pos)                 /*!< 0x00800000 */
+#define ADC_OSQ3_OSN5_4           (0x10U << ADC_OSQ3_OSN5_Pos)                 /*!< 0x01000000 */
+#define ADC_OSQ3_OSN6_Pos         (25U)
+#define ADC_OSQ3_OSN6_Msk         (0x1FU << ADC_OSQ3_OSN6_Pos)                 /*!< 0x3E000000 */
+#define ADC_OSQ3_OSN6             ADC_OSQ3_OSN6_Msk                            /*!<SQ6[4:0] bits (Number of 6th conversion in ordinary sequence) */
+#define ADC_OSQ3_OSN6_0           (0x01U << ADC_OSQ3_OSN6_Pos)                 /*!< 0x02000000 */
+#define ADC_OSQ3_OSN6_1           (0x02U << ADC_OSQ3_OSN6_Pos)                 /*!< 0x04000000 */
+#define ADC_OSQ3_OSN6_2           (0x04U << ADC_OSQ3_OSN6_Pos)                 /*!< 0x08000000 */
+#define ADC_OSQ3_OSN6_3           (0x08U << ADC_OSQ3_OSN6_Pos)                 /*!< 0x10000000 */
+#define ADC_OSQ3_OSN6_4           (0x10U << ADC_OSQ3_OSN6_Pos)                 /*!< 0x20000000 */
+
+/*******************  Bit definition for ADC_PSQ register  *******************/
+#define ADC_PSQ_PSN1_Pos          (0U)
+#define ADC_PSQ_PSN1_Msk          (0x1FU << ADC_PSQ_PSN1_Pos)                 /*!< 0x0000001F */
+#define ADC_PSQ_PSN1              ADC_PSQ_PSN1_Msk                            /*!<PSN1[4:0] bits (Number of 1st conversion in preempted sequence) */
+#define ADC_PSQ_PSN1_0            (0x01U << ADC_PSQ_PSN1_Pos)                 /*!< 0x00000001 */
+#define ADC_PSQ_PSN1_1            (0x02U << ADC_PSQ_PSN1_Pos)                 /*!< 0x00000002 */
+#define ADC_PSQ_PSN1_2            (0x04U << ADC_PSQ_PSN1_Pos)                 /*!< 0x00000004 */
+#define ADC_PSQ_PSN1_3            (0x08U << ADC_PSQ_PSN1_Pos)                 /*!< 0x00000008 */
+#define ADC_PSQ_PSN1_4            (0x10U << ADC_PSQ_PSN1_Pos)                 /*!< 0x00000010 */
+#define ADC_PSQ_PSN2_Pos          (5U)
+#define ADC_PSQ_PSN2_Msk          (0x1FU << ADC_PSQ_PSN2_Pos)                 /*!< 0x000003E0 */
+#define ADC_PSQ_PSN2              ADC_PSQ_PSN2_Msk                            /*!<PSN2[4:0] bits (Number of 2nd conversion in preempted sequence) */
+#define ADC_PSQ_PSN2_0            (0x01U << ADC_PSQ_PSN2_Pos)                 /*!< 0x00000020 */
+#define ADC_PSQ_PSN2_1            (0x02U << ADC_PSQ_PSN2_Pos)                 /*!< 0x00000040 */
+#define ADC_PSQ_PSN2_2            (0x04U << ADC_PSQ_PSN2_Pos)                 /*!< 0x00000080 */
+#define ADC_PSQ_PSN2_3            (0x08U << ADC_PSQ_PSN2_Pos)                 /*!< 0x00000100 */
+#define ADC_PSQ_PSN2_4            (0x10U << ADC_PSQ_PSN2_Pos)                 /*!< 0x00000200 */
+#define ADC_PSQ_PSN3_Pos          (10U)
+#define ADC_PSQ_PSN3_Msk          (0x1FU << ADC_PSQ_PSN3_Pos)                 /*!< 0x00007C00 */
+#define ADC_PSQ_PSN3              ADC_PSQ_PSN3_Msk                            /*!<PSN3[4:0] bits (Number of 3rd conversion in preempted sequence) */
+#define ADC_PSQ_PSN3_0            (0x01U << ADC_PSQ_PSN3_Pos)                 /*!< 0x00000400 */
+#define ADC_PSQ_PSN3_1            (0x02U << ADC_PSQ_PSN3_Pos)                 /*!< 0x00000800 */
+#define ADC_PSQ_PSN3_2            (0x04U << ADC_PSQ_PSN3_Pos)                 /*!< 0x00001000 */
+#define ADC_PSQ_PSN3_3            (0x08U << ADC_PSQ_PSN3_Pos)                 /*!< 0x00002000 */
+#define ADC_PSQ_PSN3_4            (0x10U << ADC_PSQ_PSN3_Pos)                 /*!< 0x00004000 */
+#define ADC_PSQ_PSN4_Pos          (15U)
+#define ADC_PSQ_PSN4_Msk          (0x1FU << ADC_PSQ_PSN4_Pos)                 /*!< 0x000F8000 */
+#define ADC_PSQ_PSN4              ADC_PSQ_PSN4_Msk                            /*!<PSN4[4:0] bits (Number of 4th conversion in preempted sequence) */
+#define ADC_PSQ_PSN4_0            (0x01U << ADC_PSQ_PSN4_Pos)                 /*!< 0x00008000 */
+#define ADC_PSQ_PSN4_1            (0x02U << ADC_PSQ_PSN4_Pos)                 /*!< 0x00010000 */
+#define ADC_PSQ_PSN4_2            (0x04U << ADC_PSQ_PSN4_Pos)                 /*!< 0x00020000 */
+#define ADC_PSQ_PSN4_3            (0x08U << ADC_PSQ_PSN4_Pos)                 /*!< 0x00040000 */
+#define ADC_PSQ_PSN4_4            (0x10U << ADC_PSQ_PSN4_Pos)                 /*!< 0x00080000 */
+#define ADC_PSQ_PCLEN_Pos         (20U)
+#define ADC_PSQ_PCLEN_Msk         (0x3U << ADC_PSQ_PCLEN_Pos)                 /*!< 0x00300000 */
+#define ADC_PSQ_PCLEN             ADC_PSQ_PCLEN_Msk                           /*!<PCLEN[1:0] Preempted conversion sequence length) */
+#define ADC_PSQ_PCLEN_0           (0x1U << ADC_PSQ_PCLEN_Pos)                 /*!< 0x00100000 */
+#define ADC_PSQ_PCLEN_1           (0x2U << ADC_PSQ_PCLEN_Pos)                 /*!< 0x00200000 */
+
+/*******************  Bit definition for ADC_PDT1 register  *******************/
+#define ADC_PDT1_PDT1_Pos         (0U)
+#define ADC_PDT1_PDT1_Msk         (0xFFFFU << ADC_PDT1_PDT1_Pos)              /*!< 0x0000FFFF */
+#define ADC_PDT1_PDT1             ADC_PDT1_PDT1_Msk                           /*!<Conversion data from preempted channel */
+
+/*******************  Bit definition for ADC_PDT2 register  *******************/
+#define ADC_PDT2_PDT2_Pos         (0U)
+#define ADC_PDT2_PDT2_Msk         (0xFFFFU << ADC_PDT2_PDT2_Pos)              /*!< 0x0000FFFF */
+#define ADC_PDT2_PDT2             ADC_PDT2_PDT2_Msk                           /*!<Conversion data from preempted channel */
+
+/*******************  Bit definition for ADC_PDT3 register  *******************/
+#define ADC_PDT3_PDT3_Pos         (0U)
+#define ADC_PDT3_PDT3_Msk         (0xFFFFU << ADC_PDT3_PDT3_Pos)              /*!< 0x0000FFFF */
+#define ADC_PDT3_PDT3             ADC_PDT3_PDT3_Msk                           /*!<Conversion data from preempted channel */
+
+/*******************  Bit definition for ADC_PDT4 register  ********************/
+#define ADC_PDT4_PDT4_Pos         (0U)
+#define ADC_PDT4_PDT4_Msk         (0xFFFFU << ADC_PDT4_PDT4_Pos)              /*!< 0x0000FFFF */
+#define ADC_PDT4_PDT4             ADC_PDT4_PDT4_Msk                           /*!<Conversion data from preempted channel */
+
+/********************  Bit definition for ADC_ODT register  ********************/
+#define ADC_ODT_ODT_Pos           (0U)
+#define ADC_ODT_ODT_Msk           (0xFFFFU << ADC_ODT_ODT_Pos)                /*!< 0x0000FFFF */
+#define ADC_ODT_ODT               ADC_ODT_ODT_Msk                             /*!<Conversion data of ordinary channel */
+#define ADC_ODT_ADC2ODT_Pos       (16U)
+#define ADC_ODT_ADC2ODT_Msk       (0xFFFFU << ADC_ODT_ADC2ODT_Pos)            /*!< 0xFFFF0000 */
+#define ADC_ODT_ADC2ODT           ADC_ODT_ADC2ODT_Msk                         /*!<ADC2 conversion data of ordinary channel */
+
+//---- AT32 Only ---
+/********************  Bit definition for ADC_OVSP register  ********************/
+#define ADC_OVSP_OOSEN_Pos        (0U)
+#define ADC_OVSP_OOSEN_Msk        (0x1U << ADC_OVSP_OOSEN_Pos)                /*!< 0x00000001 */
+#define ADC_OVSP_OOSEN            ADC_OVSP_OOSEN_Msk                          /*!<Ordinary oversampling enable */
+#define ADC_OVSP_POSEN_Pos        (1U)
+#define ADC_OVSP_POSEN_Msk        (0x1U << ADC_OVSP_POSEN_Pos)                /*!< 0x00000002 */
+#define ADC_OVSP_POSEN            ADC_OVSP_POSEN_Msk                          /*!<Preempted oversampling enable */
+#define ADC_OVSP_OSRSEL_Pos       (2U)
+#define ADC_OVSP_OSRSEL_Msk       (0x7U << ADC_OVSP_OSRSEL_Pos)               /*!< 0x0000001C */
+#define ADC_OVSP_OSRSEL           ADC_OVSP_OSRSEL_Msk                         /*!<Oversampling ratio select */
+#define ADC_OVSP_OSSSEL_Pos       (5U)
+#define ADC_OVSP_OSSSEL_Msk       (0xFU << ADC_OVSP_OSSSEL_Pos)               /*!< 0x000001E0 */
+#define ADC_OVSP_OSSSEL           ADC_OVSP_OSSSEL_Msk                         /*!<Oversampling shift select */
+#define ADC_OVSP_OOSTREN_Pos      (9U)
+#define ADC_OVSP_OOSTREN_Msk      (0x1U << ADC_OVSP_OOSTREN_Pos)              /*!< 0x00000200 */
+#define ADC_OVSP_OOSTREN          ADC_OVSP_OOSTREN_Msk                        /*!<Ordinary oversampling trigger mode enable */
+#define ADC_OVSP_OOSRSEL_Pos      (10U)
+#define ADC_OVSP_OOSRSEL_Msk      (0x1U << ADC_OVSP_OOSRSEL_Pos)              /*!< 0x00000400 */
+#define ADC_OVSP_OOSRSEL          ADC_OVSP_OOSRSEL_Msk                        /*!<Ordinary oversampling restart mode select */
+
+/*******************  Bit definition for ADC_CALVAL register  ********************/
+#define ADC_CALVAL_CALVAL_Pos     (0U)
+#define ADC_CALVAL_CALVAL_Msk     (0x37U << ADC_CALVAL_CALVAL_Pos)            /*!< 0x00000001 */
+#define ADC_CALVAL_CALVAL         ADC_CALVAL_CALVAL_Msk                       /*!<A/D Calibration value*/
+//--End AT32 Only --
+
+/*******************  Bit definition for ADC_CSTS register  ********************/
+#define ADC_CSTS_VMOR1_Pos       (0U)
+#define ADC_CSTS_VMOR1_Msk       (0x1U << ADC_CSTS_VMOR1_Pos)                 /*!< 0x00000001 */
+#define ADC_CSTS_VMOR1           ADC_CSTS_VMOR1_Msk                           /*!<ADC1 Voltage monitoring out of range flag */
+#define ADC_CSTS_OCCE1_Pos       (1U)                                         
+#define ADC_CSTS_OCCE1_Msk       (0x1U << ADC_CSTS_OCCE1_Pos)                 /*!< 0x00000002 */
+#define ADC_CSTS_OCCE1           ADC_CSTS_OCCE1_Msk                           /*!<ADC1 Ordinary channels conversion end flag */
+#define ADC_CSTS_PCCE1_Pos       (2U)                                         
+#define ADC_CSTS_PCCE1_Msk       (0x1U << ADC_CSTS_PCCE1_Pos)                 /*!< 0x00000004 */
+#define ADC_CSTS_PCCE1           ADC_CSTS_PCCE1_Msk                           /*!<ADC1 Preempted channels conversion end flag */
+#define ADC_CSTS_PCCS1_Pos       (3U)
+#define ADC_CSTS_PCCS1_Msk       (0x1U << ADC_CSTS_PCCS1_Pos)                 /*!< 0x00000008 */
+#define ADC_CSTS_PCCS1           ADC_CSTS_PCCS1_Msk                           /*!<ADC1 Preempted channel conversion start flag */
+#define ADC_CSTS_OCCS1_Pos       (4U)
+#define ADC_CSTS_OCCS1_Msk       (0x1U << ADC_CSTS_OCCS1_Pos)                 /*!< 0x00000010 */
+#define ADC_CSTS_OCCS1           ADC_CSTS_OCCS1_Msk                           /*!<ADC1 Ordinary channel conversion start flag */
+#define ADC_CSTS_OCCO1_Pos       (5U)
+#define ADC_CSTS_OCCO1_Msk       (0x1U << ADC_CSTS_OCCO1_Pos)                 /*!< 0x00000020 */
+#define ADC_CSTS_OCCO1           ADC_CSTS_OCCO1_Msk                           /*!<ADC1 Ordinary channel conversion overflow flag */
+//---- AT32 Only ---
+#define ADC_CSTS_RDY1_Pos        (6U)
+#define ADC_CSTS_RDY1_Msk        (0x1U << ADC_CSTS_RDY1_Pos)                  /*!< 0x00000040 */
+#define ADC_CSTS_RDY1            ADC_CSTS_RDY1_Msk                            /*!<ADC1 Conversion ready flag */
+//--End AT32 Only --
+#define ADC_CSTS_VMOR2_Pos       (8U)
+#define ADC_CSTS_VMOR2_Msk       (0x1U << ADC_CSTS_VMOR2_Pos)                 /*!< 0x00000100 */
+#define ADC_CSTS_VMOR2           ADC_CSTS_VMOR2_Msk                           /*!<ADC2 Voltage monitoring out of range flag */
+#define ADC_CSTS_OCCE2_Pos       (9U)
+#define ADC_CSTS_OCCE2_Msk       (0x1U << ADC_CSTS_OCCE2_Pos)                 /*!< 0x00000200 */
+#define ADC_CSTS_OCCE2           ADC_CSTS_OCCE2_Msk                           /*!<ADC2 Ordinary channels conversion end flag */
+#define ADC_CSTS_PCCE2_Pos       (10U)
+#define ADC_CSTS_PCCE2_Msk       (0x1U << ADC_CSTS_PCCE2_Pos)                 /*!< 0x00000400 */
+#define ADC_CSTS_PCCE2           ADC_CSTS_PCCE2_Msk                           /*!<ADC2 Preempted channels conversion end flag */
+#define ADC_CSTS_PCCS2_Pos       (11U)
+#define ADC_CSTS_PCCS2_Msk       (0x1U << ADC_CSTS_PCCS2_Pos)                 /*!< 0x00000800 */
+#define ADC_CSTS_PCCS2           ADC_CSTS_PCCS2_Msk                           /*!<ADC2 Preempted channel conversion start flag */
+#define ADC_CSTS_OCCS2_Pos       (12U)
+#define ADC_CSTS_OCCS2_Msk       (0x1U << ADC_CSTS_OCCS2_Pos)                 /*!< 0x00001000 */
+#define ADC_CSTS_OCCS2           ADC_CSTS_OCCS2_Msk                           /*!<ADC2 Ordinary channel conversion start flag */
+#define ADC_CSTS_OCCO2_Pos       (13U)
+#define ADC_CSTS_OCCO2_Msk       (0x1U << ADC_CSTS_OCCO2_Pos)                 /*!< 0x00002000 */
+#define ADC_CSTS_OCCO2           ADC_CSTS_OCCO2_Msk                           /*!<ADC2 Ordinary channel conversion overflow flag */
+//---- AT32 Only ---
+#define ADC_CSTS_RDY2_Pos        (6U)
+#define ADC_CSTS_RDY2_Msk        (0x1U << ADC_CSTS_RDY2_Pos)                  /*!< 0x00004000 */
+#define ADC_CSTS_RDY2            ADC_CSTS_RDY2_Msk                            /*!<ADC2 Conversion ready flag */
+//--End AT32 Only --
+#define ADC_CSTS_VMOR3_Pos       (16U)
+#define ADC_CSTS_VMOR3_Msk       (0x1U << ADC_CSTS_VMOR3_Pos)                 /*!< 0x00010000 */
+#define ADC_CSTS_VMOR3           ADC_CSTS_VMOR3_Msk                           /*!<ADC3 Voltage monitoring out of range flag */
+#define ADC_CSTS_OCCE3_Pos       (17U)                                        
+#define ADC_CSTS_OCCE3_Msk       (0x1U << ADC_CSTS_OCCE3_Pos)                 /*!< 0x00020000 */
+#define ADC_CSTS_OCCE3           ADC_CSTS_OCCE3_Msk                           /*!<ADC3 Ordinary channels conversion end flag */
+#define ADC_CSTS_PCCE3_Pos       (18U)                                        
+#define ADC_CSTS_PCCE3_Msk       (0x1U << ADC_CSTS_PCCE3_Pos)                 /*!< 0x00040000 */
+#define ADC_CSTS_PCCE3           ADC_CSTS_PCCE3_Msk                           /*!<ADC3 Preempted channels conversion end flag */
+#define ADC_CSTS_PCCS3_Pos       (19U)                                        
+#define ADC_CSTS_PCCS3_Msk       (0x1U << ADC_CSTS_PCCS3_Pos)                 /*!< 0x00080000 */
+#define ADC_CSTS_PCCS3           ADC_CSTS_PCCS3_Msk                           /*!<ADC3 Preempted channel conversion start flag */
+#define ADC_CSTS_OCCS3_Pos       (20U)                                        
+#define ADC_CSTS_OCCS3_Msk       (0x1U << ADC_CSTS_OCCS3_Pos)                 /*!< 0x00100000 */
+#define ADC_CSTS_OCCS3           ADC_CSTS_OCCS3_Msk                           /*!<ADC3 Ordinary channel conversion start flag */
+#define ADC_CSTS_OCCO3_Pos       (21U)                                        
+#define ADC_CSTS_OCCO3_Msk       (0x1U << ADC_CSTS_OCCO3_Pos)                 /*!< 0x00200000 */
+#define ADC_CSTS_OCCO3           ADC_CSTS_OCCO3_Msk                           /*!<ADC3 Ordinary channel conversion overflow flag */
+//---- AT32 Only ---
+#define ADC_CSTS_RDY3_Pos        (22U)
+#define ADC_CSTS_RDY3_Msk        (0x1U << ADC_CSTS_RDY3_Pos)                  /*!< 0x00400000 */
+#define ADC_CSTS_RDY3            ADC_CSTS_RDY3_Msk                            /*!<ADC3 Conversion ready flag */
+//--End AT32 Only --
 
 /* Legacy defines */
-#define  ADC_CSR_DOVR1                        ADC_CSR_OVR1
-#define  ADC_CSR_DOVR2                        ADC_CSR_OVR2
-#define  ADC_CSR_DOVR3                        ADC_CSR_OVR3
+#define  ADC_CSTS_DOVR1                        ADC_CSTS_OCCO1
+#define  ADC_CSTS_DOVR2                        ADC_CSTS_OCCO2
+#define  ADC_CSTS_DOVR3                        ADC_CSTS_OCCO3
 
-/*******************  Bit definition for ADC_CCR register  ********************/
-#define ADC_CCR_MULTI_Pos         (0U)
-#define ADC_CCR_MULTI_Msk         (0x1FU << ADC_CCR_MULTI_Pos)                 /*!< 0x0000001F */
-#define ADC_CCR_MULTI             ADC_CCR_MULTI_Msk                            /*!<MULTI[4:0] bits (Multi-ADC mode selection) */
-#define ADC_CCR_MULTI_0           (0x01U << ADC_CCR_MULTI_Pos)                 /*!< 0x00000001 */
-#define ADC_CCR_MULTI_1           (0x02U << ADC_CCR_MULTI_Pos)                 /*!< 0x00000002 */
-#define ADC_CCR_MULTI_2           (0x04U << ADC_CCR_MULTI_Pos)                 /*!< 0x00000004 */
-#define ADC_CCR_MULTI_3           (0x08U << ADC_CCR_MULTI_Pos)                 /*!< 0x00000008 */
-#define ADC_CCR_MULTI_4           (0x10U << ADC_CCR_MULTI_Pos)                 /*!< 0x00000010 */
-#define ADC_CCR_DELAY_Pos         (8U)
-#define ADC_CCR_DELAY_Msk         (0xFU << ADC_CCR_DELAY_Pos)                  /*!< 0x00000F00 */
-#define ADC_CCR_DELAY             ADC_CCR_DELAY_Msk                            /*!<DELAY[3:0] bits (Delay between 2 sampling phases) */
-#define ADC_CCR_DELAY_0           (0x1U << ADC_CCR_DELAY_Pos)                  /*!< 0x00000100 */
-#define ADC_CCR_DELAY_1           (0x2U << ADC_CCR_DELAY_Pos)                  /*!< 0x00000200 */
-#define ADC_CCR_DELAY_2           (0x4U << ADC_CCR_DELAY_Pos)                  /*!< 0x00000400 */
-#define ADC_CCR_DELAY_3           (0x8U << ADC_CCR_DELAY_Pos)                  /*!< 0x00000800 */
-#define ADC_CCR_DDS_Pos           (13U)
-#define ADC_CCR_DDS_Msk           (0x1U << ADC_CCR_DDS_Pos)                    /*!< 0x00002000 */
-#define ADC_CCR_DDS               ADC_CCR_DDS_Msk                              /*!<DMA disable selection (Multi-ADC mode) */
-#define ADC_CCR_DMA_Pos           (14U)
-#define ADC_CCR_DMA_Msk           (0x3U << ADC_CCR_DMA_Pos)                    /*!< 0x0000C000 */
-#define ADC_CCR_DMA               ADC_CCR_DMA_Msk                              /*!<DMA[1:0] bits (Direct Memory Access mode for multimode) */
-#define ADC_CCR_DMA_0             (0x1U << ADC_CCR_DMA_Pos)                    /*!< 0x00004000 */
-#define ADC_CCR_DMA_1             (0x2U << ADC_CCR_DMA_Pos)                    /*!< 0x00008000 */
-#define ADC_CCR_ADCPRE_Pos        (16U)
-#define ADC_CCR_ADCPRE_Msk        (0x3U << ADC_CCR_ADCPRE_Pos)                 /*!< 0x00030000 */
-#define ADC_CCR_ADCPRE            ADC_CCR_ADCPRE_Msk                           /*!<ADCPRE[1:0] bits (ADC prescaler) */
-#define ADC_CCR_ADCPRE_0          (0x1U << ADC_CCR_ADCPRE_Pos)                 /*!< 0x00010000 */
-#define ADC_CCR_ADCPRE_1          (0x2U << ADC_CCR_ADCPRE_Pos)                 /*!< 0x00020000 */
-#define ADC_CCR_VBATE_Pos         (22U)
-#define ADC_CCR_VBATE_Msk         (0x1U << ADC_CCR_VBATE_Pos)                  /*!< 0x00400000 */
-#define ADC_CCR_VBATE             ADC_CCR_VBATE_Msk                            /*!<VBAT Enable */
-#define ADC_CCR_TSVREFE_Pos       (23U)
-#define ADC_CCR_TSVREFE_Msk       (0x1U << ADC_CCR_TSVREFE_Pos)                /*!< 0x00800000 */
-#define ADC_CCR_TSVREFE           ADC_CCR_TSVREFE_Msk                          /*!<Temperature Sensor and VREFINT Enable */
+/*******************  Bit definition for ADC_CCTRL register  ********************/
+#define ADC_CCTRL_MSSEL_Pos       (0U)
+#define ADC_CCTRL_MSSEL_Msk       (0x1FU << ADC_CCTRL_MSSEL_Pos)              /*!< 0x0000001F */
+#define ADC_CCTRL_MSSEL           ADC_CCTRL_MSSEL_Msk                         /*!<MSSEL[4:0] bits (Combined master/slave mode select) */
+#define ADC_CCTRL_MSSEL_0         (0x01U << ADC_CCTRL_MSSEL_Pos)              /*!< 0x00000001 */
+#define ADC_CCTRL_MSSEL_1         (0x02U << ADC_CCTRL_MSSEL_Pos)              /*!< 0x00000002 */
+#define ADC_CCTRL_MSSEL_2         (0x04U << ADC_CCTRL_MSSEL_Pos)              /*!< 0x00000004 */
+#define ADC_CCTRL_MSSEL_3         (0x08U << ADC_CCTRL_MSSEL_Pos)              /*!< 0x00000008 */
+#define ADC_CCTRL_MSSEL_4         (0x10U << ADC_CCTRL_MSSEL_Pos)              /*!< 0x00000010 */
+#define ADC_CCTRL_ASISEL_Pos      (8U)
+#define ADC_CCTRL_ASISEL_Msk      (0xFU << ADC_CCTRL_ASISEL_Pos)              /*!< 0x00000F00 */
+#define ADC_CCTRL_ASISEL          ADC_CCTRL_ASISEL_Msk                        /*!<ASISEL[3:0] bits (Adjacent ADC sampling interval select in ordinary shift mode) */
+#define ADC_CCTRL_ASISEL_0        (0x1U << ADC_CCTRL_ASISEL_Pos)              /*!< 0x00000100 */
+#define ADC_CCTRL_ASISEL_1        (0x2U << ADC_CCTRL_ASISEL_Pos)              /*!< 0x00000200 */
+#define ADC_CCTRL_ASISEL_2        (0x4U << ADC_CCTRL_ASISEL_Pos)              /*!< 0x00000400 */
+#define ADC_CCTRL_ASISEL_3        (0x8U << ADC_CCTRL_ASISEL_Pos)              /*!< 0x00000800 */
+#define ADC_CCTRL_MSDRCEN_Pos     (13U)
+#define ADC_CCTRL_MSDRCEN_Msk     (0x1U << ADC_CCTRL_MSDRCEN_Pos)             /*!< 0x00002000 */
+#define ADC_CCTRL_MSDRCEN         ADC_CCTRL_MSDRCEN_Msk                       /*!<Ordinary channel DMA request continuation enable in master/slave mode */
+#define ADC_CCTRL_MSDMASEL_L_Pos  (14U)
+#define ADC_CCTRL_MSDMASEL_L_Msk  (0x3U << ADC_CCTRL_MSDMASEL_L_Pos)          /*!< 0x0000C000 */
+#define ADC_CCTRL_MSDMASEL_L      ADC_CCTRL_MSDMASEL_L_Msk                    /*!<MSDMASEL[1:0] bits (Ordinary channel DMA transfer mode select in master/slave mode) */
+#define ADC_CCTRL_MSDMASEL_L_0    (0x1U << ADC_CCTRL_MSDMASEL_L_Pos)          /*!< 0x00004000 */
+#define ADC_CCTRL_MSDMASEL_L_1    (0x2U << ADC_CCTRL_MSDMASEL_L_Pos)          /*!< 0x00008000 */
+#define ADC_CCTRL_ADCDIV_Pos      (16U)
+#define ADC_CCTRL_ADCDIV_Msk      (0xFU << ADC_CCTRL_ADCDIV_Pos)              /*!< 0x00030000 */
+#define ADC_CCTRL_ADCDIV          ADC_CCTRL_ADCDIV_Msk                        /*!<ADCPRE[3:0] bits (ADC division) */
+#define ADC_CCTRL_ADCDIV_0        (0x1U << ADC_CCTRL_ADCDIV_Pos)              /*!< 0x00010000 */
+#define ADC_CCTRL_ADCDIV_1        (0x2U << ADC_CCTRL_ADCDIV_Pos)              /*!< 0x00020000 */
+//---- AT32 Only ---
+#define ADC_CCTRL_ADCDIV_2        (0x4U << ADC_CCTRL_ADCDIV_Pos)              /*!< 0x00040000 */ 
+#define ADC_CCTRL_ADCDIV_3        (0x8U << ADC_CCTRL_ADCDIV_Pos)              /*!< 0x00080000 */
+//--End AT32 Only --
 
-/*******************  Bit definition for ADC_CDR register  ********************/
-#define ADC_CDR_DATA1_Pos         (0U)
-#define ADC_CDR_DATA1_Msk         (0xFFFFU << ADC_CDR_DATA1_Pos)               /*!< 0x0000FFFF */
-#define ADC_CDR_DATA1             ADC_CDR_DATA1_Msk                            /*!<1st data of a pair of regular conversions */
-#define ADC_CDR_DATA2_Pos         (16U)
-#define ADC_CDR_DATA2_Msk         (0xFFFFU << ADC_CDR_DATA2_Pos)               /*!< 0xFFFF0000 */
-#define ADC_CDR_DATA2             ADC_CDR_DATA2_Msk                            /*!<2nd data of a pair of regular conversions */
+#define ADC_CCTRL_VBATEN_Pos      (22U)
+#define ADC_CCTRL_VBATEN_Msk      (0x1U << ADC_CCTRL_VBATEN_Pos)              /*!< 0x00400000 */
+#define ADC_CCTRL_VBATEN          ADC_CCTRL_VBATEN_Msk                        /*!<VBAT Enable */
+#define ADC_CCTRL_ITSRVEN_Pos     (23U)
+#define ADC_CCTRL_ITSRVEN_Msk     (0x1U << ADC_CCTRL_ITSRVEN_Pos)             /*!< 0x00800000 */
+#define ADC_CCTRL_ITSRVEN         ADC_CCTRL_ITSRVEN_Msk                       /*!<Internal temperature sensor and VINTRV enable */
+
+//---- AT32 Only ---
+#define ADC_CCTRL_MSDMASEL_H_Pos  (28U)
+#define ADC_CCTRL_MSDMASEL_H_Msk  (0x1U << ADC_CCTRL_MSDMASEL_H_Pos)          /*!< 0x0000C000 */
+#define ADC_CCTRL_MSDMASEL_H      ADC_CCTRL_MSDMASEL_H_Msk                    /*!<MSDMASEL[2] bit (Ordinary channel DMA transfer mode select in master/slave mode) */
+//--End AT32 Only --
+
+
+/*******************  Bit definition for ADC_CODT register  ********************/
+#define ADC_CODT_CODTL_Pos        (0U)
+#define ADC_CODT_CODTL_Msk        (0xFFFFU << ADC_CODT_CODTL_Pos)              /*!< 0x0000FFFF */
+#define ADC_CODT_CODTL            ADC_CODT_CODTL_Msk                           /*!<Ordinary conversion low halfword data in master slave mode */
+#define ADC_CODT_CODTH_Pos        (16U)
+#define ADC_CODT_CODTH_Msk        (0xFFFFU << ADC_CODT_CODTH_Pos)              /*!< 0xFFFF0000 */
+#define ADC_CODT_CODTH            ADC_CODT_CODTH_Msk                           /*!<Ordinary conversion high halfword data in master slave mode */
 
 /* Legacy defines */
-#define ADC_CDR_RDATA_MST         ADC_CDR_DATA1
-#define ADC_CDR_RDATA_SLV         ADC_CDR_DATA2
+#define ADC_CODT_RDATA_MST        ADC_CODT_CODTL
+#define ADC_CODT_RDATA_SLV        ADC_CODT_CODTH
 
 /******************************************************************************/
 /*                                                                            */

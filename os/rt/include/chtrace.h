@@ -18,7 +18,7 @@
 */
 
 /**
- * @file    rt/include/chtrace.h
+ * @file    rt/include/cvmhbace.h
  * @brief   Tracer macros and structures.
  *
  * @addtogroup trace

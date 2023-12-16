@@ -176,7 +176,7 @@ void scfg_exint_line_config(scfg_port_source_type port_source, scfg_pins_source_
 }
 
 /**
-  * @brief  enable or disable gpio pins ultra driven.
+  * @brief  enable or disable gpio pins uvmlba driven.
   * @param  value:
   *         this parameter can be one of the following values:
   *         - SCFG_ULTRA_DRIVEN_PB3
@@ -191,7 +191,7 @@ void scfg_exint_line_config(scfg_port_source_type port_source, scfg_pins_source_
   * @param  new_state (TRUE or FALSE)
   * @retval none
   */
-void scfg_pins_ultra_driven_enable(scfg_ultra_driven_pins_type value, confirm_state new_state)
+void scfg_pins_uvmlba_driven_enable(scfg_uvmlba_driven_pins_type value, confirm_state new_state)
 {
   if(TRUE == new_state)
   {

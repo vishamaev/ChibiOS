@@ -31,13 +31,13 @@
 /*===========================================================================*/
 
 #define ADC1_DMA_CHANNEL                                                    \
-  RT_AT32_DMA_GETCHANNEL(RT_AT32_ADC_ADC1_DMA_STREAM, STM32_ADC1_DMA_CHN)
+  RT_AT32_DMA_GETCHANNEL(RT_AT32_ADC_ADC1_DMA_STREAM, RT_AT32_ADC1_DMA_CHN)
 
 #define ADC2_DMA_CHANNEL                                                    \
-  RT_AT32_DMA_GETCHANNEL(RT_AT32_ADC_ADC2_DMA_STREAM, STM32_ADC2_DMA_CHN)
+  RT_AT32_DMA_GETCHANNEL(RT_AT32_ADC_ADC2_DMA_STREAM, RT_AT32_ADC2_DMA_CHN)
 
 #define ADC3_DMA_CHANNEL                                                    \
-  RT_AT32_DMA_GETCHANNEL(RT_AT32_ADC_ADC3_DMA_STREAM, STM32_ADC3_DMA_CHN)
+  RT_AT32_DMA_GETCHANNEL(RT_AT32_ADC_ADC3_DMA_STREAM, RT_AT32_ADC3_DMA_CHN)
 
 /*===========================================================================*/
 /* Driver exported variables.                                                */
@@ -75,7 +75,7 @@ ADCDriver ADCD3;
 static void adc_lld_serve_rx_interrupt(ADCDriver *adcp, uint32_t flags) {
 
   /* DMA errors handling.*/
-  if ((flags & (STM32_DMA_ISR_TEIF | STM32_DMA_ISR_DMEIF)) != 0) {
+  if ((flags & (RT_AT32_DMA_ISR_TEIF | RT_AT32_DMA_ISR_DMEIF)) != 0) {
     /* DMA, this could help only if the DMA tries to access an unmapped
        address space or violates alignment rules.*/
     _adc_isr_error_code(adcp, ADC_ERR_DMAFAILURE);
@@ -85,11 +85,11 @@ static void adc_lld_serve_rx_interrupt(ADCDriver *adcp, uint32_t flags) {
        ADC error handler, in this case this interrupt is spurious.*/
     if (adcp->grpp != NULL) {
 
-      if ((flags & STM32_DMA_ISR_TCIF) != 0) {
+      if ((flags & RT_AT32_DMA_ISR_TCIF) != 0) {
         /* Transfer complete processing.*/
         _adc_isr_full_code(adcp);
       }
-      else if ((flags & STM32_DMA_ISR_HTIF) != 0) {
+      else if ((flags & RT_AT32_DMA_ISR_HTIF) != 0) {
         /* Half transfer processing.*/
         _adc_isr_half_code(adcp);
       }
@@ -126,12 +126,12 @@ static void adc_lld_serve_interrupt(ADCDriver *adcp, uint32_t sr) {
 
     /* Note, an overflow may occur after the conversion ended before the driver
        is able to stop the ADC, this is why the state is checked too.*/
-    if ((sr & ADC_SR_OVR) && (adcp->state == ADC_ACTIVE)) {
+    if ((sr & ADC_STS_OCCO) && (adcp->state == ADC_ACTIVE)) {
       /* ADC overflow condition, this could happen only if the DMA is unable
          to read data fast enough.*/
       emask |= ADC_ERR_OVERFLOW;
     }
-    if (sr & ADC_SR_AWD) {
+    if (sr & ADC_STS_VMOR) {
       /* Analog watchdog 1 error.*/
       emask |= ADC_ERR_AWD;
     }
@@ -152,37 +152,37 @@ static void adc_lld_serve_interrupt(ADCDriver *adcp, uint32_t sr) {
  *
  * @isr
  */
-OSAL_IRQ_HANDLER(STM32_ADC_HANDLER) {
+OSAL_IRQ_HANDLER(RT_AT32_ADC_HANDLER) {
   uint32_t sr;
 
   OSAL_IRQ_PROLOGUE();
 
 #if RT_AT32_ADC_USE_ADC1
-  sr = ADC1->SR;
-  ADC1->SR = 0;
-#if defined(STM32_ADC_ADC1_IRQ_HOOK)
-  STM32_ADC_ADC1_IRQ_HOOK
+  sr = ADC1->STS;
+  ADC1->STS = 0;
+#if defined(RT_AT32_ADC_ADC1_IRQ_HOOK)
+  RT_AT32_ADC_ADC1_IRQ_HOOK
 #endif
   adc_lld_serve_interrupt(&ADCD1, sr);
-#endif /* STM32_ADC_USE_ADC1 */
+#endif /* RT_AT32_ADC_USE_ADC1 */
 
 #if RT_AT32_ADC_USE_ADC2
-  sr = ADC2->SR;
-  ADC2->SR = 0;
-#if defined(STM32_ADC_ADC2_IRQ_HOOK)
-  STM32_ADC_ADC2_IRQ_HOOK
+  sr = ADC2->STS;
+  ADC2->STS = 0;
+#if defined(RT_AT32_ADC_ADC2_IRQ_HOOK)
+  RT_AT32_ADC_ADC2_IRQ_HOOK
 #endif
   adc_lld_serve_interrupt(&ADCD2, sr);
-#endif /* STM32_ADC_USE_ADC2 */
+#endif /* RT_AT32_ADC_USE_ADC2 */
 
 #if RT_AT32_ADC_USE_ADC3
-  sr = ADC3->SR;
-  ADC3->SR = 0;
-#if defined(STM32_ADC_ADC3_IRQ_HOOK)
-  STM32_ADC_ADC3_IRQ_HOOK
+  sr = ADC3->STS;
+  ADC3->STS = 0;
+#if defined(RT_AT32_ADC_ADC3_IRQ_HOOK)
+  RT_AT32_ADC_ADC3_IRQ_HOOK
 #endif
   adc_lld_serve_interrupt(&ADCD3, sr);
-#endif /* STM32_ADC_USE_ADC3 */
+#endif /* RT_AT32_ADC_USE_ADC3 */
 
   OSAL_IRQ_EPILOGUE();
 }
@@ -205,11 +205,11 @@ void adc_lld_init(void) {
   ADCD1.adc     = ADC1;
   ADCD1.dmastp  = NULL;
   ADCD1.dmamode = RT_AT32_DMA_CR_CHSEL(ADC1_DMA_CHANNEL) |
-                  STM32_DMA_CR_PL(RT_AT32_ADC_ADC1_DMA_PRIORITY) |
-                  STM32_DMA_CR_DIR_P2M |
-                  STM32_DMA_CR_MSIZE_HWORD | STM32_DMA_CR_PSIZE_HWORD |
-                  STM32_DMA_CR_MINC        | STM32_DMA_CR_TCIE        |
-                  STM32_DMA_CR_DMEIE       | STM32_DMA_CR_TEIE;
+                  RT_AT32_DMA_CR_PL(RT_AT32_ADC_ADC1_DMA_PRIORITY) |
+                  RT_AT32_DMA_CR_DIR_P2M |
+                  RT_AT32_DMA_CR_MSIZE_HWORD | RT_AT32_DMA_CR_PSIZE_HWORD |
+                  RT_AT32_DMA_CR_MINC        | RT_AT32_DMA_CR_TCIE        |
+                  RT_AT32_DMA_CR_DMEIE       | RT_AT32_DMA_CR_TEIE;
 #endif
 
 #if RT_AT32_ADC_USE_ADC2
@@ -218,11 +218,11 @@ void adc_lld_init(void) {
   ADCD2.adc     = ADC2;
   ADCD2.dmastp  = NULL;
   ADCD2.dmamode = RT_AT32_DMA_CR_CHSEL(ADC2_DMA_CHANNEL) |
-                  STM32_DMA_CR_PL(RT_AT32_ADC_ADC2_DMA_PRIORITY) |
-                  STM32_DMA_CR_DIR_P2M |
-                  STM32_DMA_CR_MSIZE_HWORD | STM32_DMA_CR_PSIZE_HWORD |
-                  STM32_DMA_CR_MINC        | STM32_DMA_CR_TCIE        |
-                  STM32_DMA_CR_DMEIE       | STM32_DMA_CR_TEIE;
+                  RT_AT32_DMA_CR_PL(RT_AT32_ADC_ADC2_DMA_PRIORITY) |
+                  RT_AT32_DMA_CR_DIR_P2M |
+                  RT_AT32_DMA_CR_MSIZE_HWORD | RT_AT32_DMA_CR_PSIZE_HWORD |
+                  RT_AT32_DMA_CR_MINC        | RT_AT32_DMA_CR_TCIE        |
+                  RT_AT32_DMA_CR_DMEIE       | RT_AT32_DMA_CR_TEIE;
 #endif
 
 #if RT_AT32_ADC_USE_ADC3
@@ -231,11 +231,11 @@ void adc_lld_init(void) {
   ADCD3.adc     = ADC3;
   ADCD3.dmastp  = NULL;
   ADCD3.dmamode = RT_AT32_DMA_CR_CHSEL(ADC3_DMA_CHANNEL) |
-                  STM32_DMA_CR_PL(RT_AT32_ADC_ADC3_DMA_PRIORITY) |
-                  STM32_DMA_CR_DIR_P2M |
-                  STM32_DMA_CR_MSIZE_HWORD | STM32_DMA_CR_PSIZE_HWORD |
-                  STM32_DMA_CR_MINC        | STM32_DMA_CR_TCIE        |
-                  STM32_DMA_CR_DMEIE       | STM32_DMA_CR_TEIE;
+                  RT_AT32_DMA_CR_PL(RT_AT32_ADC_ADC3_DMA_PRIORITY) |
+                  RT_AT32_DMA_CR_DIR_P2M |
+                  RT_AT32_DMA_CR_MSIZE_HWORD | RT_AT32_DMA_CR_PSIZE_HWORD |
+                  RT_AT32_DMA_CR_MINC        | RT_AT32_DMA_CR_TCIE        |
+                  RT_AT32_DMA_CR_DMEIE       | RT_AT32_DMA_CR_TEIE;
 #endif
 
 #if defined(rccResetADC)
@@ -244,7 +244,7 @@ void adc_lld_init(void) {
 #endif
   /* The shared vector is initialized on driver initialization and never
      disabled because sharing.*/
-  nvicEnableVector(STM32_ADC_NUMBER, RT_AT32_ADC_IRQ_PRIORITY);
+  nvicEnableVector(RT_AT32_ADC_NUMBER, RT_AT32_ADC_IRQ_PRIORITY);
 }
 
 /**
@@ -264,8 +264,9 @@ void adc_lld_start(ADCDriver *adcp) {
                                      RT_AT32_ADC_ADC1_DMA_IRQ_PRIORITY,
                                      (at32_dmaisr_t)adc_lld_serve_rx_interrupt,
                                      (void *)adcp);
+
       osalDbgAssert(adcp->dmastp != NULL, "unable to allocate stream");
-      dmaStreamSetPeripheral(adcp->dmastp, &ADC1->DR);
+      dmaStreamSetPeripheral(adcp->dmastp, &ADC1->ODT);
 #if defined(rccResetADC1)
       rccResetADC1();
 #endif
@@ -274,7 +275,7 @@ void adc_lld_start(ADCDriver *adcp) {
       dmaSetRequestSource(adcp->dmastp, STM32_DMAMUX1_ADC1);
 #endif
     }
-#endif /* STM32_ADC_USE_ADC1 */
+#endif /* RT_AT32_ADC_USE_ADC1 */
 
 #if RT_AT32_ADC_USE_ADC2
     if (&ADCD2 == adcp) {
@@ -283,7 +284,7 @@ void adc_lld_start(ADCDriver *adcp) {
                                      (at32_dmaisr_t)adc_lld_serve_rx_interrupt,
                                      (void *)adcp);
       osalDbgAssert(adcp->dmastp != NULL, "unable to allocate stream");
-      dmaStreamSetPeripheral(adcp->dmastp, &ADC2->DR);
+      dmaStreamSetPeripheral(adcp->dmastp, &ADC2->ODT);
 #if defined(rccResetADC2)
       rccResetADC2();
 #endif
@@ -292,7 +293,7 @@ void adc_lld_start(ADCDriver *adcp) {
       dmaSetRequestSource(adcp->dmastp, STM32_DMAMUX1_ADC2);
 #endif
     }
-#endif /* STM32_ADC_USE_ADC2 */
+#endif /* RT_AT32_ADC_USE_ADC2 */
 
 #if RT_AT32_ADC_USE_ADC3
     if (&ADCD3 == adcp) {
@@ -301,7 +302,7 @@ void adc_lld_start(ADCDriver *adcp) {
                                      (at32_dmaisr_t)adc_lld_serve_rx_interrupt,
                                      (void *)adcp);
       osalDbgAssert(adcp->dmastp != NULL, "unable to allocate stream");
-      dmaStreamSetPeripheral(adcp->dmastp, &ADC3->DR);
+      dmaStreamSetPeripheral(adcp->dmastp, &ADC3->ODT);
 #if defined(rccResetADC3)
       rccResetADC3();
 #endif
@@ -310,18 +311,17 @@ void adc_lld_start(ADCDriver *adcp) {
       dmaSetRequestSource(adcp->dmastp, STM32_DMAMUX1_ADC3);
 #endif
     }
-#endif /* STM32_ADC_USE_ADC3 */
+#endif /* RT_AT32_ADC_USE_ADC3 */
 
     /* This is a common register but apparently it requires that at least one
        of the ADCs is clocked in order to allow writing, see bug 3575297.*/
-    ADC->CCR = (ADC->CCR & (ADC_CCR_TSVREFE | ADC_CCR_VBATE)) |
-               (AT32_ADC_ADCPRE << 16);
+    ADC->CCTRL = (ADC->CCTRL & (ADC_CCTRL_ITSRVEN | ADC_CCTRL_VBATEN)) | (AT32_ADC_ADCPRE << 16);
 
     /* ADC initial setup, starting the analog part here in order to reduce
        the latency when starting a conversion.*/
-    adcp->adc->CR1 = 0;
-    adcp->adc->CR2 = 0;
-    adcp->adc->CR2 = ADC_CR2_ADON;
+    adcp->adc->CTRL1 = 0;
+    adcp->adc->CTRL2 = 0;
+    adcp->adc->CTRL2 = ADC_CTRL2_ADCEN;
   }
 }
 
@@ -340,8 +340,8 @@ void adc_lld_stop(ADCDriver *adcp) {
     dmaStreamFreeI(adcp->dmastp);
     adcp->dmastp = NULL;
 
-    adcp->adc->CR1 = 0;
-    adcp->adc->CR2 = 0;
+    adcp->adc->CTRL1 = 0;
+    adcp->adc->CTRL2 = 0;
 
 #if RT_AT32_ADC_USE_ADC1
     if (&ADCD1 == adcp)
@@ -369,7 +369,7 @@ void adc_lld_stop(ADCDriver *adcp) {
  */
 void adc_lld_start_conversion(ADCDriver *adcp) {
   uint32_t mode;
-  uint32_t cr2;
+  uint32_t ctrl2;
   const ADCConversionGroup *grpp = adcp->grpp;
 
   /* DMA setup.*/
@@ -389,32 +389,28 @@ void adc_lld_start_conversion(ADCDriver *adcp) {
   dmaStreamEnable(adcp->dmastp);
 
   /* ADC setup.*/
-  adcp->adc->SR    = 0;
-  adcp->adc->SMPR1 = grpp->smpr1;
-  adcp->adc->SMPR2 = grpp->smpr2;
-  adcp->adc->HTR   = grpp->htr;
-  adcp->adc->LTR   = grpp->ltr;
-  adcp->adc->SQR1  = grpp->sqr1 | ADC_SQR1_NUM_CH(grpp->num_channels);
-  adcp->adc->SQR2  = grpp->sqr2;
-  adcp->adc->SQR3  = grpp->sqr3;
+  adcp->adc->STS   = 0;
+  adcp->adc->SMPR1 = grpp->spt1;
+  adcp->adc->SMPR2 = grpp->spt2;
+  adcp->adc->VMHB  = grpp->vmhb;
+  adcp->adc->VMLB  = grpp->vmlb;
+  adcp->adc->OSQ1  = grpp->osq1 | ADC_SQR1_NUM_CH(grpp->num_channels);
+  adcp->adc->OSQ2  = grpp->osq2;
+  adcp->adc->OSQ3  = grpp->osq3;
 
   /* ADC configuration and start.*/
-  adcp->adc->CR1   = grpp->cr1 | ADC_CR1_OVRIE | ADC_CR1_SCAN;
-
-  /* Enforcing the mandatory bits in CR2.*/
-  cr2 = grpp->cr2 | ADC_CR2_DMA | ADC_CR2_DDS | ADC_CR2_ADON;
+//  adcp->adc->CTRL1 = grpp->ctrl1 | ADC_CTRL1_OCCOIE | ADC_CTRL1_SQEN;
+  adcp->adc->CTRL1 = grpp->ctrl1 | ADC_CTRL1_OCCOIE;
+  ctrl2 = grpp->ctrl2 | ADC_CTRL2_OCDMAEN | ADC_CTRL2_OCDRCEN | ADC_CTRL2_ADCEN;    /* Enforcing the mandatory bits in CTRL2.*/
 
   /* The start method is different dependign if HW or SW triggered, the
      start is performed using the method specified in the CR2 configuration.*/
-  if ((cr2 & ADC_CR2_SWSTART) != 0) {
-    /* Initializing CR2 while keeping ADC_CR2_SWSTART at zero.*/
-    adcp->adc->CR2 = (cr2 | ADC_CR2_CONT) & ~ADC_CR2_SWSTART;
-
-    /* Finally enabling ADC_CR2_SWSTART.*/
-    adcp->adc->CR2 = (cr2 | ADC_CR2_CONT);
+  if ((ctrl2 & ADC_CTRL2_OCSWTRG) != 0) {
+    adcp->adc->CTRL2 = (ctrl2 | ADC_CTRL2_RPEN) & ~ADC_CTRL2_OCSWTRG; /* Initializing CTRL2 while keeping ADC_CTRL_SWSTART at zero.*/
+    adcp->adc->CTRL2 = (ctrl2 | ADC_CTRL2_RPEN);                      /* Finally enabling ADC_CTRL_SWSTART.*/
   }
   else
-    adcp->adc->CR2 = cr2;
+    adcp->adc->CTRL2 = ctrl2;
 }
 
 /**
@@ -427,10 +423,10 @@ void adc_lld_start_conversion(ADCDriver *adcp) {
 void adc_lld_stop_conversion(ADCDriver *adcp) {
 
   dmaStreamDisable(adcp->dmastp);
-  adcp->adc->CR1 = 0;
+  adcp->adc->CTRL1 = 0;
   /* Because ticket #822, preserving injected conversions.*/
-  adcp->adc->CR2 &= ~(ADC_CR2_SWSTART);
-  adcp->adc->CR2 = ADC_CR2_ADON;
+  adcp->adc->CTRL2 &= ~(ADC_CTRL2_OCSWTRG);
+  adcp->adc->CTRL2 = ADC_CTRL2_ADCEN;
 }
 
 /**
@@ -441,7 +437,7 @@ void adc_lld_stop_conversion(ADCDriver *adcp) {
  */
 void adcAT32EnableTSVREFE(void) {
 
-  ADC->CCR |= ADC_CCR_TSVREFE;
+  ADC->CCTRL |= ADC_CCTRL_ITSRVEN;
 }
 
 /**
@@ -452,7 +448,7 @@ void adcAT32EnableTSVREFE(void) {
  */
 void adcAT32DisableTSVREFE(void) {
 
-  ADC->CCR &= ~ADC_CCR_TSVREFE;
+  ADC->CCTRL &= ~ADC_CCTRL_ITSRVEN;
 }
 
 /**
@@ -463,7 +459,7 @@ void adcAT32DisableTSVREFE(void) {
  */
 void adcAT32EnableVBATE(void) {
 
-  ADC->CCR |= ADC_CCR_VBATE;
+  ADC->CCTRL |= ADC_CCTRL_VBATEN;
 }
 
 /**
@@ -474,7 +470,7 @@ void adcAT32EnableVBATE(void) {
  */
 void adcAT32DisableVBATE(void) {
 
-  ADC->CCR &= ~ADC_CCR_VBATE;
+  ADC->CCTRL &= ~ADC_CCTRL_VBATEN;
 }
 
 #endif /* HAL_USE_ADC */

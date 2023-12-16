@@ -156,7 +156,7 @@
 /*
  * ADC driver system settings.
  */
-#define AT32_ADC_ADCPRE                    ADC_CCR_ADCPRE_DIV4
+#define AT32_ADC_ADCPRE                    ADC_CCTRL_ADCDIV_DIV4
 #define RT_AT32_ADC_USE_ADC1                  TRUE
 #define RT_AT32_ADC_USE_ADC2                  TRUE
 #define RT_AT32_ADC_USE_ADC3                  TRUE
