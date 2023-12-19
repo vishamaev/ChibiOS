@@ -94,8 +94,7 @@ PROJECT = ch
 MCU  = cortex-m4
 
 # Imported source files and paths
-#CHIBIOS = ../../../..
-CHIBIOS  := /Projects/Fl/rusEFI/fork_w/ChibiOS
+CHIBIOS = ../../../..
 
 CONFDIR  := ./cfg
 BUILDDIR := ./build
