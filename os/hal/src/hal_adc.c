@@ -194,8 +194,10 @@ void adcStartConversionI(ADCDriver *adcp,
                          size_t depth) {
 
   osalDbgCheckClassI();
+
   osalDbgCheck((adcp != NULL) && (grpp != NULL) && (samples != NULL) &&
                (depth > 0U) && ((depth == 1U) || ((depth & 1U) == 0U)));
+
   osalDbgAssert((adcp->state == ADC_READY) ||
                 (adcp->state == ADC_ERROR),
                 "not ready");
@@ -284,15 +286,20 @@ void adcStopConversionI(ADCDriver *adcp) {
  *
  * @api
  */
-msg_t adcConvert(ADCDriver *adcp,
+msg_t adcConvert(ADCDriver                *adcp,
                  const ADCConversionGroup *grpp,
-                 adcsample_t *samples,
+                 adcsample_t              *samples,
                  size_t depth) {
   msg_t msg;
 
   osalSysLock();
   osalDbgAssert(adcp->thread == NULL, "already waiting");
-  adcStartConversionI(adcp, grpp, samples, depth);
+
+  adcStartConversionI(adcp, 
+                      grpp, 
+                      samples, 
+                      depth);
+
   msg = osalThreadSuspendS(&adcp->thread);
   osalSysUnlock();
   return msg;
